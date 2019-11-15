@@ -20,18 +20,6 @@ class ForgotPassword extends React.Component {
         this.handleChangeEvent = this.handleChangeEvent.bind(this);
     }
 
-    /** first this method call when app run */
-    componentDidMount() {
-        this.toggle();
-    }
-
-    /** Model Open */
-    toggle = () => {
-        this.setState({
-            modal: !this.state.modal
-        });
-    }
-
     /** onChange event  */
     handleChangeEvent(event) {
         event.preventDefault();
@@ -66,7 +54,7 @@ class ForgotPassword extends React.Component {
                 emailError: ''
             })
         };
-        if (this.state.emailId) {
+        if (!this.state.emailError) {
             const obj = {
                 email: this.state.emailId
             }
@@ -74,7 +62,6 @@ class ForgotPassword extends React.Component {
             API.ForgotPassword(obj)
                 .then((findresponse) => {
                     Swal.fire("Email sent Successfully!", "", "success");
-                    this.setState({ modal: false });
                     setTimeout(
                         window.location.href = "/login",
                         6000
@@ -85,34 +72,71 @@ class ForgotPassword extends React.Component {
 
     render() {
         return (
-            <div>
-                <MDBContainer>
-                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-                        <MDBModalHeader toggle={this.toggle}>ForgotPassword</MDBModalHeader>
-                        <MDBModalBody>
-                            <form>
-                                <label className="grey-text">
-                                    Enter Your email
-                          </label>
-                                <input
-                                    type="email"
-                                    name="emailId"
-                                    className="form-control"
-                                    value={this.state.emailId}
-                                    onChange={this.handleChangeEvent}
-                                />
-                                <div style={{ fontSize: 12, color: "red" }}>
-                                    {this.state.emailError}
-                                </div>
-                                <br />
-                            </form>
-                        </MDBModalBody>
-                        <MDBModalFooter>
-                            <MDBBtn color="primary" onClick={this.forgotpassword} disabled={!this.state.emailId}>Send</MDBBtn>
-                        </MDBModalFooter>
-                    </MDBModal>
-                </MDBContainer>
+            <div className="h-100">
+                <div className="h-100 no-gutters row">
+                    <div className="d-none d-lg-block col-lg-4">
+                    <img className="img-responsive size" src={require('../login/t3.jpg')} />
+                    </div>
+                    <div className="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
+                        <div className="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
+                            <div className="app-logo">
+                                <h1>RKWebtechnology</h1>
+                            </div>
+                            <h4 className="mb-0">
+                                <div>Forgot your Password?</div>
+                                <span>Use the form below to recover it.</span>
+                            </h4>
+                            <div className="margin-top">
+                                <form className="">
+                                    <div className="form-row">
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label for="exampleEmail" className="">Email</label> 
+                                                <input type="email" aria-describedby="emailHelp" name="emailId"
+                            className="form-control" value={this.state.emailId} onChange={this.handleChangeEvent} />
+                             <div style={{ fontSize: 12, color: "red" }}>
+                                                    {this.state.emailError}
+                                                </div>
+                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex align-items-center">
+                                 <button className="btn btn-primary btn-lg" type="button"  onClick={this.forgotpassword} disabled={!this.state.emailId}>Forgot Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            // <div>
+            //     <MDBContainer>
+            //         <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+            //             <MDBModalHeader toggle={this.toggle}>ForgotPassword</MDBModalHeader>
+            //             <MDBModalBody>
+            //                 <form>
+            //                     <label className="grey-text">
+            //                         Enter Your email
+            //               </label>
+            //                     <input
+            //                         type="email"
+            //                         name="emailId"
+            //                         className="form-control"
+            //                         value={this.state.emailId}
+            //                         onChange={this.handleChangeEvent}
+            //                     />
+            //                     <div style={{ fontSize: 12, color: "red" }}>
+            //                         {this.state.emailError}
+            //                     </div>
+            //                     <br />
+            //                 </form>
+            //             </MDBModalBody>
+            //             <MDBModalFooter>
+            //                 <MDBBtn color="primary" onClick={this.forgotpassword} disabled={!this.state.emailId}>Send</MDBBtn>
+            //             </MDBModalFooter>
+            //         </MDBModal>
+            //     </MDBContainer>
+            // </div>
         );
     }
 }

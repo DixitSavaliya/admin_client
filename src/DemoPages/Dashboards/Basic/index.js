@@ -79,6 +79,8 @@ export default class AnalyticsDashboard1 extends Component {
         this.id = localStorage.getItem('userid');
         this.toggle = this.toggle.bind(this);
         this.toggle1 = this.toggle1.bind(this);
+        this.firstname = localStorage.getItem('first_name');
+        this.lastname = localStorage.getItem('last_name');
     }
 
     /** Intailly call */
@@ -111,7 +113,8 @@ export default class AnalyticsDashboard1 extends Component {
 
         return (
             <Fragment>
-                <ReactCSSTransitionGroup
+                <h1>Hello, {this.firstname} {this.lastname} Welcome to Dashboard</h1>
+                {/* <ReactCSSTransitionGroup
                     component="div"
                     transitionName="TabsAnimation"
                     transitionAppear={true}
@@ -879,7 +882,7 @@ export default class AnalyticsDashboard1 extends Component {
                             </Col>
                         </Row>
                     </div>
-                </ReactCSSTransitionGroup>
+                </ReactCSSTransitionGroup> */}
             </Fragment>
         )
     }

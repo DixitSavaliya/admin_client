@@ -11,6 +11,7 @@ import LogIn from './Layout/login/login';
 import ForgotPassword from './Layout/forgotpassword/forgotpassword';
 import ResetPassword from './Layout/resetpassword/resetpassword';
 import WithAuth from './auth.js'
+import Components from './DemoPages/Components';
 
 const store = configureStore();
 const rootElement = document.getElementById('root');

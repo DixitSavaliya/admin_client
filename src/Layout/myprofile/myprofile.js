@@ -36,6 +36,8 @@ class MyProfile extends React.Component {
                     email: findresponse.data.data.email,
                     selectedFile: findresponse.data.data.filename
                 });
+                localStorage.setItem('first_name',this.state.firstname);
+                localStorage.setItem('last_name',this.state.last_name);
             }).catch(
                 { status: 500, message: 'Internal Server Error' }
             );
@@ -109,6 +111,7 @@ class MyProfile extends React.Component {
                             <div>
                                 <h1 className="text-center">My Profile</h1>
                                 <form>
+                                    <div className="img">
                                     <div className="form-group">
                                         {
                                             this.state.selectedFile ? (
@@ -121,6 +124,7 @@ class MyProfile extends React.Component {
                                             <label htmlFor="cover"><i className="fas fa-camera"></i></label>
                                             <input type="file" id="cover" style={{ display: "none" }} name="file" onChange={this.onChangeHandler} />
                                         </div>
+                                    </div>
                                     </div>
                                     <div className="form-group">
                                         <label>Firstname</label>

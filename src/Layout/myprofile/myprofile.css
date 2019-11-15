@@ -3,3 +3,10 @@
     width: 150px;
     border-radius: 77px;
 }
+label i {
+    cursor: pointer;
+    color: darkgrey;
+}
+.img{
+    background-image: url('../login/t4.jpg');
+}

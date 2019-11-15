@@ -26,7 +26,9 @@ class UserBox extends React.Component {
         this.state = {
             active: false,
             showPopup: false,
-            selectedFile: null
+            selectedFile: null,
+            firstname:'',
+            lastname:''
         };
 
         this.id = localStorage.getItem('userid');
@@ -54,9 +56,12 @@ class UserBox extends React.Component {
             .then((findresponse) => {
                 console.log("getProfile response===", findresponse);
                 this.setState({
-                    selectedFile: findresponse.data.data.filename
+                    selectedFile: findresponse.data.data.filename,
+                    firstname:findresponse.data.data.first_name,
+                    lastname:findresponse.data.data.last_name
                 });
-                // localStorage.setItem('profilepic', this.state.selectedFile);
+                localStorage.setItem('first_name', this.state.firstname);
+                localStorage.setItem('last_name', this.state.lastname);
             }).catch(
                 { status: 500, message: 'Internal Server Error' }
             );
@@ -66,6 +71,8 @@ class UserBox extends React.Component {
         localStorage.removeItem('token');
         localStorage.removeItem('userid');
         localStorage.removeItem('email');
+        localStorage.removeItem('first_name');
+        localStorage.removeItem('last_name');
         localStorage.removeItem('profilepic');
         window.location.href = "/login";
     }
@@ -91,38 +98,36 @@ class UserBox extends React.Component {
                                     </DropdownToggle>
                                     <DropdownMenu right className="rm-pointers dropdown-menu-lg">
                                         <Nav vertical>
-                                            <NavItem className="nav-item-header">
+                                            {/* <NavItem className="nav-item-header">
                                                 Activity
-                                            </NavItem>
-                                            <NavItem>
+                                            </NavItem> */}
+                                            {/* <NavItem>
                                                 <NavLink>
                                                     Chat
                                                 </NavLink>
+                                            </NavItem> */}
+                                           
+                                            {/* <NavItem className="nav-item-header">
+                                                My Account
+                                            </NavItem> */}
+                                            <NavItem className="profile">
+                                                <Link to="/myprofile">
+                                                    My Profile
+                                                </Link>
                                             </NavItem>
                                             <NavItem>
                                                 <NavLink onClick={this.togglePopup.bind(this)}>Change Password</NavLink>
                                             </NavItem>
-
-
-                                            <NavItem className="nav-item-header">
-                                                My Account
-                                            </NavItem>
-                                            <NavItem className="profile">
-                                                <Link to="/myprofile">
-                                                    Settings
-                                                </Link>
-                                            </NavItem>
-                                            <NavItem>
+                                            {/* <NavItem>
                                                 <NavLink>
                                                     Messages
                                                 </NavLink>
-                                            </NavItem>
+                                            </NavItem> */}
                                             <NavItem>
                                                 <NavLink onClick={this.Logout}>
                                                     Logout
                                                 </NavLink>
                                             </NavItem>
-
                                         </Nav>
                                     </DropdownMenu>
                                     {this.state.showPopup ?
@@ -152,7 +157,6 @@ class UserBox extends React.Component {
                                     Click for Toastify Notifications!
                                 </UncontrolledTooltip>
                             </div>
-
                         </div>
                     </div>
                 </div>

@@ -59,6 +59,70 @@ export default {
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
+    addUserRole: (data) => {
+        return axios.post("http://localhost:3505/User/addUserRole", data)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getUserRoleByIdData: (id) => {
+        console.log("id",id);
+        return axios.post("http://localhost:3505/User/getUserRoleById", id)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getUserRoleData:() => {
+        return axios.get("http://localhost:3505/User/getUserRole")
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    editUserRole:(obj) => {
+        return axios.post("http://localhost:3505/User/editUserRole",obj)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    deleteUserRoleDataById:(id) => {
+        return axios.post("http://localhost:3505/User/deleteUserRole",id)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    searchUserData:(data) => {
+        return axios.post("http://localhost:3505/User/searchUserRoleData",data)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getUserRoleDataCount:() => {
+        return axios.get("http://localhost:3505/User/userRoleTableCount")
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    userRoleDataTablePagination:(obj) => {
+        return axios.post("http://localhost:3505/User/userRoleTablePagination",obj)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
 
     authenticate: () => {
         const Token = localStorage.getItem('token');
@@ -72,4 +136,6 @@ export default {
         })
             .catch({ status: 500, message: 'Internal Serevr Error' });
     }
+
+
 }

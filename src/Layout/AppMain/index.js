@@ -6,7 +6,11 @@ import {
     ToastContainer,
 } from 'react-toastify';
 
+
 const Dashboards = lazy(() => import('../../DemoPages/Dashboards'));
+const UserRole = lazy(() => import('../../Layout/userrole/userrole'));
+const UserRight = lazy(() => import('../../Layout/userright/userright'));
+const UserTable = lazy(() => import('../Tables'));
 const MyProfile = lazy(() => import('../../Layout/myprofile/myprofile'));
 const Widgets = lazy(() => import('../../DemoPages/Widgets'));
 const Elements = lazy(() => import('../../DemoPages/Elements'));
@@ -46,7 +50,7 @@ const AppMain = () => {
             <Suspense fallback={
                <div className="loader"></div>
             }>
-                <Route path="/tables" component={Tables}/>
+                <Route path="/Tables" component={UserTable}/>
             </Suspense>
 
             {/* Elements */}
@@ -77,6 +81,18 @@ const AppMain = () => {
               <div className="loader"></div>
             }>
                 <Route path="/myprofile" component={MyProfile}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/userrole" component={UserRole}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/userright" component={UserRight}/>
             </Suspense>
 
             <Route exact path="/" render={() => (

@@ -1,0 +1,12 @@
+.list{
+    display: flex;
+    list-style-type: none;
+}
+.list li{
+    margin-left: 10px;
+    border: 1px solid cornflowerblue;
+    padding: 3px;
+    background-color: cornflowerblue;
+    color: #fff;
+    cursor: pointer;
+}

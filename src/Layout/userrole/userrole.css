@@ -1,0 +1,41 @@
+.form-check {
+    height: 40px;
+    width: 0px;
+    margin: 0 auto;
+}
+span i {
+    font-size: inherit;
+    margin: 15px;
+    cursor: pointer;
+}
+.right {
+    text-align: left;
+}
+.left {
+    text-align: right;
+}
+.btn_size button {
+    padding: 3px 6px;
+    height: 21px;
+    font-size: 9px;
+    font-weight: bold;
+}
+.margin-lt input[type="radio"] {
+    /* margin: 15px; */
+    margin-left: 15px;
+    margin-right: 1px;
+}
+
+table.table th, table.table td {
+    /* padding-top: 5px; */
+    /* padding-bottom: 5px; */
+    padding: 4px;
+    /* margin: 0 auto; */
+    /* top: 0; */
+    text-align: center;
+}
+select#exampleCustomSelect {
+    width: 110px;
+    /* margin: 5px; */
+    margin-left: 8px;
+}
