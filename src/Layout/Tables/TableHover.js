@@ -37,6 +37,7 @@ export default class TableHover extends React.Component {
     this.handleClickObjEvent = this.handleClickObjEvent.bind(this);
     this.btnDecrementClick = this.btnDecrementClick.bind(this);
     this.btnIncrementClick = this.btnIncrementClick.bind(this);
+    // this.handleChangeStatus = this.handleChangeStatus.bind(this);
 
     EventEmitter.subscribe('searchData', (data) => {
       this.setState({
@@ -85,8 +86,6 @@ export default class TableHover extends React.Component {
       }).catch((err) => {
         Swal.fire("Something went wrong!", "", "warning");
       });
-
-    console.log("perpage", this.state.todosPerPage);
 
     if (localStorage.getItem('value')) {
       const obj = {
@@ -137,10 +136,11 @@ export default class TableHover extends React.Component {
         check: event.target.checked
       })
       EventEmitter.dispatch('checked', this.state.check);
-    } else {
+    } else if (event.target.checked == false) {
       this.setState({
-        check: !event.target.checked
+        check: event.target.checked
       })
+      EventEmitter.dispatch('check', this.state.check);
     }
   }
 
@@ -166,7 +166,7 @@ export default class TableHover extends React.Component {
         if (findresponse) {
           console.log("deleteUserRoleDataById response===", findresponse);
           Swal.fire("UserRole Deleted Successfully!", "", "success");
-          window.location.href = "/userrole";
+          this.componentDidMount();
 
         } else {
           Swal.fire("Something went wrong!", "", "warning");
@@ -225,13 +225,19 @@ export default class TableHover extends React.Component {
             isFetch: true
           })
           localStorage.removeItem('value');
-
         } else {
           Swal.fire("Something went wrong!", "", "warning");
         }
       }).catch((err) => {
         Swal.fire("Something went wrong!", "", "warning");
       });
+  }
+
+  handleChangeStatus(index) {
+    console.log("id", index);
+    // this.setState({
+    //     check: !this.state.check
+    // })
   }
 
   btnIncrementClick() {
@@ -337,7 +343,15 @@ export default class TableHover extends React.Component {
                             <tr key={index}>
                               <th scope="row">
                                 {
-                                  this.state.check == true ? (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" checked={this.state.check} /></span>) : (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" /></span>)
+                                  this.state.check == true ? (
+                                    <span className="margin-t">
+                                      <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                    </span>
+                                  ) : (
+                                      <span className="margin-t">
+                                        <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                      </span>
+                                    )
                                 }
                               </th>
                               <td>
@@ -397,7 +411,15 @@ export default class TableHover extends React.Component {
                             <tr key={index}>
                               <th scope="row">
                                 {
-                                  this.state.check == true ? (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" checked={this.state.check} /></span>) : (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" /></span>)
+                                  this.state.check == true ? (
+                                    <span className="margin-t">
+                                      <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
+                                    </span>
+                                  ) : (
+                                      <span className="margin-t">
+                                        <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                      </span>
+                                    )
                                 }
                               </th>
                               <td>
@@ -458,7 +480,15 @@ export default class TableHover extends React.Component {
                         <tr key={index}>
                           <th scope="row">
                             {
-                              this.state.check == true ? (<span className="margin-t"><CustomInput type="checkbox" id="exampleCustomCheckbox1" checked={this.state.check} /></span>) : (<span className="margin-t"><CustomInput type="checkbox" id="exampleCustomCheckbox1" /></span>)
+                              this.state.check == true ? (
+                                <span className="margin-t">
+                                  <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                </span>
+                              ) : (
+                                  <span className="margin-t">
+                                    <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                  </span>
+                                )
                             }
                           </th>
                           <td>

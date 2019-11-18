@@ -81,6 +81,12 @@ class UserRole extends React.Component {
                 delete: this.state.delete = true
             })
         });
+
+        EventEmitter.subscribe('check', (value) => {
+            this.setState({
+                delete: this.state.delete = false
+            })
+        });
     }
 
     handleChangeEvent(e) {
@@ -180,12 +186,13 @@ class UserRole extends React.Component {
     }
 
     handleChangeStatus(event) {
+        console.log("evalue",event.target.value);
         this.setState({
             status: event.target.value
         })
     }
 
-    userRoleData(data) {
+    userRoleData() {
         const isValid = this.validate();
         if (isValid) {
             console.log(this.state);
@@ -208,6 +215,7 @@ class UserRole extends React.Component {
                     if (findresponse) {
                         console.log("addUserRole response===", findresponse);
                         Swal.fire("UserRole Added Successfully!", "", "success");
+                        // this.componentDidMount();
                         window.location.href = "/userrole";
                     } else {
                         // console.log("err", err);
@@ -222,6 +230,7 @@ class UserRole extends React.Component {
     }
 
     editUserRoleData() {
+        console.log("status check",this.state.userrole,this.state.status);
         this.setState({
             checked: false
         })
@@ -230,13 +239,12 @@ class UserRole extends React.Component {
             status: this.state.status,
             id: this.state.roleId
         }
-        console.log("obj", obj);
-        console.log("checked", this.state.checked);
         API.editUserRole(obj)
             .then((findresponse) => {
                 if (findresponse) {
                     console.log("addUserRole response===", findresponse);
                     Swal.fire("UserRole Updated Successfully!", "", "success");
+                    //   this.componentDidMount();
                     window.location.href = "/userrole";
                 } else {
                     // console.log("err", err);
@@ -311,9 +319,9 @@ class UserRole extends React.Component {
                                                                     </div>
                                                                 ) : (
                                                                         <div>
-                                                                            <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
+                                                                            <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
                                                                                 label="Active" inline />
-                                                                            <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                            <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
                                                                                 label="InActive" inline />
                                                                         </div>
                                                                     )
@@ -435,7 +443,7 @@ class UserRole extends React.Component {
                                                                             <div>
                                                                                 <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
                                                                                     label="Active" inline />
-                                                                                <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                                <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
                                                                                     label="InActive" inline />
                                                                             </div>
                                                                         )
