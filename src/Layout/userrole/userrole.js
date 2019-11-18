@@ -17,7 +17,6 @@ import {
     Card, CardBody,
     CardTitle,
 } from 'reactstrap';
-// import {Button} from 'reactstrap';
 import './userrole.css';
 import Swal from 'sweetalert2';
 
@@ -38,7 +37,7 @@ class UserRole extends React.Component {
             user: [],
             roleId: '',
             searchData: '',
-            todosPerPage: 2
+            delete: false
         }
         this.checkAllHandler = this.checkAllHandler.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -76,6 +75,12 @@ class UserRole extends React.Component {
                 emit: true
             })
         });
+
+        EventEmitter.subscribe('checked', (value) => {
+            this.setState({
+                delete: this.state.delete = true
+            })
+        });
     }
 
     handleChangeEvent(e) {
@@ -106,7 +111,14 @@ class UserRole extends React.Component {
     }
 
     deleteAllUserRoleData() {
-      
+        this.setState({
+            user: this.state.user.length = 0,
+            isDeleted: this.state.isDeleted = true
+        });
+        EventEmitter.dispatch('isDeleted', this.state.isDeleted);
+        Swal.fire("UserRoleAllData Deleted Successfully!", "", "success");
+        window.location.href = "/userrole";
+        console.log("deleteAllUserRoleData", this.state.user, this.state.isDeleted);
     }
 
     /** validation of login form */
@@ -255,129 +267,253 @@ class UserRole extends React.Component {
     }
 
     render() {
-        // console.log("render user{}{}", this.state.user, this.state.status);
         return (
-            <Fragment>
-                <AppHeader />
-                <div className="app-main">
-                    <AppSidebar />
-                    <div className="app-main__outer">
-                        <div className="app-main__inner">
-                            <div>
-                                <Row>
-                                    <Col md="4">
-                                        <Card className="main-card mb-3">
-                                            <CardBody>
-                                                <CardTitle>UserRole:</CardTitle>
-                                                <form>
-                                                    <label className="grey-text">
-                                                        Role Name:
+            this.state.user ? (
+                <Fragment>
+                    <AppHeader />
+                    <div className="app-main">
+                        <AppSidebar />
+                        <div className="app-main__outer">
+                            <div className="app-main__inner">
+                                <div>
+                                    <Row>
+                                        <Col md="4">
+                                            <Card className="main-card mb-3">
+                                                <CardBody>
+                                                    <CardTitle>UserRole:</CardTitle>
+                                                    <form>
+                                                        <label className="grey-text">
+                                                            Role Name:
                                             </label>
-                                                    <input
-                                                        type="text"
-                                                        name="userrole"
-                                                        className="form-control"
-                                                        value={this.state.userrole}
-                                                        onChange={this.handleChangeRole}
-                                                    />
-                                                    <div style={{ fontSize: 12, color: "red" }}>
-                                                        {this.state.userroleerror}
-                                                    </div>
-                                                    <br />
-                                                    <label className="grey-text">
-                                                        Status:
+                                                        <input
+                                                            type="text"
+                                                            name="userrole"
+                                                            className="form-control"
+                                                            value={this.state.userrole}
+                                                            onChange={this.handleChangeRole}
+                                                        />
+                                                        <div style={{ fontSize: 12, color: "red" }}>
+                                                            {this.state.userroleerror}
+                                                        </div>
+                                                        <br />
+                                                        <label className="grey-text">
+                                                            Status:
                                             </label>
-                                                    <br />
-                                                    <div className="margin-lt">
-                                                        {
-                                                            this.state.checked == false ? (
-                                                                <div>
-                                                                    <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" onChange={this.handleChangeStatus}
-                                                                        label="Active" inline />
-                                                                    <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" onChange={this.handleChangeStatus}
-                                                                        label="InActive" inline />
-                                                                </div>
-                                                            ) : (
+                                                        <br />
+                                                        <div className="margin-lt">
+                                                            {
+                                                                this.state.checked == false ? (
                                                                     <div>
-                                                                        <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
+                                                                        <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" onChange={this.handleChangeStatus}
                                                                             label="Active" inline />
-                                                                        <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                        <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" onChange={this.handleChangeStatus}
                                                                             label="InActive" inline />
                                                                     </div>
-                                                                )
-                                                        }
+                                                                ) : (
+                                                                        <div>
+                                                                            <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
+                                                                                label="Active" inline />
+                                                                            <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                                label="InActive" inline />
+                                                                        </div>
+                                                                    )
+                                                            }
 
-                                                        {/* <input type="radio" name="status" value="active" onChange={this.handleChangeStatus} /> Active */}
-                                                        {/* <input type="radio" name="status" value="inactive" onChange={this.handleChangeStatus} /> InActive */}
-                                                        <div style={{ fontSize: 12, color: "red" }}>
-                                                            {this.state.statuserror}
+                                                            {/* <input type="radio" name="status" value="active" onChange={this.handleChangeStatus} /> Active */}
+                                                            {/* <input type="radio" name="status" value="inactive" onChange={this.handleChangeStatus} /> InActive */}
+                                                            <div style={{ fontSize: 12, color: "red" }}>
+                                                                {this.state.statuserror}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="text-center mt-4">
-                                                        {
-                                                            this.state.emit == true ? (
-                                                                <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.editUserRoleData}>Update</Button>
-                                                            ) : (
-                                                                    <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.userRoleData}>Save</Button>
-                                                                )
-                                                        }
+                                                        <div className="text-center mt-4">
+                                                            {
+                                                                this.state.emit == true ? (
+                                                                    <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.editUserRoleData}>Update</Button>
+                                                                ) : (
+                                                                        <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.userRoleData}>Save</Button>
+                                                                    )
+                                                            }
 
-                                                    </div>
-                                                </form>
-                                            </CardBody>
-                                        </Card>
-                                    </Col>
-                                    <Col md="8">
-                                        <Card className="main-card mb-3">
-                                            <CardBody>
-                                                <CardTitle>UserRole Table:</CardTitle>
-                                                <div>
-                                                    <Row>
-                                                        <Col md="2">
-                                                            <div className="right">
-                                                                <Button className="mb-2 mr-2" color="warning" onClick={this.deleteAllUserRoleData}>
-                                                                    Delete
+                                                        </div>
+                                                    </form>
+                                                </CardBody>
+                                            </Card>
+                                        </Col>
+                                        <Col md="8">
+                                            <Card className="main-card mb-3">
+                                                <CardBody>
+                                                    <CardTitle>UserRole Table:</CardTitle>
+                                                    <div>
+                                                        <Row>
+                                                            <Col md="2">
+                                                                <div className="right">
+                                                                    <Button className="mb-2 mr-2" color="warning" onClick={this.deleteAllUserRoleData} disabled={!this.state.delete}>
+                                                                        Delete
                                                                 </Button>
-                                                            </div>
-                                                        </Col>
-                                                        <Col md="4">
-                                                            <div>
-                                                                <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
-                                                            </div>
-                                                        </Col>
-                                                        <Col md="6">
-                                                            <div className="left">
-                                                                <span>Records per page</span>
-                                                                <CustomInput type="select" id="exampleCustomSelect"
-                                                                    name="customSelect" onChange={this.handleChangeEvent}>
-                                                                    <option value="2">2</option>
-                                                                    <option value="4">4</option>
-                                                                </CustomInput>
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                                <br />
-                                                <TableHover data={this.state.user} />
-                                                {/* <MDBDataTable
+                                                                </div>
+                                                            </Col>
+                                                            <Col md="4">
+                                                                <div>
+                                                                    <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
+                                                                </div>
+                                                            </Col>
+                                                            <Col md="6">
+                                                                <div className="left">
+                                                                    <span>Records per page</span>
+                                                                    <CustomInput type="select" id="exampleCustomSelect"
+                                                                        name="customSelect" onChange={this.handleChangeEvent}>
+                                                                        <option value="2">2</option>
+                                                                        <option value="4">4</option>
+                                                                    </CustomInput>
+                                                                </div>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                    <br />
+                                                    <TableHover data={this.state.user} />
+                                                    {/* <MDBDataTable
                                                     striped
                                                     bordered
                                                     small
                                                     data={data}
                                                 /> */}
 
-                                            </CardBody>
-                                        </Card>
+                                                </CardBody>
+                                            </Card>
 
-                                    </Col>
-                                </Row>
-                                {/* <FormsCustomControls/> */}
+                                        </Col>
+                                    </Row>
+                                    {/* <FormsCustomControls/> */}
+                                </div>
+                            </div>
+                            <AppFooter />
+                        </div>
+                    </div>
+                </Fragment>
+            ) : (
+                    <Fragment>
+                        <AppHeader />
+                        <div className="app-main">
+                            <AppSidebar />
+                            <div className="app-main__outer">
+                                <div className="app-main__inner">
+                                    <div>
+                                        <Row>
+                                            <Col md="4">
+                                                <Card className="main-card mb-3">
+                                                    <CardBody>
+                                                        <CardTitle>UserRole:</CardTitle>
+                                                        <form>
+                                                            <label className="grey-text">
+                                                                Role Name:
+                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                name="userrole"
+                                                                className="form-control"
+                                                                value={this.state.userrole}
+                                                                onChange={this.handleChangeRole}
+                                                            />
+                                                            <div style={{ fontSize: 12, color: "red" }}>
+                                                                {this.state.userroleerror}
+                                                            </div>
+                                                            <br />
+                                                            <label className="grey-text">
+                                                                Status:
+                                            </label>
+                                                            <br />
+                                                            <div className="margin-lt">
+                                                                {
+                                                                    this.state.checked == false ? (
+                                                                        <div>
+                                                                            <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" onChange={this.handleChangeStatus}
+                                                                                label="Active" inline />
+                                                                            <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" onChange={this.handleChangeStatus}
+                                                                                label="InActive" inline />
+                                                                        </div>
+                                                                    ) : (
+                                                                            <div>
+                                                                                <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
+                                                                                    label="Active" inline />
+                                                                                <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                                    label="InActive" inline />
+                                                                            </div>
+                                                                        )
+                                                                }
+
+                                                                {/* <input type="radio" name="status" value="active" onChange={this.handleChangeStatus} /> Active */}
+                                                                {/* <input type="radio" name="status" value="inactive" onChange={this.handleChangeStatus} /> InActive */}
+                                                                <div style={{ fontSize: 12, color: "red" }}>
+                                                                    {this.state.statuserror}
+                                                                </div>
+                                                            </div>
+                                                            <div className="text-center mt-4">
+                                                                {
+                                                                    this.state.emit == true ? (
+                                                                        <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.editUserRoleData}>Update</Button>
+                                                                    ) : (
+                                                                            <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.userRoleData}>Save</Button>
+                                                                        )
+                                                                }
+
+                                                            </div>
+                                                        </form>
+                                                    </CardBody>
+                                                </Card>
+                                            </Col>
+                                            <Col md="8">
+                                                <Card className="main-card mb-3">
+                                                    <CardBody>
+                                                        <CardTitle>UserRole Table:</CardTitle>
+                                                        <div>
+                                                            <Row>
+                                                                <Col md="2">
+                                                                    <div className="right">
+                                                                        <Button className="mb-2 mr-2" color="warning" onClick={this.deleteAllUserRoleData}>
+                                                                            Delete
+                                                                </Button>
+                                                                    </div>
+                                                                </Col>
+                                                                <Col md="4">
+                                                                    <div>
+                                                                        <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
+                                                                    </div>
+                                                                </Col>
+                                                                <Col md="6">
+                                                                    <div className="left">
+                                                                        <span>Records per page</span>
+                                                                        <CustomInput type="select" id="exampleCustomSelect"
+                                                                            name="customSelect" onChange={this.handleChangeEvent}>
+                                                                            <option value="2">2</option>
+                                                                            <option value="4">4</option>
+                                                                        </CustomInput>
+                                                                    </div>
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
+                                                        <br />
+                                                        <TableHover />
+                                                        {/* <MDBDataTable
+                                                    striped
+                                                    bordered
+                                                    small
+                                                    data={data}
+                                                /> */}
+
+                                                    </CardBody>
+                                                </Card>
+
+                                            </Col>
+                                        </Row>
+                                        {/* <FormsCustomControls/> */}
+                                    </div>
+                                </div>
+                                <AppFooter />
                             </div>
                         </div>
-                        <AppFooter />
-                    </div>
-                </div>
-            </Fragment>
+                    </Fragment>
+                )
+
         );
     }
 }

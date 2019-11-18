@@ -124,6 +124,14 @@ export default {
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
+    deleteUserRoleAllData:(value) => {
+        return axios.post("http://localhost:3505/User/deleteUserRoleAllData",value)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
     authenticate: () => {
         const Token = localStorage.getItem('token');
         const headers = {

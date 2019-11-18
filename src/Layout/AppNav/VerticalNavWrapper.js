@@ -18,8 +18,8 @@ class Nav extends Component {
                 <MetisMenu content={UserRoleNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
                 <h5 className="app-sidebar__heading">User Right</h5>
                 <MetisMenu content={UserRightNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <h5 className="app-sidebar__heading">Table</h5>
-                <MetisMenu content={UserTableNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
+                {/* <h5 className="app-sidebar__heading">Table</h5>
+                <MetisMenu content={UserTableNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/> */}
                 {/* <h5 className="app-sidebar__heading">UI Components</h5>
                 <MetisMenu content={ComponentsNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
                 <h5 className="app-sidebar__heading">Widgets</h5>

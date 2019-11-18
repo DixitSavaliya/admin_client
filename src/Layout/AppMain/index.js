@@ -17,7 +17,7 @@ const Elements = lazy(() => import('../../DemoPages/Elements'));
 const Components = lazy(() => import('../../DemoPages/Components'));
 const Charts = lazy(() => import('../../DemoPages/Charts'));
 const Forms = lazy(() => import('../../DemoPages/Forms'));
-const Tables = lazy(() => import('../../DemoPages/Tables'));
+// const Tables = lazy(() => import('../../DemoPages/Tables'));
 const AppMain = () => {
 
     return (

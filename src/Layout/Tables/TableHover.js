@@ -11,21 +11,32 @@ export default class TableHover extends React.Component {
     console.log("props", props);
     super(props);
     this.state = {
-      checked: false,
+      check: false,
       isData: false,
       searchData: '',
       count: '',
       currentPage: 1,
       todosPerPage: 2,
+      perpage: '',
       paginationdata: '',
       isFetch: false,
-      perpage:''
+      data: '',
+      allRecords: '',
+      upperPageBound: 3,
+      lowerPageBound: 0,
+      pageBound: 3,
+      isPrevBtnActive: 'disabled',
+      isNextBtnActive: '',
     }
+
     this.checkAllHandler = this.checkAllHandler.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.deleteUserRoleData = this.deleteUserRoleData.bind(this);
     this.editUserRoleData = this.editUserRoleData.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClickObjEvent = this.handleClickObjEvent.bind(this);
+    this.btnDecrementClick = this.btnDecrementClick.bind(this);
+    this.btnIncrementClick = this.btnIncrementClick.bind(this);
 
     EventEmitter.subscribe('searchData', (data) => {
       this.setState({
@@ -36,15 +47,29 @@ export default class TableHover extends React.Component {
     });
 
     EventEmitter.subscribe('selectvalue', (value) => {
-      console.log("value", value,this.state.todosPerPage);
-      this.setState({
-        todosPerPage: 4
-      })
-      console.log("selectvalue",this.state.todosPerPage);
-      // this.componentDidMount();
+      console.log("value", value);
+      localStorage.setItem('value', value);
+      this.componentDidMount();
+    });
+
+    EventEmitter.subscribe('isDeleted', (value) => {
+      console.log("value", value);
+      API.deleteUserRoleAllData({ value: true })
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("deleteUserRoleAllData response===", findresponse);
+            this.setState({
+              allRecords: findresponse.data.data
+            })
+            console.log("allRecords", this.state.allRecords);
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
     });
   }
-
 
   componentDidMount() {
     API.getUserRoleDataCount()
@@ -62,49 +87,59 @@ export default class TableHover extends React.Component {
       });
 
     console.log("perpage", this.state.todosPerPage);
-    const obj = {
-      pageNumber: 1,
-      dataPerPage: this.state.todosPerPage
-    }
-    API.userRoleDataTablePagination(obj)
-      .then((findresponse) => {
-        if (findresponse) {
-          console.log("deleteUserRoleDataById response===", findresponse);
-          this.setState({
-            paginationdata: findresponse.data.data,
-            isFetch: true
-          })
 
-        } else {
+    if (localStorage.getItem('value')) {
+      const obj = {
+        pageNumber: 1,
+        dataPerPage: localStorage.getItem('value')
+      }
+      API.userRoleDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("deleteUserRoleDataById response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
           Swal.fire("Something went wrong!", "", "warning");
-        }
-      }).catch((err) => {
-        Swal.fire("Something went wrong!", "", "warning");
-      });
-      
+        });
+    } else {
+      const obj = {
+        pageNumber: 1,
+        dataPerPage: this.state.todosPerPage
+      }
+      API.userRoleDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("deleteUserRoleDataById response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    }
   }
 
   checkAllHandler(event) {
-    console.log("data", event.target.checked);
+    console.log("data", event.target.checked, event.target.id);
     if (event.target.checked == true) {
       this.setState({
-        checked: true
+        check: event.target.checked
       })
+      EventEmitter.dispatch('checked', this.state.check);
     } else {
       this.setState({
-        checked: false
-      })
-    }
-  }
-
-  handleChange(event) {
-    if (event.target.checked == true) {
-      this.setState({
-        checked: true
-      })
-    } else {
-      this.setState({
-        checked: false
+        check: !event.target.checked
       })
     }
   }
@@ -116,7 +151,6 @@ export default class TableHover extends React.Component {
         if (findresponse) {
           console.log("getUserRoleData response===", findresponse);
           EventEmitter.dispatch('userroledata', findresponse);
-
         } else {
           Swal.fire("Something went wrong!", "", "warning");
         }
@@ -143,7 +177,16 @@ export default class TableHover extends React.Component {
   }
 
   handleClick(event) {
-    console.log("currentpage", event.target.id);
+    console.log("event current page number", event.target.id);
+    if (this.state.currentPage <= event.target.id) {
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      })
+    } else {
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      })
+    }
     const obj = {
       pageNumber: event.target.id,
       dataPerPage: this.state.todosPerPage
@@ -151,7 +194,7 @@ export default class TableHover extends React.Component {
     API.userRoleDataTablePagination(obj)
       .then((findresponse) => {
         if (findresponse) {
-          console.log("deleteUserRoleDataById response===", findresponse);
+          console.log("userRoleDataTablePagination response===", findresponse);
           this.setState({
             paginationdata: findresponse.data.data,
             isFetch: true
@@ -164,24 +207,110 @@ export default class TableHover extends React.Component {
       });
   }
 
+  handleClickObjEvent(event) {
+    console.log("event current page number", event.target.id);
+    this.setState({
+      currentPage: this.state.currentPage + 1
+    })
+    const obj = {
+      pageNumber: event.target.id,
+      dataPerPage: localStorage.getItem('value')
+    }
+    API.userRoleDataTablePagination(obj)
+      .then((findresponse) => {
+        if (findresponse) {
+          console.log("userRoleDataTablePagination response===", findresponse);
+          this.setState({
+            paginationdata: findresponse.data.data,
+            isFetch: true
+          })
+          localStorage.removeItem('value');
+
+        } else {
+          Swal.fire("Something went wrong!", "", "warning");
+        }
+      }).catch((err) => {
+        Swal.fire("Something went wrong!", "", "warning");
+      });
+  }
+
+  btnIncrementClick() {
+    this.setState({ upperPageBound: this.state.upperPageBound + this.state.pageBound });
+    this.setState({ lowerPageBound: this.state.lowerPageBound + this.state.pageBound });
+    let listid = this.state.upperPageBound + 1;
+    this.setState({ currentPage: listid });
+  }
+
+  btnDecrementClick() {
+    this.setState({ upperPageBound: this.state.upperPageBound - this.state.pageBound });
+    this.setState({ lowerPageBound: this.state.lowerPageBound - this.state.pageBound });
+    let listid = this.state.upperPageBound - this.state.pageBound;
+    this.setState({ currentPage: listid });
+  }
 
   render() {
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(this.state.count / this.state.todosPerPage); i++) {
-      pageNumbers.push(i);
+    if (localStorage.getItem('value')) {
+      var pageNumbers = [];
+      for (let i = 1; i <= Math.ceil(this.state.count / localStorage.getItem('value')); i++) {
+        pageNumbers.push(i);
+      }
+      var renderPageNumbers = pageNumbers.map(number => {
+        if (number === 1 && this.state.currentPage === 1) {
+          return (
+            <li
+              key={number}
+              id={number}
+              className={this.state.currentPage === number ? 'active' : 'page-item'}
+            >
+              <a className="page-link" onClick={this.handleClickObjEvent}>{number}</a>
+            </li>
+          );
+        }
+        else if ((number < this.state.upperPageBound + 1) && number > this.state.lowerPageBound) {
+          return (
+            <li className={this.state.currentPage === number ? 'active' : 'page-item'} key={number} id={number}><a className="page-link" id={number} onClick={this.handleClickObjEvent}>{number}</a></li>
+          )
+        }
+      });
+    } else {
+      var pageNumbers = [];
+      for (let i = 1; i <= Math.ceil(this.state.count / this.state.todosPerPage); i++) {
+        pageNumbers.push(i);
+      }
+      var renderPageNumbers = pageNumbers.map(number => {
+        if (number === 1 && this.state.currentPage === 1) {
+          return (
+            <li
+              key={number}
+              id={number}
+              className={this.state.currentPage === number ? 'active' : 'page-item'}
+            >
+              <a className="page-link" onClick={this.handleClick}>{number}</a>
+            </li>
+          );
+        }
+        else if ((number < this.state.upperPageBound + 1) && number > this.state.lowerPageBound) {
+          return (
+            <li
+              key={number}
+              id={number}
+              className={this.state.currentPage === number ? 'active' : 'page-item'}
+            >
+              <a className="page-link" id={number} onClick={this.handleClick}>{number}</a>
+            </li>
+          )
+        }
+      });
     }
-    console.log("pagenumber", pageNumbers);
-    const renderPageNumbers = pageNumbers.map(number => {
-      return (
-        <li
-          key={number}
-          id={number}
-          onClick={this.handleClick}
-        >
-          {number}
-        </li>
-      );
-    });
+
+    let pageIncrementBtn = null;
+    if (pageNumbers.length > this.state.upperPageBound) {
+      pageIncrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnIncrementClick}> &hellip; </a></li>
+    }
+    let pageDecrementBtn = null;
+    if (this.state.lowerPageBound >= 1) {
+      pageDecrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnDecrementClick}> &hellip; </a></li>
+    }
 
     return (
       <div>
@@ -190,55 +319,72 @@ export default class TableHover extends React.Component {
             <div>
               {
                 this.state.isFetch == true ? (
-                  <Table hover className="mb-0" bordered>
-                    <thead>
-                      <tr>
-                        <th>
-                          <CustomInput type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
-                        </th>
-                        <th>Action</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        this.state.paginationdata.map((data, index) =>
-                          <tr key={index}>
-                            <th scope="row">
-                              {
-                                this.state.checked == true ? (<span><CustomInput type="checkbox" id="exampleCustomCheckbox1" checked={this.state.checked} /></span>) : (<span><CustomInput type="checkbox" id="exampleCustomCheckbox1" /></span>)
-                              }
-                            </th>
-                            <td>
-                              <span>
-                                <i className="fas fa-pencil-alt" onClick={() => this.editUserRoleData(data.id)}></i>
-                                <i className="fas fa-times" onClick={() => this.deleteUserRoleData(data.id)}></i>
-                              </span>
-                            </td>
-                            <td><span>{data.name}</span></td>
-                            <td>
-                              <div className="btn_size">
+                  this.state.paginationdata ? (
+                    <Table hover className="mb-0" bordered>
+                      <thead>
+                        <tr>
+                          <th>
+                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                          </th>
+                          <th>Action</th>
+                          <th>Name</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          this.state.paginationdata.map((data, index) =>
+                            <tr key={index}>
+                              <th scope="row">
                                 {
-                                  data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                    {data.status}
-                                  </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                    {data.status}
-                                  </Button>)
+                                  this.state.check == true ? (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" checked={this.state.check} /></span>) : (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" /></span>)
                                 }
-                              </div>
-                            </td>
+                              </th>
+                              <td>
+                                <span>
+                                  <i className="fas fa-pencil-alt" onClick={() => this.editUserRoleData(data.id)}></i>
+                                  <i className="fas fa-times" onClick={() => this.deleteUserRoleData(data.id)}></i>
+                                </span>
+                              </td>
+                              <td><p className="margin-top">{data.name}</p></td>
+                              <td>
+                                <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
+                                      {data.status}
+                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
+                                      {data.status}
+                                    </Button>)
+                                  }
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        }
+                      </tbody>
+                    </Table>
+                  ) : (
+                      <Table hover className="mb-0" bordered>
+                        <thead>
+                          <tr>
+                            <th>
+                              <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                            </th>
+                            <th>Action</th>
+                            <th>Name</th>
+                            <th>Status</th>
                           </tr>
-                        )
-                      }
-                    </tbody>
-                  </Table>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </Table>
+                    )
                 ) : (
                     <Table hover className="mb-0" bordered>
                       <thead>
                         <tr>
                           <th>
-                            <CustomInput type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
                           </th>
                           <th>Action</th>
                           <th>Name</th>
@@ -251,7 +397,7 @@ export default class TableHover extends React.Component {
                             <tr key={index}>
                               <th scope="row">
                                 {
-                                  this.state.checked == true ? (<span><CustomInput type="checkbox" id="exampleCustomCheckbox1" checked={this.state.checked} /></span>) : (<span><CustomInput type="checkbox" id="exampleCustomCheckbox1" /></span>)
+                                  this.state.check == true ? (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" checked={this.state.check} /></span>) : (<span className="margin-t"><CustomInput name="name" type="checkbox" id="exampleCustomCheckbox1" /></span>)
                                 }
                               </th>
                               <td>
@@ -279,15 +425,20 @@ export default class TableHover extends React.Component {
                     </Table>
                   )
               }
-
-              <ul>
-                {/* {renderTodos} */}
-              </ul>
-              <ul className="list" id="page-numbers">
-                {renderPageNumbers}
-              </ul>
+              {
+                this.state.paginationdata ? (
+                  <div>
+                    <ul className="pagination" id="page-numbers">
+                      {pageDecrementBtn}
+                      {renderPageNumbers}
+                      {pageIncrementBtn}
+                    </ul>
+                  </div>
+                ) : (
+                    null
+                  )
+              }
             </div>
-
           ) : (
               <div>
                 <Table hover className="mb-0" bordered>
@@ -307,7 +458,7 @@ export default class TableHover extends React.Component {
                         <tr key={index}>
                           <th scope="row">
                             {
-                              this.state.checked == true ? (<span><CustomInput type="checkbox" id="exampleCustomCheckbox1" checked={this.state.checked} /></span>) : (<span><CustomInput type="checkbox" id="exampleCustomCheckbox1" /></span>)
+                              this.state.check == true ? (<span className="margin-t"><CustomInput type="checkbox" id="exampleCustomCheckbox1" checked={this.state.check} /></span>) : (<span className="margin-t"><CustomInput type="checkbox" id="exampleCustomCheckbox1" /></span>)
                             }
                           </th>
                           <td>

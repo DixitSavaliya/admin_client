@@ -2217,7 +2217,9 @@ fieldset:disabled a.btn {
     color: #fff;
     background-color: #DD5600;
     border-color: #DD5600;
-    background-image: none; }
+    background-image: none;
+    font-weight: bold;
+   }
   .btn-warning:not(:disabled):not(.disabled):active, .btn-warning:not(:disabled):not(.disabled).active, .show > .btn-warning.dropdown-toggle {
     color: #fff;
     background-color: #aa4200;
@@ -12316,5 +12318,34 @@ body {
 
   .header-icon {
     display: none; } }
+    
 
 /*# sourceMappingURL=base.css.map */
+.pagination{
+  margin: 10px auto !important;
+}
+
+.pagination .page-item .page-link{
+  background-color: #fff !important;
+  color:  #007bff !important;
+  border: 1px solid #dee2e6 !important;
+  padding: .5rem .75rem !important;
+  font-weight: bold !important;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #e9ecef !important;
+}
+
+.pagination .active .page-link {
+  background-color: #007bff !important;
+  color: #fff !important;
+  border: 1px solid #dee2e6 !important;
+  padding: .5rem .75rem !important;
+  font-size: 0.9rem !important;
+  font-weight: bold !important;
+}
+.pagination .active .page-link:hover {
+  background-color: #e9ecef !important;
+  color: #007bff !important;
+}

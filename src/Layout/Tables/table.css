@@ -10,3 +10,15 @@
     color: #fff;
     cursor: pointer;
 }
+.list li a {
+    color: #fff;
+}
+.margin-top {
+    margin: 11px auto;
+}
+.btn_size{
+    margin: 4px auto;
+}
+/* .custom-checkbox.custom-control {
+    margin: 9px auto;
+} */
