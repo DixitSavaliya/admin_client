@@ -4,10 +4,8 @@ import TableHover from '../Tables/TableHover';
 import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar/';
 import AppFooter from '../../Layout/AppFooter/';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import { Modal, ModalHeader, ModalBody, ModalFooter, CustomInput } from 'reactstrap';
+import { CustomInput } from 'reactstrap';
 import { EventEmitter } from '../../event';
-// import FormsCustomControls from './CustomControls';
 
 import {
     Button, Form,
@@ -90,7 +88,7 @@ class UserRole extends React.Component {
     }
 
     handleChangeEvent(e) {
-        console.log("value", e.target.value);
+       
         EventEmitter.dispatch('selectvalue', e.target.value);
     }
 
@@ -98,7 +96,6 @@ class UserRole extends React.Component {
         API.getUserRoleData()
             .then((findresponse) => {
                 if (findresponse) {
-                    console.log("getUserRoleData response===", findresponse);
                     this.setState({
                         user: findresponse.data.data
                     })
@@ -120,7 +117,6 @@ class UserRole extends React.Component {
         EventEmitter.dispatch('isDeleted', this.state.isDeleted);
         Swal.fire("UserRoleAllData Deleted Successfully!", "", "success");
         window.location.href = "/userrole";
-        console.log("deleteAllUserRoleData", this.state.user, this.state.isDeleted);
     }
 
     /** validation of login form */
@@ -150,7 +146,6 @@ class UserRole extends React.Component {
     }
 
     checkAllHandler(event) {
-        console.log("data", event.target.checked);
         if (event.target.checked == true) {
             this.setState({
                 checked: true
@@ -182,7 +177,6 @@ class UserRole extends React.Component {
     }
 
     handleChangeStatus(event) {
-        console.log("evalue",event.target.value);
         this.setState({
             status: event.target.value
         })
@@ -191,7 +185,6 @@ class UserRole extends React.Component {
     userRoleData() {
         const isValid = this.validate();
         if (isValid) {
-            console.log(this.state);
             this.setState({
                 userrole: '',
                 userroleerror: '',
@@ -205,16 +198,14 @@ class UserRole extends React.Component {
                 name: this.state.userrole,
                 status: this.state.status
             }
-            console.log("obj", obj)
             API.addUserRole(obj)
                 .then((findresponse) => {
                     if (findresponse) {
-                        console.log("addUserRole response===", findresponse);
                         Swal.fire("UserRole Added Successfully!", "", "success");
                         // this.componentDidMount();
                         window.location.href = "/userrole";
                     } else {
-                        // console.log("err", err);
+                        
                         Swal.fire("Something went wrong!", "", "warning");
                     }
                 }).catch((err) => {
@@ -226,41 +217,50 @@ class UserRole extends React.Component {
     }
 
     editUserRoleData() {
-        console.log("status check",this.state.userrole,this.state.status);
-        this.setState({
-            checked: false
-        })
-        const obj = {
-            name: this.state.userrole,
-            status: this.state.status,
-            id: this.state.roleId
-        }
-        API.editUserRole(obj)
-            .then((findresponse) => {
-                if (findresponse) {
-                    console.log("addUserRole response===", findresponse);
-                    Swal.fire("UserRole Updated Successfully!", "", "success");
-                    //   this.componentDidMount();
-                    window.location.href = "/userrole";
-                } else {
-                    // console.log("err", err);
+        const isValid = this.validate();
+        if (isValid) {
+            this.setState({
+                userrole: '',
+                userroleerror: '',
+                status: '',
+                statuserror: ''
+            })
+        };
+
+        if (this.state.userrole && this.state.status) {
+            this.setState({
+                checked: false
+            })
+            const obj = {
+                name: this.state.userrole,
+                status: this.state.status,
+                id: this.state.roleId
+            }
+            API.editUserRole(obj)
+                .then((findresponse) => {
+                    if (findresponse) {
+                        Swal.fire("UserRole Updated Successfully!", "", "success");
+                        //   this.componentDidMount();
+                        window.location.href = "/userrole";
+                    } else {
+                        // console.log("err", err);
+                        Swal.fire("Something went wrong!", "", "warning");
+                    }
+                }).catch((err) => {
                     Swal.fire("Something went wrong!", "", "warning");
-                }
-            }).catch((err) => {
-                Swal.fire("Something went wrong!", "", "warning");
-            });
+                });
+        } else {
+            Swal.fire("Please enter filed first!", "", "warning");
+        }
     }
 
     searchUserRoleDataKeyUp(e) {
-        console.log("event search key", e.target.value);
         API.searchUserData({ searchkey: e.target.value })
             .then((findresponse) => {
                 if (findresponse) {
-                    console.log("searchUserData response===", findresponse);
                     this.setState({
                         searchData: findresponse.data.data
                     })
-                    console.log("searchData response===", this.state.searchData);
                     EventEmitter.dispatch('searchData', this.state.searchData);
                 } else {
                     Swal.fire("Something went wrong!", "", "warning");
@@ -284,7 +284,7 @@ class UserRole extends React.Component {
                                         <Col md="4">
                                             <Card className="main-card mb-3">
                                                 <CardBody>
-                                                    <CardTitle>UserRole:</CardTitle>
+                                                    <CardTitle><b>User-Role:</b></CardTitle>
                                                     <form>
                                                         <label className="grey-text">
                                                             Role Name:
@@ -343,7 +343,7 @@ class UserRole extends React.Component {
                                         <Col md="8">
                                             <Card className="main-card mb-3">
                                                 <CardBody>
-                                                    <CardTitle>UserRole Table:</CardTitle>
+                                                    <CardTitle><b>User-Role Table:</b></CardTitle>
                                                     <div>
                                                         <Row>
                                                             <Col md="2">
@@ -372,19 +372,12 @@ class UserRole extends React.Component {
                                                     </div>
                                                     <br />
                                                     <TableHover data={this.state.user} />
-                                                    {/* <MDBDataTable
-                                                    striped
-                                                    bordered
-                                                    small
-                                                    data={data}
-                                                /> */}
 
                                                 </CardBody>
                                             </Card>
 
                                         </Col>
                                     </Row>
-                                    {/* <FormsCustomControls/> */}
                                 </div>
                             </div>
                             <AppFooter />
@@ -403,7 +396,7 @@ class UserRole extends React.Component {
                                             <Col md="4">
                                                 <Card className="main-card mb-3">
                                                     <CardBody>
-                                                        <CardTitle>UserRole:</CardTitle>
+                                                        <CardTitle><b>User-Role:</b></CardTitle>
                                                         <form>
                                                             <label className="grey-text">
                                                                 Role Name:
@@ -441,9 +434,6 @@ class UserRole extends React.Component {
                                                                             </div>
                                                                         )
                                                                 }
-
-                                                                {/* <input type="radio" name="status" value="active" onChange={this.handleChangeStatus} /> Active */}
-                                                                {/* <input type="radio" name="status" value="inactive" onChange={this.handleChangeStatus} /> InActive */}
                                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                                     {this.state.statuserror}
                                                                 </div>
@@ -465,7 +455,7 @@ class UserRole extends React.Component {
                                             <Col md="8">
                                                 <Card className="main-card mb-3">
                                                     <CardBody>
-                                                        <CardTitle>UserRole Table:</CardTitle>
+                                                        <CardTitle><b>User-Role Table:</b></CardTitle>
                                                         <div>
                                                             <Row>
                                                                 <Col md="2">
@@ -494,19 +484,10 @@ class UserRole extends React.Component {
                                                         </div>
                                                         <br />
                                                         <TableHover />
-                                                        {/* <MDBDataTable
-                                                    striped
-                                                    bordered
-                                                    small
-                                                    data={data}
-                                                /> */}
-
                                                     </CardBody>
                                                 </Card>
-
                                             </Col>
                                         </Row>
-                                        {/* <FormsCustomControls/> */}
                                     </div>
                                 </div>
                                 <AppFooter />

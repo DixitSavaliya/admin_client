@@ -6,11 +6,6 @@ import TableResponsive from '../Tables/TableResponsive';
 import API from '../../service';
 import Swal from 'sweetalert2';
 import { EventEmitter } from '../../event';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import { MDBInput, MDBFormInline } from 'mdbreact';
-import { MDBDataTable } from 'mdbreact';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-// import FormsCustomControls from './CustomControls';
 
 import {
     Button, Form,
@@ -20,7 +15,6 @@ import {
     Card, CardBody,
     CardTitle, CustomInput
 } from 'reactstrap';
-// import {Button} from 'reactstrap';
 import '../userrole/userrole.css';
 
 class UserRight extends React.Component {
@@ -29,8 +23,11 @@ class UserRight extends React.Component {
         this.state = {
             checked: false,
             userright: '',
+            userrighterror: '',
             status: '',
+            statuserror: '',
             module: '',
+            moduleerror: '',
             userdata: []
         }
         this.checkAllHandler = this.checkAllHandler.bind(this);
@@ -87,7 +84,6 @@ class UserRight extends React.Component {
         API.getUserRightData()
             .then((findresponse) => {
                 if (findresponse) {
-                    console.log("getUserRightData response===", findresponse);
                     this.setState({
                         userdata: findresponse.data.data
                     })
@@ -102,7 +98,6 @@ class UserRight extends React.Component {
     }
 
     checkAllHandler(event) {
-        console.log("data", event.target.checked);
         if (event.target.checked == true) {
             this.setState({
                 checked: true
@@ -115,7 +110,6 @@ class UserRight extends React.Component {
     }
 
     handleChange(event) {
-        console.log("data", event.target.checked);
         if (event.target.checked == true) {
             this.setState({
                 checked: true
@@ -128,7 +122,6 @@ class UserRight extends React.Component {
     }
 
     handleChangeEvent(e) {
-        console.log("value", e.target.value);
         EventEmitter.dispatch('selectval', e.target.value);
     }
 
@@ -140,60 +133,113 @@ class UserRight extends React.Component {
     }
 
     handleChangeStatus(event) {
-        console.log("event", event.target.value)
         this.setState({
             status: event.target.value
         })
     }
 
-    userRightData() {
-        console.log("data", this.state.userright, this.state.module, this.state.status);
-        const obj = {
-            name: this.state.userright,
-            module: this.state.module,
-            status: this.state.status
+
+    /** validation of login form */
+    validate = () => {
+        let userrighterror = "";
+        let statuserror = "";
+        let moduleerror = "";
+
+        if (!this.state.userright) {
+            userrighterror = "please enter userright name";
         }
-        API.addUserRight(obj)
-            .then((findresponse) => {
-                if (findresponse) {
-                    console.log("addUserRight response===", findresponse);
-                    Swal.fire("UserRight Added Successfully!", "", "success");
-                    // this.componentDidMount();
-                    window.location.href = "/userright";
-                } else {
-                    // console.log("err", err);
+
+        if (!this.state.module) {
+            moduleerror = "please enter module name";
+        }
+
+        if (!this.state.status) {
+            statuserror = "please select status";
+        }
+
+        if (userrighterror || statuserror || moduleerror) {
+            this.setState({ userrighterror, statuserror, moduleerror });
+            return false;
+        }
+        return true;
+    };
+
+    userRightData() {
+        const isValid = this.validate();
+        if (isValid) {
+            this.setState({
+                userright: '',
+                userrighterror: '',
+                status: '',
+                statuserror: '',
+                module: '',
+                moduleerror: ''
+            })
+        };
+
+        if (this.state.userright && this.state.status && this.state.module) {
+            const obj = {
+                name: this.state.userright,
+                module: this.state.module,
+                status: this.state.status
+            }
+            API.addUserRight(obj)
+                .then((findresponse) => {
+                    if (findresponse) {
+                        Swal.fire("UserRight Added Successfully!", "", "success");
+                        // this.componentDidMount();
+                        window.location.href = "/userright";
+                    } else {
+                        // console.log("err", err);
+                        Swal.fire("Something went wrong!", "", "warning");
+                    }
+                }).catch((err) => {
                     Swal.fire("Something went wrong!", "", "warning");
-                }
-            }).catch((err) => {
-                Swal.fire("Something went wrong!", "", "warning");
-            });
+                });
+        } else {
+            Swal.fire("Please enter filed first!", "", "warning");
+        }
     }
 
     editUserRightData() {
-        console.log("status check", this.state.userright, this.state.status, this.state.roleId);
-        this.setState({
-            checked: false
-        })
-        const obj = {
-            name: this.state.userright,
-            status: this.state.status,
-            module: this.state.module,
-            id: this.state.roleId
-        }
-        API.editUserRight(obj)
-            .then((findresponse) => {
-                if (findresponse) {
-                    console.log("editUserRightData response===", findresponse);
-                    Swal.fire("UserRight Updated Successfully!", "", "success");
-                    //   this.componentDidMount();
-                    window.location.href = "/userright";
-                } else {
-                    // console.log("err", err);
+        const isValid = this.validate();
+        if (isValid) {
+            this.setState({
+                userright: '',
+                userrighterror: '',
+                status: '',
+                statuserror: '',
+                module: '',
+                moduleerror: ''
+            })
+        };
+
+        if (this.state.userright && this.state.status && this.state.module && this.state.roleId) {
+            this.setState({
+                checked: false
+            })
+            const obj = {
+                name: this.state.userright,
+                status: this.state.status,
+                module: this.state.module,
+                id: this.state.roleId
+            }
+            API.editUserRight(obj)
+                .then((findresponse) => {
+                    if (findresponse) {
+                        Swal.fire("UserRight Updated Successfully!", "", "success");
+                        //   this.componentDidMount();
+                        window.location.href = "/userright";
+                    } else {
+                        // console.log("err", err);
+                        Swal.fire("Something went wrong!", "", "warning");
+                    }
+                }).catch((err) => {
                     Swal.fire("Something went wrong!", "", "warning");
-                }
-            }).catch((err) => {
-                Swal.fire("Something went wrong!", "", "warning");
-            });
+                });
+        } else {
+            Swal.fire("Please enter filed first!", "", "warning");
+        }
     }
 
     deleteAllUserRightData() {
@@ -207,15 +253,12 @@ class UserRight extends React.Component {
     }
 
     searchUserRightDataKeyUp(e) {
-        console.log("event search key", e.target.value);
         API.searchUserRightData({ searchkey: e.target.value })
             .then((findresponse) => {
                 if (findresponse) {
-                    console.log("searchUserData response===", findresponse);
                     this.setState({
                         searchData: findresponse.data.data
                     })
-                    console.log("searchData response===", this.state.searchData);
                     EventEmitter.dispatch('searchUserData', this.state.searchData);
                 } else {
                     Swal.fire("Something went wrong!", "", "warning");
@@ -224,7 +267,6 @@ class UserRight extends React.Component {
                 Swal.fire("Something went wrong!", "", "warning");
             });
     }
-
 
     render() {
 
@@ -243,7 +285,7 @@ class UserRight extends React.Component {
                                                 <Col md="4">
                                                     <Card className="main-card mb-3">
                                                         <CardBody>
-                                                            <CardTitle>UserRight:</CardTitle>
+                                                            <CardTitle><b>User-Right:</b></CardTitle>
                                                             <form>
                                                                 <label className="grey-text">
                                                                     Right Name:
@@ -255,9 +297,9 @@ class UserRight extends React.Component {
                                                                     value={this.state.userright}
                                                                     onChange={this.handleChangeRole}
                                                                 />
-                                                                {/* <div style={{ fontSize: 12, color: "red" }}>
-                                                                {this.state.userroleerror}
-                                                            </div> */}
+                                                                <div style={{ fontSize: 12, color: "red" }}>
+                                                                    {this.state.userrighterror}
+                                                                </div>
                                                                 <br />
                                                                 <label className="grey-text">
                                                                     Module Name:
@@ -269,9 +311,9 @@ class UserRight extends React.Component {
                                                                     value={this.state.module}
                                                                     onChange={this.handleChangeRole}
                                                                 />
-                                                                {/* <div style={{ fontSize: 12, color: "red" }}>
-                                                                {this.state.userroleerror}
-                                                            </div> */}
+                                                                <div style={{ fontSize: 12, color: "red" }}>
+                                                                    {this.state.moduleerror}
+                                                                </div>
                                                                 <br />
                                                                 <label className="grey-text">
                                                                     Status:
@@ -295,9 +337,9 @@ class UserRight extends React.Component {
                                                                                 </div>
                                                                             )
                                                                     }
-                                                                    {/* <div style={{ fontSize: 12, color: "red" }}>
-                                                                    {this.state.statuserror}
-                                                                </div> */}
+                                                                    <div style={{ fontSize: 12, color: "red" }}>
+                                                                        {this.state.statuserror}
+                                                                    </div>
                                                                 </div>
                                                                 <div className="text-center mt-4">
                                                                     {
@@ -316,7 +358,7 @@ class UserRight extends React.Component {
                                                 <Col md="8">
                                                     <Card className="main-card mb-3">
                                                         <CardBody>
-                                                            <CardTitle>UserRight Table:</CardTitle>
+                                                            <CardTitle><b>User-Right Table:</b></CardTitle>
                                                             <div>
                                                                 <Row>
                                                                     <Col md="2">
@@ -368,7 +410,7 @@ class UserRight extends React.Component {
                                                     <Col md="4">
                                                         <Card className="main-card mb-3">
                                                             <CardBody>
-                                                                <CardTitle>UserRight:</CardTitle>
+                                                                <CardTitle>User-Right:</CardTitle>
                                                                 <form>
                                                                     <label className="grey-text">
                                                                         Right Name:
@@ -380,9 +422,9 @@ class UserRight extends React.Component {
                                                                         value={this.state.userright}
                                                                         onChange={this.handleChangeRole}
                                                                     />
-                                                                    {/* <div style={{ fontSize: 12, color: "red" }}>
-                                                                {this.state.userroleerror}
-                                                            </div> */}
+                                                                    <div style={{ fontSize: 12, color: "red" }}>
+                                                                        {this.state.userrighterror}
+                                                                    </div>
                                                                     <br />
                                                                     <label className="grey-text">
                                                                         Module Name:
@@ -394,9 +436,9 @@ class UserRight extends React.Component {
                                                                         value={this.state.module}
                                                                         onChange={this.handleChangeRole}
                                                                     />
-                                                                    {/* <div style={{ fontSize: 12, color: "red" }}>
-                                                                {this.state.userroleerror}
-                                                            </div> */}
+                                                                    <div style={{ fontSize: 12, color: "red" }}>
+                                                                        {this.state.moduleerror}
+                                                                    </div>
                                                                     <br />
                                                                     <label className="grey-text">
                                                                         Status:
@@ -420,9 +462,9 @@ class UserRight extends React.Component {
                                                                                     </div>
                                                                                 )
                                                                         }
-                                                                        {/* <div style={{ fontSize: 12, color: "red" }}>
-                                                                    {this.state.statuserror}
-                                                                </div> */}
+                                                                        <div style={{ fontSize: 12, color: "red" }}>
+                                                                            {this.state.statuserror}
+                                                                        </div>
                                                                     </div>
                                                                     <div className="text-center mt-4">
                                                                         {
@@ -441,7 +483,7 @@ class UserRight extends React.Component {
                                                     <Col md="8">
                                                         <Card className="main-card mb-3">
                                                             <CardBody>
-                                                                <CardTitle>UserRight Table:</CardTitle>
+                                                                <CardTitle>User-Right Table:</CardTitle>
                                                                 <div>
                                                                     <Row>
                                                                         <Col md="2">

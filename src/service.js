@@ -34,7 +34,7 @@ export default {
     },
 
     getProfile: (id) => {
-        return axios.post("http://localhost:3505/User/getprofile" , id)
+        return axios.post("http://localhost:3505/User/getprofile", id)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -68,158 +68,156 @@ export default {
     },
 
     getUserRoleByIdData: (id) => {
-        console.log("id",id);
+        console.log("id", id);
         return axios.post("http://localhost:3505/User/getUserRoleById", id)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    getUserRoleData:() => {
+    getUserRoleData: () => {
         return axios.get("http://localhost:3505/User/getUserRole")
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    editUserRole:(obj) => {
-        return axios.post("http://localhost:3505/User/editUserRole",obj)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    editUserRole: (obj) => {
+        return axios.post("http://localhost:3505/User/editUserRole", obj)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    deleteUserRoleDataById:(id) => {
-        return axios.post("http://localhost:3505/User/deleteUserRole",id)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    deleteUserRoleDataById: (id) => {
+        return axios.post("http://localhost:3505/User/deleteUserRole", id)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    searchUserData:(data) => {
-        return axios.post("http://localhost:3505/User/searchUserRoleData",data)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    searchUserData: (data) => {
+        return axios.post("http://localhost:3505/User/searchUserRoleData", data)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    getUserRoleDataCount:() => {
+    getUserRoleDataCount: () => {
         return axios.get("http://localhost:3505/User/userRoleTableCount")
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    userRoleDataTablePagination:(obj) => {
-        return axios.post("http://localhost:3505/User/userRoleTablePagination",obj)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    userRoleDataTablePagination: (obj) => {
+        return axios.post("http://localhost:3505/User/userRoleTablePagination", obj)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    deleteUserRoleAllData:(value) => {
-        return axios.post("http://localhost:3505/User/deleteUserRoleAllData",value)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    deleteUserRoleAllData: (value) => {
+        return axios.post("http://localhost:3505/User/deleteUserRoleAllData", value)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    addUserRight:(obj) => {
-        console.log("obj",obj);
-        return axios.post("http://localhost:3505/User/addUserRight",obj)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    addUserRight: (obj) => {
+        console.log("obj", obj);
+        return axios.post("http://localhost:3505/User/addUserRight", obj)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    getUserRightData:() => {
+    getUserRightData: () => {
         return axios.get("http://localhost:3505/User/getUserRight")
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    getUserRightByIdData:(id) => {
-        console.log("id",id);
+    getUserRightByIdData: (id) => {
+        console.log("id", id);
         return axios.post("http://localhost:3505/User/getUserRightById", id)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    editUserRight:(obj) => {
-        return axios.post("http://localhost:3505/User/editUserRight",obj)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    editUserRight: (obj) => {
+        return axios.post("http://localhost:3505/User/editUserRight", obj)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    deleteUserRightDataById:(id) => {
-        return axios.post("http://localhost:3505/User/deleteUserRight",id)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    deleteUserRightDataById: (id) => {
+        return axios.post("http://localhost:3505/User/deleteUserRight", id)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    searchUserRightData:(data) => {
-        return axios.post("http://localhost:3505/User/searchUserRightData",data)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    searchUserRightData: (data) => {
+        return axios.post("http://localhost:3505/User/searchUserRightData", data)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getUserRightDataCount: () => {
         return axios.get("http://localhost:3505/User/userRightTableCount")
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     userRightDataTablePagination: (obj) => {
-        return axios.post("http://localhost:3505/User/userRightTablePagination",obj)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+        return axios.post("http://localhost:3505/User/userRightTablePagination", obj)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    deleteUserRightAllData:(value) => {
-        return axios.post("http://localhost:3505/User/deleteUserRightAllData",value)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    deleteUserRightAllData: (value) => {
+        return axios.post("http://localhost:3505/User/deleteUserRightAllData", value)
+            .then(response => {
+                console.log("response===", response);
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    getUserRoleToRightData:(id) => {
-        return axios.post("http://localhost:3505/User/getUserRoleToRight",id)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    getUserRoleToRightData: (id) => {
+        return axios.post("http://localhost:3505/User/getUserRoleToRight", id)
+            .then(response => {
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
-    updateUserRightToRoleData:(obj) => {
-        return axios.post("http://localhost:3505/User/User_Role_to_Right",obj)
-        .then(response => {
-            console.log("response===", response);
-            return response;
-        }).catch({ status: 500, message: 'Internal Server Error' });
+    updateUserRightToRoleData: (obj) => {
+        return axios.post("http://localhost:3505/User/User_Role_to_Right", obj)
+            .then(response => {
+                return response;
+            }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     authenticate: () => {
