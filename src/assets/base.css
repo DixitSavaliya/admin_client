@@ -2114,6 +2114,7 @@ fieldset:disabled a.btn {
 .btn-primary {
   color: #fff;
   background: #033C73 linear-gradient(180deg, #295988, #033C73) repeat-x;
+  font-weight: bold !important;
   border-color: #033C73; }
   .btn-primary:hover {
     color: #fff;
@@ -2206,6 +2207,7 @@ fieldset:disabled a.btn {
 .btn-warning {
   color: #fff;
   background: #DD5600 linear-gradient(180deg, #e26f26, #DD5600) repeat-x;
+  font-weight: bold !important;
   border-color: #DD5600; }
   .btn-warning:hover {
     color: #fff;

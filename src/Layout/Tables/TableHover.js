@@ -187,50 +187,98 @@ export default class TableHover extends React.Component {
         currentPage: this.state.currentPage - 1
       })
     }
-    const obj = {
-      pageNumber: event.target.id,
-      dataPerPage: this.state.todosPerPage
-    }
-    API.userRoleDataTablePagination(obj)
-      .then((findresponse) => {
-        if (findresponse) {
-          console.log("userRoleDataTablePagination response===", findresponse);
-          this.setState({
-            paginationdata: findresponse.data.data,
-            isFetch: true
-          })
-        } else {
+
+    if(localStorage.getItem('value')) {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: localStorage.getItem('value')
+      }
+      API.userRoleDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRoleDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
           Swal.fire("Something went wrong!", "", "warning");
-        }
-      }).catch((err) => {
-        Swal.fire("Something went wrong!", "", "warning");
-      });
+        });
+    } else {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: this.state.todosPerPage
+      }
+      API.userRoleDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRoleDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    }
   }
 
   handleClickObjEvent(event) {
     console.log("event current page number", event.target.id);
-    this.setState({
-      currentPage: this.state.currentPage + 1
-    })
-    const obj = {
-      pageNumber: event.target.id,
-      dataPerPage: localStorage.getItem('value')
+    if (this.state.currentPage <= event.target.id) {
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      })
+    } else {
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      })
     }
-    API.userRoleDataTablePagination(obj)
-      .then((findresponse) => {
-        if (findresponse) {
-          console.log("userRoleDataTablePagination response===", findresponse);
-          this.setState({
-            paginationdata: findresponse.data.data,
-            isFetch: true
-          })
-          localStorage.removeItem('value');
-        } else {
+    if(localStorage.getItem('value')) {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: localStorage.getItem('value')
+      }
+      API.userRoleDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRoleDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
           Swal.fire("Something went wrong!", "", "warning");
-        }
-      }).catch((err) => {
-        Swal.fire("Something went wrong!", "", "warning");
-      });
+        });
+    } else {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: this.state.todosPerPage
+      }
+      API.userRoleDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRoleDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    }
   }
 
   handleChangeStatus(index) {

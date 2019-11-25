@@ -3,7 +3,7 @@ export const MainNav = [
         icon: 'pe-7s-rocket',
         label: 'Dashboard Example',
         to: '/dashboards/basic',
-    },
+    }
 ];
 
 export const UserRoleNav = [
@@ -11,7 +11,7 @@ export const UserRoleNav = [
         icon: 'pe-7s-rocket',
         label: 'UserRole',
         to: '/userrole',
-    },
+    }
 ];
 
 export const UserRightNav = [
@@ -19,7 +19,7 @@ export const UserRightNav = [
         icon: 'pe-7s-rocket',
         label: 'UserRight',
         to: '/userright',
-    },
+    }
 ];
 
 export const UserTableNav = [
@@ -27,8 +27,16 @@ export const UserTableNav = [
         icon: 'pe-7s-rocket',
         label: 'UserTable',
         to: '/Tables',
-    },
+    }
 ];
+
+export const UserRoletoRightNav = [
+    {
+        icon: 'pe-7s-rocket',
+        label: 'UserRoletoRight',
+        to: '/user_role_to_right',
+    }
+]
 // export const ComponentsNav = [
 //     {
 //         icon: 'pe-7s-diamond',

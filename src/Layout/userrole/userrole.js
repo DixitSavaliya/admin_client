@@ -103,10 +103,6 @@ class UserRole extends React.Component {
                         user: findresponse.data.data
                     })
                     console.log("user response===", this.state.user);
-                    // this.setState({
-                    //     userrole: findresponse.data.data.name,
-                    //     status: findresponse.data.data.status
-                    // })
                 } else {
                     // console.log("err", err);
                     Swal.fire("Something went wrong!", "", "warning");
@@ -326,9 +322,6 @@ class UserRole extends React.Component {
                                                                         </div>
                                                                     )
                                                             }
-
-                                                            {/* <input type="radio" name="status" value="active" onChange={this.handleChangeStatus} /> Active */}
-                                                            {/* <input type="radio" name="status" value="inactive" onChange={this.handleChangeStatus} /> InActive */}
                                                             <div style={{ fontSize: 12, color: "red" }}>
                                                                 {this.state.statuserror}
                                                             </div>

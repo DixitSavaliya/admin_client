@@ -74,6 +74,7 @@ class UserBox extends React.Component {
         localStorage.removeItem('first_name');
         localStorage.removeItem('last_name');
         localStorage.removeItem('profilepic');
+        localStorage.removeItem('value');
         window.location.href = "/login";
     }
 

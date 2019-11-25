@@ -1,51 +1,696 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Table, CustomInput, Button } from 'reactstrap';
+import API from '../../service';
+import Swal from 'sweetalert2';
+import { EventEmitter } from '../../event';
+import './table.css';
+import { HashRouter, Link, Route } from "react-router-dom";
 
 export default class TableResponsive extends React.Component {
+  constructor(props) {
+    console.log("props", props);
+    super(props);
+    this.state = {
+      check: false,
+      isData: false,
+      searchData: '',
+      count: '',
+      currentPage: 1,
+      todosPerPage: 2,
+      perpage: '',
+      paginationdata: '',
+      isFetch: false,
+      data: '',
+      allRecords: '',
+      upperPageBound: 3,
+      lowerPageBound: 0,
+      pageBound: 3,
+      isPrevBtnActive: 'disabled',
+      isNextBtnActive: '',
+    }
+
+    this.checkAllHandler = this.checkAllHandler.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    this.editUserRightData = this.editUserRightData.bind(this);
+    this.deleteUserRightData = this.deleteUserRightData.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClickObjEvent = this.handleClickObjEvent.bind(this);
+    this.btnDecrementClick = this.btnDecrementClick.bind(this);
+    this.btnIncrementClick = this.btnIncrementClick.bind(this);
+    this.handleChangeStatus = this.handleChangeStatus.bind(this);
+
+    EventEmitter.subscribe('searchUserData', (data) => {
+      this.setState({
+        searchData: data,
+        isData: true
+      })
+      console.log("datasearch====", this.state.searchData, this.state.isData);
+    });
+
+    EventEmitter.subscribe('selectval', (value) => {
+      console.log("value", value);
+      
+      localStorage.setItem('value', value);
+      this.componentDidMount();
+    });
+
+    EventEmitter.subscribe('isDeletedKey', (value) => {
+      console.log("value", value);
+      API.deleteUserRightAllData({ value: true })
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("deleteUserRoleAllData response===", findresponse);
+            this.setState({
+              allRecords: findresponse.data.data
+            })
+            console.log("allRecords", this.state.allRecords);
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    });
+  }
+
+  componentDidMount() {
+    API.getUserRightDataCount()
+      .then((findresponse) => {
+        if (findresponse) {
+          console.log("getUserRightDataCount response===", findresponse);
+          this.setState({
+            count: findresponse.data.data
+          })
+        } else {
+          Swal.fire("Something went wrong!", "", "warning");
+        }
+      }).catch((err) => {
+        Swal.fire("Something went wrong!", "", "warning");
+      });
+
+    if (localStorage.getItem('value')) {
+      const obj = {
+        pageNumber: 1,
+        dataPerPage: localStorage.getItem('value')
+      }
+      API.userRightDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRightDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    } else {
+      const obj = {
+        pageNumber: 1,
+        dataPerPage: this.state.todosPerPage
+      }
+      API.userRightDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRightDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    }
+  }
+
+  checkAllHandler(event) {
+    console.log("data", event.target.checked, event.target.id);
+    if (event.target.checked == true) {
+      this.setState({
+        check: event.target.checked
+      })
+      EventEmitter.dispatch('checked', this.state.check);
+    } else if (event.target.checked == false) {
+      this.setState({
+        check: event.target.checked
+      })
+      EventEmitter.dispatch('check', this.state.check);
+    }
+  }
+
+  editUserRightData(id) {
+    EventEmitter.dispatch('roleid', id);
+    API.getUserRightByIdData({ user_right_id: id })
+      .then((findresponse) => {
+        if (findresponse) {
+          console.log("getUserRoleData response===", findresponse);
+          EventEmitter.dispatch('userrightdata', findresponse);
+        } else {
+          Swal.fire("Something went wrong!", "", "warning");
+        }
+      }).catch((err) => {
+        Swal.fire("Something went wrong!", "", "warning");
+      });
+  }
+
+  deleteUserRightData(id) {
+    console.log("data", id);
+    API.deleteUserRightDataById({ user_right_id: id })
+      .then((findresponse) => {
+        if (findresponse) {
+          console.log("deleteUserRightData response===", findresponse);
+          Swal.fire("UserRight Deleted Successfully!", "", "success");
+          this.componentDidMount();
+          // window.location.href = "/userright";
+        } else {
+          Swal.fire("Something went wrong!", "", "warning");
+        }
+      }).catch((err) => {
+        Swal.fire("Something went wrong!", "", "warning");
+      });
+  }
+
+  handleClick(event) {
+    console.log("event current page number", event.target.id);
+    if (this.state.currentPage <= event.target.id) {
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      })
+    } else {
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      })
+    }
+
+    if(localStorage.getItem('value')) {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: localStorage.getItem('value')
+      }
+      API.userRightDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRightDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    } else {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: this.state.todosPerPage
+      }
+      API.userRightDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRightDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    }
+  }
+
+  handleClickObjEvent(event) {
+    console.log("event current page number", event.target.id);
+    if (this.state.currentPage <= event.target.id) {
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      })
+    } else {
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      })
+    }
+    if(localStorage.getItem('value')) {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: localStorage.getItem('value')
+      }
+      API.userRightDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRightDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    } else {
+      const obj = {
+        pageNumber: event.target.id,
+        dataPerPage: this.state.todosPerPage
+      }
+      API.userRightDataTablePagination(obj)
+        .then((findresponse) => {
+          if (findresponse) {
+            console.log("userRightDataTablePagination response===", findresponse);
+            this.setState({
+              paginationdata: findresponse.data.data,
+              isFetch: true
+            })
+          } else {
+            Swal.fire("Something went wrong!", "", "warning");
+          }
+        }).catch((err) => {
+          Swal.fire("Something went wrong!", "", "warning");
+        });
+    }
+  }
+
+  handleChangeStatus(index) {
+    console.log("id", index);
+    // this.setState({
+    //     check: !this.state.check
+    // })
+  }
+
+  btnIncrementClick() {
+    this.setState({ upperPageBound: this.state.upperPageBound + this.state.pageBound });
+    this.setState({ lowerPageBound: this.state.lowerPageBound + this.state.pageBound });
+    let listid = this.state.upperPageBound + 1;
+    this.setState({ currentPage: listid });
+  }
+
+  btnDecrementClick() {
+    this.setState({ upperPageBound: this.state.upperPageBound - this.state.pageBound });
+    this.setState({ lowerPageBound: this.state.lowerPageBound - this.state.pageBound });
+    let listid = this.state.upperPageBound - this.state.pageBound;
+    this.setState({ currentPage: listid });
+  }
+
   render() {
+    if (localStorage.getItem('value')) {
+      var pageNumbers = [];
+      for (let i = 1; i <= Math.ceil(this.state.count / localStorage.getItem('value')); i++) {
+        pageNumbers.push(i);
+      }
+      var renderPageNumbers = pageNumbers.map(number => {
+        if (number === 1 && this.state.currentPage === 1) {
+          return (
+            <li
+              key={number}
+              id={number}
+              className={this.state.currentPage === number ? 'active' : 'page-item'}
+            >
+              <a className="page-link" onClick={this.handleClickObjEvent}>{number}</a>
+            </li>
+          );
+        }
+        else if ((number < this.state.upperPageBound + 1) && number > this.state.lowerPageBound) {
+          return (
+            <li className={this.state.currentPage === number ? 'active' : 'page-item'} key={number} id={number}><a className="page-link" id={number} onClick={this.handleClickObjEvent}>{number}</a></li>
+          )
+        }
+      });
+    } else {
+      var pageNumbers = [];
+      for (let i = 1; i <= Math.ceil(this.state.count / this.state.todosPerPage); i++) {
+        pageNumbers.push(i);
+      }
+      var renderPageNumbers = pageNumbers.map(number => {
+        if (number === 1 && this.state.currentPage === 1) {
+          return (
+            <li
+              key={number}
+              id={number}
+              className={this.state.currentPage === number ? 'active' : 'page-item'}
+            >
+              <a className="page-link" onClick={this.handleClick}>{number}</a>
+            </li>
+          );
+        }
+        else if ((number < this.state.upperPageBound + 1) && number > this.state.lowerPageBound) {
+          return (
+            <li
+              key={number}
+              id={number}
+              className={this.state.currentPage === number ? 'active' : 'page-item'}
+            >
+              <a className="page-link" id={number} onClick={this.handleClick}>{number}</a>
+            </li>
+          )
+        }
+      });
+    }
+
+    let pageIncrementBtn = null;
+    if (pageNumbers.length > this.state.upperPageBound) {
+      pageIncrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnIncrementClick}> &hellip; </a></li>
+    }
+    let pageDecrementBtn = null;
+    if (this.state.lowerPageBound >= 1) {
+      pageDecrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnDecrementClick}> &hellip; </a></li>
+    }
+
     return (
-      <Table responsive className="mb-0">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-        </tbody>
-      </Table>
+      <div>
+        {
+          this.state.isData == false ? (
+            <div>
+              {
+                this.state.isFetch == true ? (
+                  this.state.paginationdata ? (
+                    <Table hover className="mb-0" bordered>
+                      <thead>
+                        <tr>
+                          <th>
+                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                          </th>
+                          <th>Action</th>
+                          <th>Name</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          this.state.paginationdata.map((data, index) =>
+                            <tr key={index}>
+                              <th scope="row">
+                                {
+                                  this.state.check == true ? (
+                                    <span className="margin-t">
+                                      <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                    </span>
+                                  ) : (
+                                      <span className="margin-t">
+                                        <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                      </span>
+                                    )
+                                }
+                              </th>
+                              <td>
+                                <span>
+                                  <i className="fas fa-pencil-alt" onClick={() => this.editUserRightData(data.id)}></i>
+                                  <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
+                                </span>
+                              </td>
+                              <td><p className="margin-top">{data.name}</p></td>
+                              <td>
+                                <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
+                                      {data.status}
+                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
+                                      {data.status}
+                                    </Button>)
+                                  }
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        }
+                      </tbody>
+                    </Table>
+                  ) : (
+                      <Table hover className="mb-0" bordered>
+                        <thead>
+                          <tr>
+                            <th>
+                              <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                            </th>
+                            <th>Action</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </Table>
+                    )
+                ) : (
+                    <Table hover className="mb-0" bordered>
+                      <thead>
+                        <tr>
+                          <th>
+                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                          </th>
+                          <th>Action</th>
+                          <th>Name</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          this.props.sendData.map((data, index) =>
+                            <tr key={index}>
+                              <th scope="row">
+                                {
+                                  this.state.check == true ? (
+                                    <span className="margin-t">
+                                      <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
+                                    </span>
+                                  ) : (
+                                      <span className="margin-t">
+                                        <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                      </span>
+                                    )
+                                }
+                              </th>
+                              <td>
+                                <span>
+                                  <i className="fas fa-pencil-alt" onClick={() => this.editUserRightData(data.id)}></i>
+                                  <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
+                                </span>
+                              </td>
+                              <td><span>{data.name}</span></td>
+                              <td>
+                                <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
+                                      {data.status}
+                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
+                                      {data.status}
+                                    </Button>)
+                                  }
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        }
+                      </tbody>
+                    </Table>
+                  )
+              }
+              {
+                this.state.paginationdata ? (
+                  <div>
+                    <ul className="pagination" id="page-numbers">
+                      {pageDecrementBtn}
+                      {renderPageNumbers}
+                      {pageIncrementBtn}
+                    </ul>
+                  </div>
+                ) : (
+                    null
+                  )
+              }
+            </div>
+          ) : (
+              <div>
+                <Table hover className="mb-0" bordered>
+                  <thead>
+                    <tr>
+                      <th>
+                        <CustomInput type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                      </th>
+                      <th>Action</th>
+                      <th>Name</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      this.state.searchData.map((data, index) =>
+                        <tr key={index}>
+                          <th scope="row">
+                            {
+                              this.state.check == true ? (
+                                <span className="margin-t">
+                                  <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                </span>
+                              ) : (
+                                  <span className="margin-t">
+                                    <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                  </span>
+                                )
+                            }
+                          </th>
+                          <td>
+                            <span>
+                              <i className="fas fa-pencil-alt" onClick={() => this.editUserRightData(data.id)}></i>
+                              <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
+                            </span>
+                          </td>
+                          <td><span>{data.name}</span></td>
+                          <td>
+                            <div className="btn_size">
+                              {
+                                data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
+                                  {data.status}
+                                </Button>) : (<Button className="mb-2 mr-2" color="danger">
+                                  {data.status}
+                                </Button>)
+                              }
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    }
+                  </tbody>
+                </Table>
+              </div>
+            )
+
+          // this.state.isData == false ? (
+          //   <div>
+          //     {
+          //       this.props.sendData ? (
+          //         <Table hover className="mb-0" bordered>
+          //           <thead>
+          //             <tr>
+          //               <th>
+          //                 <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+          //               </th>
+          //               <th>Action</th>
+          //               <th>Name</th>
+          //               <th>Status</th>
+          //             </tr>
+          //           </thead>
+          //           <tbody>
+          //             {
+          //               this.props.sendData.map((data, index) =>
+          //                 <tr key={index}>
+          //                   <th scope="row">
+          //                     {
+          //                       this.state.check == true ? (
+          //                         <span className="margin-t">
+          //                           <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
+          //                         </span>
+          //                       ) : (
+          //                           <span className="margin-t">
+          //                             <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+          //                           </span>
+          //                         )
+          //                     }
+          //                   </th>
+          //                   <td>
+          //                     <span>
+          //                       <i className="fas fa-pencil-alt" onClick={() => this.editUserRightData(data.id)}></i>
+          //                       <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
+          //                     </span>
+          //                   </td>
+          //                   <td><span>{data.name}</span></td>
+          //                   <td>
+          //                     <div className="btn_size">
+          //                       {
+          //                         data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
+          //                           {data.status}
+          //                         </Button>) : (<Button className="mb-2 mr-2" color="danger">
+          //                           {data.status}
+          //                         </Button>)
+          //                       }
+          //                     </div>
+          //                   </td>
+          //                 </tr>
+          //               )
+          //             }
+          //           </tbody>
+          //         </Table>
+          //       ) : (
+          //           null
+          //         )
+          //     }
+          //   </div>
+
+          // ) : (
+          //     <div>
+          //       {
+          //         this.props.sendData ? (
+          //           <Table hover className="mb-0" bordered>
+          //             <thead>
+          //               <tr>
+          //                 <th>
+          //                   <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+          //                 </th>
+          //                 <th>Action</th>
+          //                 <th>Name</th>
+          //                 <th>Status</th>
+          //               </tr>
+          //             </thead>
+          //             <tbody>
+          //               {
+          //                 this.state.searchData.map((data, index) =>
+          //                   <tr key={index}>
+          //                     <th scope="row">
+          //                       {
+          //                         this.state.check == true ? (
+          //                           <span className="margin-t">
+          //                             <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
+          //                           </span>
+          //                         ) : (
+          //                             <span className="margin-t">
+          //                               <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+          //                             </span>
+          //                           )
+          //                       }
+          //                     </th>
+          //                     <td>
+          //                       <span>
+          //                         <i className="fas fa-pencil-alt" onClick={() => this.editUserRightData(data.id)}></i>
+          //                         <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
+          //                       </span>
+          //                     </td>
+          //                     <td><span>{data.name}</span></td>
+          //                     <td>
+          //                       <div className="btn_size">
+          //                         {
+          //                           data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
+          //                             {data.status}
+          //                           </Button>) : (<Button className="mb-2 mr-2" color="danger">
+          //                             {data.status}
+          //                           </Button>)
+          //                         }
+          //                       </div>
+          //                     </td>
+          //                   </tr>
+          //                 )
+          //               }
+          //             </tbody>
+          //           </Table>
+          //         ) : (
+          //             null
+          //           )
+          //       }
+          //     </div>
+          //   )
+        }
+
+      </div>
     );
   }
 }

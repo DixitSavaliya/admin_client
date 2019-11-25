@@ -10,6 +10,7 @@ import {
 const Dashboards = lazy(() => import('../../DemoPages/Dashboards'));
 const UserRole = lazy(() => import('../../Layout/userrole/userrole'));
 const UserRight = lazy(() => import('../../Layout/userright/userright'));
+const UserRoletoRight = lazy(() => import('../../Layout/user_role_to_right/user_role_to_right'));
 const UserTable = lazy(() => import('../Tables'));
 const MyProfile = lazy(() => import('../../Layout/myprofile/myprofile'));
 const Widgets = lazy(() => import('../../DemoPages/Widgets'));
@@ -93,6 +94,12 @@ const AppMain = () => {
               <div className="loader"></div>
             }>
                 <Route path="/userright" component={UserRight}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/user_role_to_right" component={UserRoletoRight}/>
             </Suspense>
 
             <Route exact path="/" render={() => (
