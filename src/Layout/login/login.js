@@ -61,7 +61,8 @@ class LogIn extends React.Component {
         if (this.state.email && this.state.password) {
             const obj = {
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                user_type:1
             }
             /** UserLogin */
             API.login(obj)
@@ -102,7 +103,7 @@ class LogIn extends React.Component {
                                 <span>Please sign in to your account.</span>
                             </h4>
                             <div className="margin-top">
-                                <form className="">
+                                <form>
                                     <div className="form-row">
                                         <div className="col-md-6">
                                             <div className="form-group">

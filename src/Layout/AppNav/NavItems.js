@@ -36,7 +36,24 @@ export const UserRoletoRightNav = [
         label: 'UserRoletoRight',
         to: '/user_role_to_right',
     }
-]
+];
+
+export const CreateProjectNav = [
+    {
+        icon: 'pe-7s-diamond',
+        label: 'Project',
+        content: [
+            {
+                label: 'Create',
+                to: '/createproject',
+            }, 
+            {
+                label: 'List',
+                to: '/listproject'
+            }
+        ]
+    }
+];
 // export const ComponentsNav = [
 //     {
 //         icon: 'pe-7s-diamond',

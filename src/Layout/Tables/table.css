@@ -19,6 +19,22 @@
 .btn_size{
     margin: 4px auto;
 }
+
+.project_tabel i {
+    margin: 8px;
+    font-size: 15px;
+}
+.lt select#exampleCustomSelect {
+    width: 155px;
+    /* margin: -1px; */
+}
+.tox .tox-notification--in {
+    opacity: 0 !important;
+}
+.rt span {
+    margin: 4px;
+}
+
 /* .custom-checkbox.custom-control {
     margin: 9px auto;
 } */

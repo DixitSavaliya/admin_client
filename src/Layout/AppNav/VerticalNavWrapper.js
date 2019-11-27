@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {withRouter} from 'react-router-dom';
 import MetisMenu from 'react-metismenu';
-import {MainNav, UserRightNav, UserRoleNav,UserRoletoRightNav} from './NavItems';
+import {MainNav, UserRightNav, UserRoleNav,UserRoletoRightNav,CreateProjectNav} from './NavItems';
 
 class Nav extends Component {
 
@@ -17,6 +17,7 @@ class Nav extends Component {
                 {/* <h5 className="app-sidebar__heading">User Right</h5> */}
                 <MetisMenu content={UserRightNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
                 <MetisMenu content={UserRoletoRightNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
+                <MetisMenu content={CreateProjectNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
                 {/* <h5 className="app-sidebar__heading">Table</h5>
                 <MetisMenu content={UserTableNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/> */}
                 {/* <h5 className="app-sidebar__heading">UI Components</h5>
