@@ -311,7 +311,6 @@ export default class TableBordered extends React.Component {
     }
 
     return (
-
       <div>
         {
           this.state.isData == false ? (
@@ -343,7 +342,7 @@ export default class TableBordered extends React.Component {
                               </td>
                               <td><p>{data.title}</p></td>
                               <td>{renderHTML(data.discription)}</td>
-                              <td><p>{data.budget} <i className="fas fa-rupee-sign"></i></p></td>
+                              <td><p>{data.budget}  <i className="fas fa-dollar-sign"></i></p></td>
                               <td><p>{data.hours}</p></td>
                               <td>
                                 <div className="btn_size">
@@ -455,7 +454,7 @@ export default class TableBordered extends React.Component {
                           </td>
                           <td><p>{data.title}</p></td>
                           <td>{renderHTML(data.discription)}</td>
-                          <td><p>{data.budget} <i className="fas fa-rupee-sign"></i></p></td>
+                          <td><p>{data.budget} <i className="fas fa-dollar-sign"></i></p></td>
                           <td><p>{data.hours}</p></td>
                           <td>
                             <div className="btn_size">

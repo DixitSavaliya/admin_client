@@ -7,6 +7,7 @@ import AppFooter from '../../Layout/AppFooter/';
 import TableBordered from '../Tables/TableBordered';
 import { EventEmitter } from '../../event';
 import { Link } from "react-router-dom";
+import './listproject.css';
 
 import {
     Button, Form,
@@ -86,7 +87,7 @@ class ListProject extends React.Component {
                                             <CardTitle><b>List-Projects Table:</b></CardTitle>
                                             <div>
                                                 <Row>
-                                                    <Col md="3">
+                                                    <Col md="2">
                                                         <div className="right">
                                                             <Link to="/createproject"><Button className="mb-2 mr-2" color="primary">
                                                                 Add
@@ -98,7 +99,7 @@ class ListProject extends React.Component {
                                                             <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
                                                         </div>
                                                     </Col>
-                                                    <Col md="4">
+                                                    <Col md="5">
                                                         <div className="lt">
                                                             <span>Records per page</span>
                                                             <CustomInput type="select" id="exampleCustomSelect"

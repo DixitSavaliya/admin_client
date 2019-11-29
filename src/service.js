@@ -318,7 +318,100 @@ export default {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
+
+    getTasksByProjectId: (id) => {
+        return axios.post("http://localhost:3505/User/getTaskByProjectId", id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    searchTaskData:(data) => {
+        return axios.post("http://localhost:3505/User/searchTaskData", data)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getAllTasksCounts:(id) => {
+        return axios.post("http://localhost:3505/User/getAllTaskCount", id)
+        .then(response => {
+            console.log("response===", response);
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getAllTaskDataTablePagination:(obj) => {
+        return axios.post("http://localhost:3505/User/getTaskTablePagination", obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getAllProjectManager:(obj) => {
+        return axios.post("http://localhost:3505/User/getALlProjectManager", obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    projectAssignData:(obj) => {
+        return axios.post("http://localhost:3505/User/assignProject", obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getProjectsAssignData:(id) => {
+        return axios.post("http://localhost:3505/User/getProjectManagerByProjectId", id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
  
+    deleteAssignProject:(id) => {
+        return axios.post("http://localhost:3505/User/deleteAssignProjectById", id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getAssignProjectId:(id) => {
+        return axios.post("http://localhost:3505/User/getAssignProjectById", id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    EditProjectAssignData:(obj) => {
+        return axios.post("http://localhost:3505/User/editAssignProject", obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getAllAssignProjectCounts:(id) => {
+        return axios.post("http://localhost:3505/User/getassignProjectCount", id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    searchAssignProjectData:(data) => {
+        return axios.post("http://localhost:3505/User/searchAssignProjectData", data)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getAssignProjectTablePagination:(data) => {
+        return axios.post("http://localhost:3505/User/getAssignProjectTablePagination", data)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
     authenticate: () => {
         const Token = localStorage.getItem('token');
         const headers = {
