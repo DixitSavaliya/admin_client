@@ -57,12 +57,14 @@ class UserRole extends React.Component {
             if (data.data.data.status == "active") {
                 this.setState({
                     userrole: data.data.data.name,
-                    statuscheck1: true
+                    statuscheck1: this.state.statuscheck1 = true,
+                    status: this.state.status = "active"
                 })
             } else if (data.data.data.status == "inactive") {
                 this.setState({
                     userrole: data.data.data.name,
-                    statuscheck2: true
+                    statuscheck2: this.state.statuscheck1 = true,
+                    status: this.state.status = "inactive"
                 })
             }
         });
@@ -88,7 +90,6 @@ class UserRole extends React.Component {
     }
 
     handleChangeEvent(e) {
-       
         EventEmitter.dispatch('selectvalue', e.target.value);
     }
 
@@ -100,6 +101,7 @@ class UserRole extends React.Component {
                         user: findresponse.data.data
                     })
                     console.log("user response===", this.state.user);
+                    EventEmitter.dispatch('userroledataget', this.state.user);
                 } else {
                     // console.log("err", err);
                     Swal.fire("Something went wrong!", "", "warning");
@@ -115,7 +117,7 @@ class UserRole extends React.Component {
             isDeleted: this.state.isDeleted = true
         });
         EventEmitter.dispatch('isDeleted', this.state.isDeleted);
-        Swal.fire("UserRoleAllData Deleted Successfully!", "", "success");
+        Swal.fire("AllUserRoleData Deleted Successfully!", "", "success");
         window.location.href = "/userrole";
     }
 
@@ -191,32 +193,33 @@ class UserRole extends React.Component {
                 status: '',
                 statuserror: ''
             })
+            if (this.state.userrole && this.state.status) {
+                const obj = {
+                    name: this.state.userrole,
+                    status: this.state.status
+                }
+                API.addUserRole(obj)
+                    .then((findresponse) => {
+                        if (findresponse) {
+                            Swal.fire("UserRole Added Successfully!", "", "success");
+                            this.componentDidMount();
+                            // window.location.href = "/userrole";
+                        } else {
+
+                            Swal.fire("Something went wrong!", "", "warning");
+                        }
+                    }).catch((err) => {
+                        Swal.fire("Something went wrong!", "", "warning");
+                    });
+            } else {
+                Swal.fire("PLease Enter Field First!", "", "warning");
+            }
         };
 
-        if (this.state.userrole && this.state.status) {
-            const obj = {
-                name: this.state.userrole,
-                status: this.state.status
-            }
-            API.addUserRole(obj)
-                .then((findresponse) => {
-                    if (findresponse) {
-                        Swal.fire("UserRole Added Successfully!", "", "success");
-                        // this.componentDidMount();
-                        window.location.href = "/userrole";
-                    } else {
-                        
-                        Swal.fire("Something went wrong!", "", "warning");
-                    }
-                }).catch((err) => {
-                    Swal.fire("Something went wrong!", "", "warning");
-                });
-        } else {
-            Swal.fire("PLease Enter Field First!", "", "warning");
-        }
     }
 
     editUserRoleData() {
+        console.log("usersatus", this.state.status, this.state.userrole);
         const isValid = this.validate();
         if (isValid) {
             this.setState({
@@ -225,33 +228,33 @@ class UserRole extends React.Component {
                 status: '',
                 statuserror: ''
             })
+            console.log("usersatus", this.state.status, this.state.userrole);
+            if (this.state.userrole && this.state.status) {
+                this.setState({
+                    checked: false
+                })
+                const obj = {
+                    name: this.state.userrole,
+                    status: this.state.status,
+                    id: this.state.roleId
+                }
+                API.editUserRole(obj)
+                    .then((findresponse) => {
+                        if (findresponse) {
+                            Swal.fire("UserRole Edited Successfully!", "", "success");
+                            this.componentDidMount();
+                        } else {
+                            // console.log("err", err);
+                            Swal.fire("Something went wrong!", "", "warning");
+                        }
+                    }).catch((err) => {
+                        Swal.fire("Something went wrong!", "", "warning");
+                    });
+            } else {
+                Swal.fire("Please enter filed first!", "", "warning");
+            }
         };
 
-        if (this.state.userrole && this.state.status) {
-            this.setState({
-                checked: false
-            })
-            const obj = {
-                name: this.state.userrole,
-                status: this.state.status,
-                id: this.state.roleId
-            }
-            API.editUserRole(obj)
-                .then((findresponse) => {
-                    if (findresponse) {
-                        Swal.fire("UserRole Updated Successfully!", "", "success");
-                        //   this.componentDidMount();
-                        window.location.href = "/userrole";
-                    } else {
-                        // console.log("err", err);
-                        Swal.fire("Something went wrong!", "", "warning");
-                    }
-                }).catch((err) => {
-                    Swal.fire("Something went wrong!", "", "warning");
-                });
-        } else {
-            Swal.fire("Please enter filed first!", "", "warning");
-        }
     }
 
     searchUserRoleDataKeyUp(e) {
@@ -308,17 +311,47 @@ class UserRole extends React.Component {
                                                             {
                                                                 this.state.checked == false ? (
                                                                     <div>
-                                                                        <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" onChange={this.handleChangeStatus}
-                                                                            label="Active" inline />
-                                                                        <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" onChange={this.handleChangeStatus}
-                                                                            label="InActive" inline />
+                                                                        <CustomInput
+                                                                            type="radio"
+                                                                            id="exampleCustomRadio"
+                                                                            value="active"
+                                                                            name="status"
+                                                                            onChange={this.handleChangeStatus}
+                                                                            label="Active"
+                                                                            inline
+                                                                        />
+                                                                        <CustomInput
+                                                                            type="radio"
+                                                                            id="exampleCustomRadio1"
+                                                                            value="inactive"
+                                                                            name="status"
+                                                                            onChange={this.handleChangeStatus}
+                                                                            label="InActive"
+                                                                            inline
+                                                                        />
                                                                     </div>
                                                                 ) : (
                                                                         <div>
-                                                                            <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
-                                                                                label="Active" inline />
-                                                                            <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
-                                                                                label="InActive" inline />
+                                                                            <CustomInput
+                                                                                type="radio"
+                                                                                id="exampleCustomRadio"
+                                                                                value={this.state.status}
+                                                                                name="status"
+                                                                                checked={this.state.statuscheck1}
+                                                                                onChange={this.handleChangeStatus}
+                                                                                label="Active"
+                                                                                inline
+                                                                            />
+                                                                            <CustomInput
+                                                                                type="radio"
+                                                                                id="exampleCustomRadio1"
+                                                                                value={this.state.status}
+                                                                                name="status"
+                                                                                checked={this.state.statuscheck2}
+                                                                                onChange={this.handleChangeStatus}
+                                                                                label="InActive"
+                                                                                inline
+                                                                            />
                                                                         </div>
                                                                     )
                                                             }
@@ -329,12 +362,25 @@ class UserRole extends React.Component {
                                                         <div className="text-center mt-4">
                                                             {
                                                                 this.state.emit == true ? (
-                                                                    <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.editUserRoleData}>Update</Button>
+                                                                    <Button
+                                                                        className="mb-2 mr-2"
+                                                                        color="primary"
+                                                                        type="button"
+                                                                        onClick={this.editUserRoleData}
+                                                                    >
+                                                                        Update
+                                                                    </Button>
                                                                 ) : (
-                                                                        <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.userRoleData}>Save</Button>
+                                                                        <Button
+                                                                            className="mb-2 mr-2"
+                                                                            color="primary"
+                                                                            type="button"
+                                                                            onClick={this.userRoleData}
+                                                                        >
+                                                                            Save
+                                                                        </Button>
                                                                     )
                                                             }
-
                                                         </div>
                                                     </form>
                                                 </CardBody>
@@ -348,21 +394,36 @@ class UserRole extends React.Component {
                                                         <Row>
                                                             <Col md="2">
                                                                 <div className="right">
-                                                                    <Button className="mb-2 mr-2" color="warning" onClick={this.deleteAllUserRoleData} disabled={!this.state.delete}>
+                                                                    <Button
+                                                                        className="mb-2 mr-2"
+                                                                        color="warning"
+                                                                        onClick={this.deleteAllUserRoleData}
+                                                                        disabled={!this.state.delete}
+                                                                    >
                                                                         Delete
                                                                 </Button>
                                                                 </div>
                                                             </Col>
                                                             <Col md="4">
                                                                 <div>
-                                                                    <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
+                                                                    <input
+                                                                        className="form-control"
+                                                                        type="text"
+                                                                        placeholder="Search"
+                                                                        aria-label="Search"
+                                                                        onKeyUp={this.searchUserRoleDataKeyUp}
+                                                                    />
                                                                 </div>
                                                             </Col>
                                                             <Col md="6">
                                                                 <div className="left">
                                                                     <span>Records per page</span>
-                                                                    <CustomInput type="select" id="exampleCustomSelect"
-                                                                        name="customSelect" onChange={this.handleChangeEvent}>
+                                                                    <CustomInput
+                                                                        type="select"
+                                                                        id="exampleCustomSelect"
+                                                                        name="customSelect"
+                                                                        onChange={this.handleChangeEvent}
+                                                                    >
                                                                         <option value="2">2</option>
                                                                         <option value="4">4</option>
                                                                     </CustomInput>
@@ -372,7 +433,6 @@ class UserRole extends React.Component {
                                                     </div>
                                                     <br />
                                                     <TableHover data={this.state.user} />
-
                                                 </CardBody>
                                             </Card>
 
@@ -420,17 +480,45 @@ class UserRole extends React.Component {
                                                                 {
                                                                     this.state.checked == false ? (
                                                                         <div>
-                                                                            <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" onChange={this.handleChangeStatus}
-                                                                                label="Active" inline />
-                                                                            <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" onChange={this.handleChangeStatus}
-                                                                                label="InActive" inline />
+                                                                            <CustomInput
+                                                                                type="radio"
+                                                                                id="exampleCustomRadio"
+                                                                                value="active"
+                                                                                name="status"
+                                                                                onChange={this.handleChangeStatus}
+                                                                                label="Active"
+                                                                                inline
+                                                                            />
+                                                                            <CustomInput
+                                                                                type="radio"
+                                                                                id="exampleCustomRadio1"
+                                                                                value="inactive"
+                                                                                name="status"
+                                                                                onChange={this.handleChangeStatus}
+                                                                                label="InActive"
+                                                                                inline
+                                                                            />
                                                                         </div>
                                                                     ) : (
                                                                             <div>
-                                                                                <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
-                                                                                    label="Active" inline />
-                                                                                <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
-                                                                                    label="InActive" inline />
+                                                                                <CustomInput
+                                                                                    type="radio"
+                                                                                    id="exampleCustomRadio"
+                                                                                    name="status"
+                                                                                    checked={this.state.statuscheck1}
+                                                                                    onChange={this.handleChangeStatus}
+                                                                                    label="Active"
+                                                                                    inline
+                                                                                />
+                                                                                <CustomInput
+                                                                                    type="radio"
+                                                                                    id="exampleCustomRadio1"
+                                                                                    name="status"
+                                                                                    checked={this.state.statuscheck1}
+                                                                                    onChange={this.handleChangeStatus}
+                                                                                    label="InActive"
+                                                                                    inline
+                                                                                />
                                                                             </div>
                                                                         )
                                                                 }
@@ -441,9 +529,23 @@ class UserRole extends React.Component {
                                                             <div className="text-center mt-4">
                                                                 {
                                                                     this.state.emit == true ? (
-                                                                        <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.editUserRoleData}>Update</Button>
+                                                                        <Button
+                                                                            className="mb-2 mr-2"
+                                                                            color="primary"
+                                                                            type="button"
+                                                                            onClick={this.editUserRoleData}
+                                                                        >
+                                                                            Update
+                                                                        </Button>
                                                                     ) : (
-                                                                            <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.userRoleData}>Save</Button>
+                                                                            <Button
+                                                                                className="mb-2 mr-2"
+                                                                                color="primary"
+                                                                                type="button"
+                                                                                onClick={this.userRoleData}
+                                                                            >
+                                                                                Save
+                                                                            </Button>
                                                                         )
                                                                 }
 
@@ -460,21 +562,35 @@ class UserRole extends React.Component {
                                                             <Row>
                                                                 <Col md="2">
                                                                     <div className="right">
-                                                                        <Button className="mb-2 mr-2" color="warning" onClick={this.deleteAllUserRoleData}>
+                                                                        <Button
+                                                                            className="mb-2 mr-2"
+                                                                            color="warning"
+                                                                            onClick={this.deleteAllUserRoleData}
+                                                                        >
                                                                             Delete
                                                                 </Button>
                                                                     </div>
                                                                 </Col>
                                                                 <Col md="4">
                                                                     <div>
-                                                                        <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
+                                                                        <input
+                                                                            className="form-control"
+                                                                            type="text"
+                                                                            placeholder="Search"
+                                                                            aria-label="Search"
+                                                                            onKeyUp={this.searchUserRoleDataKeyUp}
+                                                                        />
                                                                     </div>
                                                                 </Col>
                                                                 <Col md="6">
                                                                     <div className="left">
                                                                         <span>Records per page</span>
-                                                                        <CustomInput type="select" id="exampleCustomSelect"
-                                                                            name="customSelect" onChange={this.handleChangeEvent}>
+                                                                        <CustomInput
+                                                                            type="select"
+                                                                            id="exampleCustomSelect"
+                                                                            name="customSelect"
+                                                                            onChange={this.handleChangeEvent}
+                                                                        >
                                                                             <option value="2">2</option>
                                                                             <option value="4">4</option>
                                                                         </CustomInput>

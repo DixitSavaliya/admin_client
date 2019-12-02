@@ -400,19 +400,19 @@ export default class TableStriped extends React.Component {
                                         <i className="fas fa-times" onClick={() => this.deleteTaskData(data.id)}></i>
                                       </span>
                                     </td>
-                                    <td><p>{data.title}</p></td>
+                                    <td>{data.title}</td>
                                     <td>{renderHTML(data.discription)}</td>
-                                    <td><p>{data.hours}</p></td>
+                                    <td>{data.hours}</td>
                                     <td>
-                                      <div className="btn_size">
-                                        {
-                                          data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                            {data.status}
-                                          </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                            {data.status}
-                                          </Button>)
-                                        }
-                                      </div>
+                                    <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
+                                  }
+                                </div>
                                     </td>
                                   </tr>
                                 )
@@ -460,19 +460,19 @@ export default class TableStriped extends React.Component {
                                                 <i className="fas fa-times" onClick={() => this.deleteTaskData(data.id)}></i>
                                               </span>
                                             </td>
-                                            <td><p>{data.title}</p></td>
+                                            <td>{data.title}</td>
                                             <td>{renderHTML(data.discription)}</td>
-                                            <td><p>{data.hours}</p></td>
+                                            <td>{data.hours}</td>
                                             <td>
-                                              <div className="btn_size">
-                                                {
-                                                  data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                                    {data.status}
-                                                  </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                                    {data.status}
-                                                  </Button>)
-                                                }
-                                              </div>
+                                            <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
+                                  }
+                                </div>
                                             </td>
                                           </tr>
                                         )
@@ -525,19 +525,19 @@ export default class TableStriped extends React.Component {
                                     <i className="fas fa-times" onClick={() => this.deleteTaskData(data.id)}></i>
                                   </span>
                                 </td>
-                                <td><p>{data.title}</p></td>
+                                <td>{data.title}</td>
                                 <td>{renderHTML(data.discription)}</td>
-                                <td><p>{data.hours}</p></td>
+                                <td>{data.hours}</td>
                                 <td>
-                                  <div className="btn_size">
-                                    {
-                                      data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                        {data.status}
-                                      </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                        {data.status}
-                                      </Button>)
-                                    }
-                                  </div>
+                                <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
+                                  }
+                                </div>
                                 </td>
                               </tr>
                             )

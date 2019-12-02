@@ -4,10 +4,9 @@ import Swal from 'sweetalert2';
 import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar/';
 import AppFooter from '../../Layout/AppFooter/';
-import TableBordered from '../Tables/TableBordered';
+import TableUser from '../Tables/TableUser';
 import { EventEmitter } from '../../event';
 import { Link } from "react-router-dom";
-import './listproject.css';
 import {
     Button, Form,
     FormGroup, Label,
@@ -18,30 +17,49 @@ import {
     CardTitle,
 } from 'reactstrap';
 
-class ListProject extends React.Component {
+class ListUser extends React.Component {
 
     /** First Constructor Call */
     constructor(props) {
         super(props);
         this.state = {
-            projects: [],
-            searchData: ''
+            user:[],
+            searchData:''
         }
+        this.searchUserDataKeyUp = this.searchUserDataKeyUp.bind(this);
         this.handleChangeEvent = this.handleChangeEvent.bind(this);
-        this.searchUserRoleDataKeyUp = this.searchUserRoleDataKeyUp.bind(this);
+
     }
 
     componentDidMount() {
-        API.getAllProjects()
+        API.GetUser()
+        .then((findresponse) => {
+            if (findresponse) {
+                console.log("GetUser response===", findresponse);
+                this.setState({
+                    user:findresponse.data.data
+                })
+                console.log("GetUser response===", this.state.user);
+            } else {
+                console.log("err", err);
+                // Swal.fire("Something went wrong!", "", "warning");
+            }
+        }).catch((err) => {
+            Swal.fire("Something went wrong!", "", "warning");
+        });
+    }
+
+    searchUserDataKeyUp(e) {
+        API.searchUserData({ searchkey: e.target.value})
             .then((findresponse) => {
                 if (findresponse) {
                     this.setState({
-                        projects: findresponse.data.data
+                        searchData: findresponse.data.data
                     })
-                    console.log("projects response===", this.state.projects);
+                    console.log("searchUserData=====", this.state.searchData);
+                    EventEmitter.dispatch('searchUserData', this.state.searchData);
                 } else {
-                    console.log("err", err);
-                    // Swal.fire("Something went wrong!", "", "warning");
+                    Swal.fire("Something went wrong!", "", "warning");
                 }
             }).catch((err) => {
                 Swal.fire("Something went wrong!", "", "warning");
@@ -51,24 +69,9 @@ class ListProject extends React.Component {
     handleChangeEvent(e) {
         EventEmitter.dispatch('selectvalue', e.target.value);
     }
+    
 
-    searchUserRoleDataKeyUp(e) {
-        console.log("e", e.target.value);
-        API.searchProjectData({ searchkey: e.target.value })
-            .then((findresponse) => {
-                if (findresponse) {
-                    this.setState({
-                        searchData: findresponse.data.data
-                    })
-                    console.log("searchdata", this.state.searchData);
-                    EventEmitter.dispatch('searchData', this.state.searchData);
-                } else {
-                    Swal.fire("Something went wrong!", "", "warning");
-                }
-            }).catch((err) => {
-                Swal.fire("Something went wrong!", "", "warning");
-            });
-    }
+
 
     render() {
         return (
@@ -78,23 +81,23 @@ class ListProject extends React.Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
-                            <Row>
+                        <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
                                         <CardBody>
-                                            <CardTitle><b>List-Projects Table:</b></CardTitle>
+                                            <CardTitle><b>List-Users Table:</b></CardTitle>
                                             <div>
                                                 <Row>
                                                     <Col md="2">
                                                         <div className="right">
-                                                            <Link to="/createproject"><Button className="mb-2 mr-2" color="primary">
+                                                            <Link to="/createuser"><Button className="mb-2 mr-2" color="primary">
                                                                 Add
                                                             </Button></Link>
                                                         </div>
                                                     </Col>
                                                     <Col md="5">
                                                         <div>
-                                                            <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
+                                                            <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserDataKeyUp} />
                                                         </div>
                                                     </Col>
                                                     <Col md="5">
@@ -110,7 +113,7 @@ class ListProject extends React.Component {
                                                 </Row>
                                             </div>
                                             <br />
-                                            <TableBordered data={this.state.projects} />
+                                            <TableUser data={this.state.user} />
                                         </CardBody>
                                     </Card>
                                 </Col>
@@ -124,4 +127,4 @@ class ListProject extends React.Component {
     }
 }
 
-export default ListProject;
+export default ListUser;

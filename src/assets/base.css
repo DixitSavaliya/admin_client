@@ -12351,3 +12351,27 @@ body {
   background-color: #e9ecef !important;
   color: #007bff !important;
 }
+span.badge.badge-success {
+  border-radius: 5px;
+  margin: auto 3px;
+  padding: 6px;
+  border: none;
+  box-shadow: 1px 3px 7px -3px #4c4545d9;
+  cursor: pointer;
+}
+span.badge.badge-danger {
+  border-radius: 5px;
+  margin: auto 3px;
+  padding: 6px;
+  border: none;
+  box-shadow: 1px 3px 7px -3px #4c4545d9;
+  cursor: pointer;
+}
+table.table th, table.table td {
+  font-size: 14px !important;
+  padding: 3px !important;
+  vertical-align: middle !important;
+}
+.table tr, th, td {
+  cursor: pointer !important;
+}

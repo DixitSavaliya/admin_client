@@ -32,6 +32,7 @@ export default class TableBordered extends React.Component {
     this.btnIncrementClick = this.btnIncrementClick.bind(this);
     this.editProjectData = this.editProjectData.bind(this);
     this.deleteProjectData = this.deleteProjectData.bind(this);
+    this.getProjectData = this.getProjectData.bind(this);
 
     EventEmitter.subscribe('selectvalue', (value) => {
       console.log("value", value);
@@ -246,6 +247,11 @@ export default class TableBordered extends React.Component {
     history.push('/editProject/' + id, { params: id }, { query: { id: id } })
   }
 
+  getProjectData(id) {
+    console.log("id",id);
+    history.push('/viewproject',{ params: id });
+  }
+
   render() {
     if (localStorage.getItem('value')) {
       var pageNumbers = [];
@@ -303,11 +309,19 @@ export default class TableBordered extends React.Component {
 
     let pageIncrementBtn = null;
     if (pageNumbers.length > this.state.upperPageBound) {
-      pageIncrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnIncrementClick}> &hellip; </a></li>
+      pageIncrementBtn = 
+      <li 
+      className='page-item'
+      >
+      <a className='page-link' onClick={this.btnIncrementClick}> &hellip; </a></li>
     }
     let pageDecrementBtn = null;
     if (this.state.lowerPageBound >= 1) {
-      pageDecrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnDecrementClick}> &hellip; </a></li>
+      pageDecrementBtn = 
+      <li 
+      className='page-item'
+      >
+      <a className='page-link' onClick={this.btnDecrementClick}> &hellip; </a></li>
     }
 
     return (
@@ -333,29 +347,29 @@ export default class TableBordered extends React.Component {
                       <tbody>
                         {
                           this.state.paginationdata.map((data, index) =>
-                            <tr key={index}>
+                            <tr key={index} >
                               <td>
                                 <span className="project_tabel">
                                   <i className="fas fa-pencil-alt" onClick={() => this.editProjectData(data.id)}></i>
                                   <i className="fas fa-times" onClick={() => this.deleteProjectData(data.id)}></i>
                                 </span>
                               </td>
-                              <td><p>{data.title}</p></td>
-                              <td>{renderHTML(data.discription)}</td>
-                              <td><p>{data.budget}  <i className="fas fa-dollar-sign"></i></p></td>
-                              <td><p>{data.hours}</p></td>
-                              <td>
-                                <div className="btn_size">
+                              <td onClick={() => this.getProjectData(data.id)}>{data.title}</td>
+                              <td onClick={() => this.getProjectData(data.id)}>{renderHTML(data.discription)}</td>
+                              <td onClick={() => this.getProjectData(data.id)}>{data.budget}  <i className="fas fa-dollar-sign"></i></td>
+                              <td onClick={() => this.getProjectData(data.id)}>{data.hours}</td>
+                              <td onClick={() => this.getProjectData(data.id)}>
+                              <div className="btn_size">
                                   {
-                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                      {data.status}
-                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                      {data.status}
-                                    </Button>)
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
                                   }
                                 </div>
                               </td>
-                              <td><p>{data.created_date}</p></td>
+                              <td onClick={() => this.getProjectData(data.id)}><p>{data.created_date}</p></td>
                             </tr>
                           )
                         }
@@ -402,19 +416,19 @@ export default class TableBordered extends React.Component {
                                   <i className="fas fa-times" ></i>
                                 </span>
                               </td>
-                              <td><p>{data.title}</p></td>
+                              <td>{data.title}</td>
                               <td>{renderHTML(data.discription)}</td>
-                              <td><p>{data.budget}</p></td>
-                              <td><p>{data.project_type}</p></td>
-                              <td><p>{data.hours}</p></td>
+                              <td>{data.budget}</td>
+                              <td>{data.project_type}</td>
+                              <td>{data.hours}</td>
                               <td>
-                                <div className="btn_size">
+                              <div className="btn_size">
                                   {
-                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                      {data.status}
-                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                      {data.status}
-                                    </Button>)
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
                                   }
                                 </div>
                               </td>
@@ -457,15 +471,15 @@ export default class TableBordered extends React.Component {
                           <td><p>{data.budget} <i className="fas fa-dollar-sign"></i></p></td>
                           <td><p>{data.hours}</p></td>
                           <td>
-                            <div className="btn_size">
-                              {
-                                data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                  {data.status}
-                                </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                  {data.status}
-                                </Button>)
-                              }
-                            </div>
+                          <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
+                                  }
+                                </div>
                           </td>
                           <td><p>{data.created_date}</p></td>
                         </tr>

@@ -412,6 +412,62 @@ export default {
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
+    CreateUser:(obj) => {
+        return axios.post("http://localhost:3505/User/createUser", obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    GetUser:() => {
+        return axios.post("http://localhost:3505/User/getAllUser")
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getUser:(id) => {
+        return axios.post("http://localhost:3505/User/getUserById",id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    EditUser:(obj) => {
+        return axios.post("http://localhost:3505/User/editUser",obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    deleteUser:(id) => {
+        return axios.post("http://localhost:3505/User/deleteUser",id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    searchUserData:(data) => {
+        return axios.post("http://localhost:3505/User/searchUser",data)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getAllUserCounts:(data) => {
+        return axios.post("http://localhost:3505/User/getUserTableCount",data)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getUserTablePagination:(obj) => {
+        return axios.post("http://localhost:3505/User/userTablePagination",obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
     authenticate: () => {
         const Token = localStorage.getItem('token');
         const headers = {

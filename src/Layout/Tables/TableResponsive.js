@@ -49,8 +49,13 @@ export default class TableResponsive extends React.Component {
 
     EventEmitter.subscribe('selectval', (value) => {
       console.log("value", value);
-      
+
       localStorage.setItem('value', value);
+      this.componentDidMount();
+    });
+
+    EventEmitter.subscribe('userrightdataget', (data) => {
+      console.log("value", data);
       this.componentDidMount();
     });
 
@@ -74,6 +79,23 @@ export default class TableResponsive extends React.Component {
   }
 
   componentDidMount() {
+
+    API.getUserRightData()
+      .then((findresponse) => {
+        if (findresponse) {
+          this.setState({
+            userdata: findresponse.data.data
+          })
+          console.log("user response===", this.state.userdata);
+        } else {
+          // console.log("err", err);
+          Swal.fire("Something went wrong!", "", "warning");
+        }
+      }).catch((err) => {
+        Swal.fire("Something went wrong!", "", "warning");
+      });
+
+
     API.getUserRightDataCount()
       .then((findresponse) => {
         if (findresponse) {
@@ -189,7 +211,7 @@ export default class TableResponsive extends React.Component {
       })
     }
 
-    if(localStorage.getItem('value')) {
+    if (localStorage.getItem('value')) {
       const obj = {
         pageNumber: event.target.id,
         dataPerPage: localStorage.getItem('value')
@@ -241,7 +263,7 @@ export default class TableResponsive extends React.Component {
         currentPage: this.state.currentPage - 1
       })
     }
-    if(localStorage.getItem('value')) {
+    if (localStorage.getItem('value')) {
       const obj = {
         pageNumber: event.target.id,
         dataPerPage: localStorage.getItem('value')
@@ -379,7 +401,13 @@ export default class TableResponsive extends React.Component {
                       <thead>
                         <tr>
                           <th>
-                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                            <CustomInput
+                              name="name"
+                              value="value"
+                              type="checkbox"
+                              id="exampleCustomCheckbox"
+                              onClick={this.checkAllHandler}
+                            />
                           </th>
                           <th>Action</th>
                           <th>Name</th>
@@ -394,11 +422,19 @@ export default class TableResponsive extends React.Component {
                                 {
                                   this.state.check == true ? (
                                     <span className="margin-t">
-                                      <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                      <CustomInput
+                                        type="checkbox"
+                                        id={index}
+                                        checked={this.state.check}
+                                      />
                                     </span>
                                   ) : (
                                       <span className="margin-t">
-                                        <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                        <CustomInput
+                                          type="checkbox"
+                                          id={index}
+                                          onChange={this.handleChangeStatus.bind(this, index)}
+                                        />
                                       </span>
                                     )
                                 }
@@ -409,15 +445,15 @@ export default class TableResponsive extends React.Component {
                                   <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
                                 </span>
                               </td>
-                              <td><p className="margin-top">{data.name}</p></td>
+                              <td>{data.name}</td>
                               <td>
-                                <div className="btn_size">
+                              <div className="btn_size">
                                   {
-                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                      {data.status}
-                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                      {data.status}
-                                    </Button>)
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
                                   }
                                 </div>
                               </td>
@@ -431,7 +467,13 @@ export default class TableResponsive extends React.Component {
                         <thead>
                           <tr>
                             <th>
-                              <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                              <CustomInput
+                                name="name"
+                                value="value"
+                                type="checkbox"
+                                id="exampleCustomCheckbox"
+                                onClick={this.checkAllHandler}
+                              />
                             </th>
                             <th>Action</th>
                             <th>Name</th>
@@ -447,7 +489,13 @@ export default class TableResponsive extends React.Component {
                       <thead>
                         <tr>
                           <th>
-                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                            <CustomInput
+                              name="name"
+                              value="value"
+                              type="checkbox"
+                              id="exampleCustomCheckbox"
+                              onClick={this.checkAllHandler}
+                            />
                           </th>
                           <th>Action</th>
                           <th>Name</th>
@@ -462,11 +510,21 @@ export default class TableResponsive extends React.Component {
                                 {
                                   this.state.check == true ? (
                                     <span className="margin-t">
-                                      <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
+                                      <CustomInput
+                                        name="name"
+                                        type="checkbox"
+                                        id={index}
+                                        checked={this.state.check}
+                                      />
                                     </span>
                                   ) : (
                                       <span className="margin-t">
-                                        <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                        <CustomInput
+                                          name="name"
+                                          type="checkbox"
+                                          id={index}
+                                          onChange={this.handleChangeStatus.bind(this, index)}
+                                        />
                                       </span>
                                     )
                                 }
@@ -477,15 +535,15 @@ export default class TableResponsive extends React.Component {
                                   <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
                                 </span>
                               </td>
-                              <td><span>{data.name}</span></td>
+                              <td>{data.name}</td>
                               <td>
-                                <div className="btn_size">
+                              <div className="btn_size">
                                   {
-                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                      {data.status}
-                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                      {data.status}
-                                    </Button>)
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
                                   }
                                 </div>
                               </td>
@@ -516,7 +574,11 @@ export default class TableResponsive extends React.Component {
                   <thead>
                     <tr>
                       <th>
-                        <CustomInput type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                        <CustomInput
+                          type="checkbox"
+                          id="exampleCustomCheckbox"
+                          onClick={this.checkAllHandler}
+                        />
                       </th>
                       <th>Action</th>
                       <th>Name</th>
@@ -531,11 +593,19 @@ export default class TableResponsive extends React.Component {
                             {
                               this.state.check == true ? (
                                 <span className="margin-t">
-                                  <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                  <CustomInput
+                                    type="checkbox"
+                                    id={index}
+                                    checked={this.state.check}
+                                  />
                                 </span>
                               ) : (
                                   <span className="margin-t">
-                                    <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                    <CustomInput
+                                      type="checkbox"
+                                      id={index}
+                                      onChange={this.handleChangeStatus.bind(this, index)}
+                                    />
                                   </span>
                                 )
                             }
@@ -548,15 +618,15 @@ export default class TableResponsive extends React.Component {
                           </td>
                           <td><span>{data.name}</span></td>
                           <td>
-                            <div className="btn_size">
-                              {
-                                data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                  {data.status}
-                                </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                  {data.status}
-                                </Button>)
-                              }
-                            </div>
+                          <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
+                                  }
+                                </div>
                           </td>
                         </tr>
                       )
@@ -565,129 +635,6 @@ export default class TableResponsive extends React.Component {
                 </Table>
               </div>
             )
-
-          // this.state.isData == false ? (
-          //   <div>
-          //     {
-          //       this.props.sendData ? (
-          //         <Table hover className="mb-0" bordered>
-          //           <thead>
-          //             <tr>
-          //               <th>
-          //                 <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
-          //               </th>
-          //               <th>Action</th>
-          //               <th>Name</th>
-          //               <th>Status</th>
-          //             </tr>
-          //           </thead>
-          //           <tbody>
-          //             {
-          //               this.props.sendData.map((data, index) =>
-          //                 <tr key={index}>
-          //                   <th scope="row">
-          //                     {
-          //                       this.state.check == true ? (
-          //                         <span className="margin-t">
-          //                           <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
-          //                         </span>
-          //                       ) : (
-          //                           <span className="margin-t">
-          //                             <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
-          //                           </span>
-          //                         )
-          //                     }
-          //                   </th>
-          //                   <td>
-          //                     <span>
-          //                       <i className="fas fa-pencil-alt" onClick={() => this.editUserRightData(data.id)}></i>
-          //                       <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
-          //                     </span>
-          //                   </td>
-          //                   <td><span>{data.name}</span></td>
-          //                   <td>
-          //                     <div className="btn_size">
-          //                       {
-          //                         data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-          //                           {data.status}
-          //                         </Button>) : (<Button className="mb-2 mr-2" color="danger">
-          //                           {data.status}
-          //                         </Button>)
-          //                       }
-          //                     </div>
-          //                   </td>
-          //                 </tr>
-          //               )
-          //             }
-          //           </tbody>
-          //         </Table>
-          //       ) : (
-          //           null
-          //         )
-          //     }
-          //   </div>
-
-          // ) : (
-          //     <div>
-          //       {
-          //         this.props.sendData ? (
-          //           <Table hover className="mb-0" bordered>
-          //             <thead>
-          //               <tr>
-          //                 <th>
-          //                   <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
-          //                 </th>
-          //                 <th>Action</th>
-          //                 <th>Name</th>
-          //                 <th>Status</th>
-          //               </tr>
-          //             </thead>
-          //             <tbody>
-          //               {
-          //                 this.state.searchData.map((data, index) =>
-          //                   <tr key={index}>
-          //                     <th scope="row">
-          //                       {
-          //                         this.state.check == true ? (
-          //                           <span className="margin-t">
-          //                             <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
-          //                           </span>
-          //                         ) : (
-          //                             <span className="margin-t">
-          //                               <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
-          //                             </span>
-          //                           )
-          //                       }
-          //                     </th>
-          //                     <td>
-          //                       <span>
-          //                         <i className="fas fa-pencil-alt" onClick={() => this.editUserRightData(data.id)}></i>
-          //                         <i className="fas fa-times" onClick={() => this.deleteUserRightData(data.id)}></i>
-          //                       </span>
-          //                     </td>
-          //                     <td><span>{data.name}</span></td>
-          //                     <td>
-          //                       <div className="btn_size">
-          //                         {
-          //                           data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-          //                             {data.status}
-          //                           </Button>) : (<Button className="mb-2 mr-2" color="danger">
-          //                             {data.status}
-          //                           </Button>)
-          //                         }
-          //                       </div>
-          //                     </td>
-          //                   </tr>
-          //                 )
-          //               }
-          //             </tbody>
-          //           </Table>
-          //         ) : (
-          //             null
-          //           )
-          //       }
-          //     </div>
-          //   )
         }
 
       </div>

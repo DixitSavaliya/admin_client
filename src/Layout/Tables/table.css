@@ -34,6 +34,9 @@
 .rt span {
     margin: 4px;
 }
+.lt span {
+    margin: 5px;
+}
 
 /* .custom-checkbox.custom-control {
     margin: 9px auto;

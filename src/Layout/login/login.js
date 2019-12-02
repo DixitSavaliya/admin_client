@@ -108,8 +108,13 @@ class LogIn extends React.Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label className="">Email</label>
-                                                <input type="email" aria-describedby="emailHelp" name="email"
-                                                    className="form-control" value={this.state.email} onChange={this.handleChangeEvent} />
+                                                <input 
+                                                type="email" 
+                                                aria-describedby="emailHelp" 
+                                                name="email"
+                                                className="form-control" 
+                                                value={this.state.email} 
+                                                onChange={this.handleChangeEvent} />
                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                     {this.state.emailIdError}
                                                 </div>
@@ -118,7 +123,12 @@ class LogIn extends React.Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label className="">Password</label>
-                                                <input type="password" className="form-control" name="password" value={this.state.password} onChange={this.handleChangeEvent} />
+                                                <input 
+                                                type="password" 
+                                                className="form-control" 
+                                                name="password" 
+                                                value={this.state.password} 
+                                                onChange={this.handleChangeEvent} />
                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                     {this.state.passwordError}
                                                 </div>

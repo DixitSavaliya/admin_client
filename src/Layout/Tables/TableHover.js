@@ -53,6 +53,11 @@ export default class TableHover extends React.Component {
       this.componentDidMount();
     });
 
+    EventEmitter.subscribe('userroledataget', (data) => {
+      console.log("value", data);
+      this.componentDidMount();
+    });
+
     EventEmitter.subscribe('isDeleted', (value) => {
       console.log("value", value);
       API.deleteUserRoleAllData({ value: true })
@@ -73,6 +78,20 @@ export default class TableHover extends React.Component {
   }
 
   componentDidMount() {
+    API.getUserRoleData()
+      .then((findresponse) => {
+        if (findresponse) {
+
+          console.log("user response===", findresponse);
+
+        } else {
+          // console.log("err", err);
+          Swal.fire("Something went wrong!", "", "warning");
+        }
+      }).catch((err) => {
+        Swal.fire("Something went wrong!", "", "warning");
+      });
+
     API.getUserRoleDataCount()
       .then((findresponse) => {
         if (findresponse) {
@@ -188,7 +207,7 @@ export default class TableHover extends React.Component {
       })
     }
 
-    if(localStorage.getItem('value')) {
+    if (localStorage.getItem('value')) {
       const obj = {
         pageNumber: event.target.id,
         dataPerPage: localStorage.getItem('value')
@@ -240,7 +259,7 @@ export default class TableHover extends React.Component {
         currentPage: this.state.currentPage - 1
       })
     }
-    if(localStorage.getItem('value')) {
+    if (localStorage.getItem('value')) {
       const obj = {
         pageNumber: event.target.id,
         dataPerPage: localStorage.getItem('value')
@@ -359,11 +378,32 @@ export default class TableHover extends React.Component {
 
     let pageIncrementBtn = null;
     if (pageNumbers.length > this.state.upperPageBound) {
-      pageIncrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnIncrementClick}> &hellip; </a></li>
+      pageIncrementBtn =
+        <li
+          className='page-item'
+        >
+          <a
+            className='page-link'
+            onClick={this.btnIncrementClick}
+          >
+            &hellip;
+      </a>
+        </li>
     }
+
     let pageDecrementBtn = null;
     if (this.state.lowerPageBound >= 1) {
-      pageDecrementBtn = <li className='page-item'><a className='page-link' onClick={this.btnDecrementClick}> &hellip; </a></li>
+      pageDecrementBtn =
+        <li
+          className='page-item'
+        >
+          <a
+            className='page-link'
+            onClick={this.btnDecrementClick}
+          >
+            &hellip;
+      </a>
+        </li>
     }
 
     return (
@@ -378,7 +418,13 @@ export default class TableHover extends React.Component {
                       <thead>
                         <tr>
                           <th>
-                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                            <CustomInput
+                              name="name"
+                              value="value"
+                              type="checkbox"
+                              id="exampleCustomCheckbox"
+                              onClick={this.checkAllHandler}
+                            />
                           </th>
                           <th>Action</th>
                           <th>Name</th>
@@ -393,11 +439,19 @@ export default class TableHover extends React.Component {
                                 {
                                   this.state.check == true ? (
                                     <span className="margin-t">
-                                      <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                      <CustomInput
+                                        type="checkbox"
+                                        id={index}
+                                        checked={this.state.check}
+                                      />
                                     </span>
                                   ) : (
                                       <span className="margin-t">
-                                        <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                        <CustomInput
+                                          type="checkbox"
+                                          id={index}
+                                          onChange={this.handleChangeStatus.bind(this, index)}
+                                        />
                                       </span>
                                     )
                                 }
@@ -408,15 +462,15 @@ export default class TableHover extends React.Component {
                                   <i className="fas fa-times" onClick={() => this.deleteUserRoleData(data.id)}></i>
                                 </span>
                               </td>
-                              <td><p className="margin-top">{data.name}</p></td>
+                              <td>{data.name}</td>
                               <td>
-                                <div className="btn_size">
+                              <div className="btn_size">
                                   {
-                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                      {data.status}
-                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                      {data.status}
-                                    </Button>)
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
                                   }
                                 </div>
                               </td>
@@ -430,7 +484,13 @@ export default class TableHover extends React.Component {
                         <thead>
                           <tr>
                             <th>
-                              <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                              <CustomInput
+                                name="name"
+                                value="value"
+                                type="checkbox"
+                                id="exampleCustomCheckbox"
+                                onClick={this.checkAllHandler}
+                              />
                             </th>
                             <th>Action</th>
                             <th>Name</th>
@@ -446,7 +506,13 @@ export default class TableHover extends React.Component {
                       <thead>
                         <tr>
                           <th>
-                            <CustomInput name="name" value="value" type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                            <CustomInput
+                              name="name"
+                              value="value"
+                              type="checkbox"
+                              id="exampleCustomCheckbox"
+                              onClick={this.checkAllHandler}
+                            />
                           </th>
                           <th>Action</th>
                           <th>Name</th>
@@ -461,11 +527,21 @@ export default class TableHover extends React.Component {
                                 {
                                   this.state.check == true ? (
                                     <span className="margin-t">
-                                      <CustomInput name="name" type="checkbox" id={index} checked={this.state.check} />
+                                      <CustomInput
+                                        name="name"
+                                        type="checkbox"
+                                        id={index}
+                                        checked={this.state.check}
+                                      />
                                     </span>
                                   ) : (
                                       <span className="margin-t">
-                                        <CustomInput name="name" type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                        <CustomInput
+                                          name="name"
+                                          type="checkbox"
+                                          id={index}
+                                          onChange={this.handleChangeStatus.bind(this, index)}
+                                        />
                                       </span>
                                     )
                                 }
@@ -476,15 +552,15 @@ export default class TableHover extends React.Component {
                                   <i className="fas fa-times" onClick={() => this.deleteUserRoleData(data.id)}></i>
                                 </span>
                               </td>
-                              <td><span>{data.name}</span></td>
+                              <td>{data.name}</td>
                               <td>
-                                <div className="btn_size">
+                              <div className="btn_size">
                                   {
-                                    data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                      {data.status}
-                                    </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                      {data.status}
-                                    </Button>)
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
                                   }
                                 </div>
                               </td>
@@ -515,7 +591,11 @@ export default class TableHover extends React.Component {
                   <thead>
                     <tr>
                       <th>
-                        <CustomInput type="checkbox" id="exampleCustomCheckbox" onClick={this.checkAllHandler} />
+                        <CustomInput
+                          type="checkbox"
+                          id="exampleCustomCheckbox"
+                          onClick={this.checkAllHandler}
+                        />
                       </th>
                       <th>Action</th>
                       <th>Name</th>
@@ -530,11 +610,19 @@ export default class TableHover extends React.Component {
                             {
                               this.state.check == true ? (
                                 <span className="margin-t">
-                                  <CustomInput type="checkbox" id={index} checked={this.state.check} />
+                                  <CustomInput
+                                    type="checkbox"
+                                    id={index}
+                                    checked={this.state.check}
+                                  />
                                 </span>
                               ) : (
                                   <span className="margin-t">
-                                    <CustomInput type="checkbox" id={index} onChange={this.handleChangeStatus.bind(this, index)} />
+                                    <CustomInput
+                                      type="checkbox"
+                                      id={index}
+                                      onChange={this.handleChangeStatus.bind(this, index)}
+                                    />
                                   </span>
                                 )
                             }
@@ -545,17 +633,17 @@ export default class TableHover extends React.Component {
                               <i className="fas fa-times" onClick={() => this.deleteUserRoleData(data.id)}></i>
                             </span>
                           </td>
-                          <td><span>{data.name}</span></td>
+                          <td>{data.name}</td>
                           <td>
-                            <div className="btn_size">
-                              {
-                                data.status == "active" ? (<Button className="mb-2 mr-2" color="success">
-                                  {data.status}
-                                </Button>) : (<Button className="mb-2 mr-2" color="danger">
-                                  {data.status}
-                                </Button>)
-                              }
-                            </div>
+                          <div className="btn_size">
+                                  {
+                                    data.status == "active" ? (
+                                     <span className="badge badge-success">{data.status}</span> 
+                                    ) : (
+                                    <span className="badge badge-danger">{data.status}</span> 
+                                  )
+                                  }
+                                </div>
                           </td>
                         </tr>
                       )

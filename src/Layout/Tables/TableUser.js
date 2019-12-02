@@ -2,10 +2,11 @@ import React from 'react';
 import { Table, CustomInput, Button } from 'reactstrap';
 import Swal from 'sweetalert2';
 import API from '../../service';
+import history from '../../history';
 import { EventEmitter } from '../../event';
 import './table.css';
 
-export default class TableProject extends React.Component {
+export default class TableUser extends React.Component {
     constructor(props) {
         console.log("props", props);
         super(props);
@@ -27,12 +28,14 @@ export default class TableProject extends React.Component {
             assignData: []
         }
 
-        this.deleteAssignProjectData = this.deleteAssignProjectData.bind(this);
-        this.editAssignProjectData = this.editAssignProjectData.bind(this);
+        this.editUserData = this.editUserData.bind(this);
+        this.deleteUserData = this.deleteUserData.bind(this);
+        this.getUser = this.getUser.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleClickObjEvent = this.handleClickObjEvent.bind(this);
         this.btnDecrementClick = this.btnDecrementClick.bind(this);
         this.btnIncrementClick = this.btnIncrementClick.bind(this);
+        this.viewUserData = this.viewUserData.bind(this);
 
         EventEmitter.subscribe('selectvalue', (value) => {
             console.log("value", value);
@@ -40,7 +43,7 @@ export default class TableProject extends React.Component {
             this.componentDidMount();
         });
 
-        EventEmitter.subscribe('searchAssignData', (data) => {
+        EventEmitter.subscribe('searchUserData', (data) => {
             this.setState({
                 searchData: data,
                 isData: true
@@ -48,27 +51,21 @@ export default class TableProject extends React.Component {
             console.log("datasearch====", this.state.searchData, this.state.isData);
         });
 
-        EventEmitter.subscribe('project_id', (id) => {
-            console.log("projectid", id);
-            localStorage.setItem('projectid', id);
+        EventEmitter.subscribe('userid', (id) => {
+            console.log("userid", id);
+            localStorage.setItem('u_id', id);
             this.componentDidMount();
         });
     }
 
     componentDidMount() {
-        this.setState({
-            pid: this.state.pid = localStorage.getItem('projectid')
-        })
-        console.log("countttttttttttttttttttt", this.state.pid);
-
-        API.getProjectsAssignData({ project_id: this.state.pid })
+        API.getAllUserCounts()
             .then((findresponse) => {
                 if (findresponse) {
                     this.setState({
-                        assignData: findresponse.data.data
+                        _count: findresponse.data.data
                     })
-                    console.log("technology response===", this.state.assignData);
-
+                    console.log("projects response===", this.state._count);
                 } else {
                     console.log("err", err);
                     // Swal.fire("Something went wrong!", "", "warning");
@@ -76,40 +73,22 @@ export default class TableProject extends React.Component {
             }).catch((err) => {
                 Swal.fire("Something went wrong!", "", "warning");
             });
-
-        API.getAllAssignProjectCounts({ project_id: this.state.pid })
-            .then((findresponse) => {
-                if (findresponse) {
-                    // this.componentDidMount();
-                    this.setState({
-                        assignProjectCount: findresponse.data.data
-                    })
-                    console.log("getAllAssignProjectCounts response===", this.state.assignProjectCount);
-                } else {
-                    console.log("err", err);
-                    // Swal.fire("Something went wrong!", "", "warning");
-                }
-            }).catch((err) => {
-                Swal.fire("Something went wrong!", "", "warning");
-            });
-
 
 
         if (localStorage.getItem('value')) {
             const obj = {
                 pageNumber: 1,
-                dataPerPage: localStorage.getItem('value'),
-                project_id: this.state.pid
+                dataPerPage: localStorage.getItem('value')
             }
-            API.getAssignProjectTablePagination(obj)
+            API.getUserTablePagination(obj)
                 .then((findresponse) => {
                     if (findresponse) {
-                        console.log("getAssignProjectTablePagination response===", findresponse);
+                        console.log("getUserTablePagination response===", findresponse);
                         this.setState({
                             paginationdata: findresponse.data.data,
                             isFetch: true
                         })
-                        console.log("getAssignProjectTablePagination response===", this.state.paginationdata);
+                        console.log("getUserTablePagination response===", this.state.paginationdata);
                     } else {
                         Swal.fire("Something went wrong!", "", "warning");
                     }
@@ -119,19 +98,17 @@ export default class TableProject extends React.Component {
         } else {
             const obj = {
                 pageNumber: 1,
-                dataPerPage: this.state.todosPerPage,
-                project_id: this.state.pid
+                dataPerPage: this.state.todosPerPage
             }
-            API.getAssignProjectTablePagination(obj)
+            API.getUserTablePagination(obj)
                 .then((findresponse) => {
                     if (findresponse) {
-                        console.log("getAssignProjectTablePagination response===", findresponse);
+                        console.log("getUserTablePagination response===", findresponse);
                         this.setState({
                             paginationdata: findresponse.data.data,
                             isFetch: true
                         })
                         EventEmitter.dispatch('name', this.state.paginationdata);
-
                     } else {
                         Swal.fire("Something went wrong!", "", "warning");
                     }
@@ -141,12 +118,26 @@ export default class TableProject extends React.Component {
         }
     }
 
-    deleteAssignProjectData(id) {
-        API.deleteAssignProject({ project_assign_id: id })
+    getUser() {
+        API.GetUser()
             .then((findresponse) => {
                 if (findresponse) {
-                    console.log("deleteAssignProject response===", findresponse);
-                    Swal.fire("Assign Project To ProjectManager Deleted Successfully!", "", "success");
+                    console.log("GetUser response===", findresponse);
+                } else {
+                    console.log("err", err);
+                    // Swal.fire("Something went wrong!", "", "warning");
+                }
+            }).catch((err) => {
+                Swal.fire("Something went wrong!", "", "warning");
+            });
+    }
+
+    deleteUserData(id) {
+        API.deleteUser({ user_id: id })
+            .then((findresponse) => {
+                if (findresponse) {
+                    console.log("deleteUserData response===", findresponse);
+                    Swal.fire("User Deleted Successfully!", "", "success");
                     this.componentDidMount();
                 } else {
                     Swal.fire("Something went wrong!", "", "warning");
@@ -156,18 +147,9 @@ export default class TableProject extends React.Component {
             });
     }
 
-    editAssignProjectData(id) {
-        API.getAssignProjectId({ project_assign_id: id })
-            .then((findresponse) => {
-                if (findresponse) {
-                    console.log("getAssignProjectId response===", findresponse);
-                    EventEmitter.dispatch('assignProjectdata', findresponse);
-                } else {
-                    Swal.fire("Something went wrong!", "", "warning");
-                }
-            }).catch((err) => {
-                Swal.fire("Something went wrong!", "", "warning");
-            });
+    editUserData(id) {
+        console.log("history", history)
+        history.push('/editUser/' + id, { params: id }, { query: { id: id } })
     }
 
     handleClick(event) {
@@ -185,13 +167,13 @@ export default class TableProject extends React.Component {
         if (localStorage.getItem('value')) {
             const obj = {
                 pageNumber: event.target.id,
-                dataPerPage: localStorage.getItem('value'),
-                project_id: this.state.pid
+                dataPerPage: localStorage.getItem('value')
+
             }
-            API.getAssignProjectTablePagination(obj)
+            API.getUserTablePagination(obj)
                 .then((findresponse) => {
                     if (findresponse) {
-                        console.log("getAssignProjectTablePagination response===", findresponse);
+                        console.log("getUserTablePagination response===", findresponse);
                         this.setState({
                             paginationdata: findresponse.data.data,
                             isFetch: true
@@ -205,13 +187,13 @@ export default class TableProject extends React.Component {
         } else {
             const obj = {
                 pageNumber: event.target.id,
-                dataPerPage: this.state.todosPerPage,
-                project_id: this.state.pid
+                dataPerPage: this.state.todosPerPage
+
             }
-            API.getAssignProjectTablePagination(obj)
+            API.getUserTablePagination(obj)
                 .then((findresponse) => {
                     if (findresponse) {
-                        console.log("getAssignProjectTablePagination response===", findresponse);
+                        console.log("getUserTablePagination response===", findresponse);
                         this.setState({
                             paginationdata: findresponse.data.data,
                             isFetch: true
@@ -239,13 +221,13 @@ export default class TableProject extends React.Component {
         if (localStorage.getItem('value')) {
             const obj = {
                 pageNumber: event.target.id,
-                dataPerPage: localStorage.getItem('value'),
-                project_id: this.state.pid
+                dataPerPage: localStorage.getItem('value')
+
             }
-            API.getAssignProjectTablePagination(obj)
+            API.getUserTablePagination(obj)
                 .then((findresponse) => {
                     if (findresponse) {
-                        console.log("getAssignProjectTablePagination response===", findresponse);
+                        console.log("getUserTablePagination response===", findresponse);
                         this.setState({
                             paginationdata: findresponse.data.data,
                             isFetch: true
@@ -259,14 +241,14 @@ export default class TableProject extends React.Component {
         } else {
             const obj = {
                 pageNumber: event.target.id,
-                dataPerPage: this.state.todosPerPage,
-                project_id: this.state.pid
+                dataPerPage: this.state.todosPerPage
+
             }
-            API.getAssignProjectTablePagination(obj)
+            API.getUserTablePagination(obj)
                 .then((findresponse) => {
                     if (findresponse) {
 
-                        console.log("getAssignProjectTablePagination response===", findresponse);
+                        console.log("getUserTablePagination response===", findresponse);
                         this.setState({
                             paginationdata: findresponse.data.data,
                             isFetch: true
@@ -280,6 +262,10 @@ export default class TableProject extends React.Component {
         }
     }
 
+    viewUserData(id) {
+        console.log("id",id);
+        history.push('/viewuser', { params: id });
+    }
 
     btnIncrementClick() {
         this.setState({ upperPageBound: this.state.upperPageBound + this.state.pageBound });
@@ -298,7 +284,7 @@ export default class TableProject extends React.Component {
     render() {
         if (localStorage.getItem('value')) {
             var pageNumbers = [];
-            for (let i = 1; i <= Math.ceil(this.state.assignProjectCount / localStorage.getItem('value')); i++) {
+            for (let i = 1; i <= Math.ceil(this.state._count / localStorage.getItem('value')); i++) {
                 pageNumbers.push(i);
             }
             var renderPageNumbers = pageNumbers.map(number => {
@@ -321,7 +307,7 @@ export default class TableProject extends React.Component {
             });
         } else {
             var pageNumbers = [];
-            for (let i = 1; i <= Math.ceil(this.state.assignProjectCount / this.state.todosPerPage); i++) {
+            for (let i = 1; i <= Math.ceil(this.state._count / this.state.todosPerPage); i++) {
                 pageNumbers.push(i);
             }
             var renderPageNumbers = pageNumbers.map(number => {
@@ -392,8 +378,12 @@ export default class TableProject extends React.Component {
                                             <thead>
                                                 <tr>
                                                     <th>Action</th>
-                                                    <th>Name</th>
-                                                    <th>Hours</th>
+                                                    <th>First_Name</th>
+                                                    <th>Last_Name</th>
+                                                    <th>E-Mail</th>
+                                                    <th>Phone-Number</th>
+                                                    <th>Gender</th>
+                                                    <th>User_Role</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -402,12 +392,16 @@ export default class TableProject extends React.Component {
                                                         <tr key={index}>
                                                             <td>
                                                                 <span className="project_tabel">
-                                                                    <i className="fas fa-pencil-alt" onClick={() => this.editAssignProjectData(data.id)}></i>
-                                                                    <i className="fas fa-times" onClick={() => this.deleteAssignProjectData(data.id)}></i>
+                                                                    <i className="fas fa-pencil-alt" onClick={() => this.editUserData(data.id)}></i>
+                                                                    <i className="fas fa-times" onClick={() => this.deleteUserData(data.id)}></i>
                                                                 </span>
                                                             </td>
-                                                            <td><p>{data.name}</p></td>
-                                                            <td><p>{data.hours}</p></td>
+                                                            <td onClick={() => this.viewUserData(data.id)}>{data.first_name}</td>
+                                                            <td onClick={() => this.viewUserData(data.id)}>{data.last_name}</td>
+                                                            <td onClick={() => this.viewUserData(data.id)}>{data.email}</td>
+                                                            <td onClick={() => this.viewUserData(data.id)}>{data.mobile_number}</td>
+                                                            <td onClick={() => this.viewUserData(data.id)}>{data.gender}</td>
+                                                            <td onClick={() => this.viewUserData(data.id)}>{data.user_role}</td>
                                                         </tr>
                                                     )
                                                 }
@@ -435,8 +429,12 @@ export default class TableProject extends React.Component {
                                                 <thead>
                                                     <tr>
                                                         <th>Action</th>
-                                                        <th>Name</th>
-                                                        <th>Hours</th>
+                                                        <th>First_Name</th>
+                                                        <th>Last_Name</th>
+                                                        <th>E-Mail</th>
+                                                        <th>Phone-Number</th>
+                                                        <th>Gender</th>
+                                                        <th>User_Role</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -445,12 +443,16 @@ export default class TableProject extends React.Component {
                                                             <tr key={index}>
                                                                 <td>
                                                                     <span className="project_tabel">
-                                                                        <i className="fas fa-pencil-alt" onClick={() => this.editAssignProjectData(data.id)}></i>
-                                                                        <i className="fas fa-times" onClick={() => this.deleteAssignProjectData(data.id)}></i>
+                                                                        <i className="fas fa-pencil-alt" onClick={() => this.editUserData(data.id)}></i>
+                                                                        <i className="fas fa-times" onClick={() => this.deleteUserData(data.id)}></i>
                                                                     </span>
                                                                 </td>
-                                                                <td><p>{data.name}</p></td>
-                                                                <td><p>{data.hours}</p></td>
+                                                                <td>{data.first_name}</td>
+                                                                <td>{data.last_name}</td>
+                                                                <td>{data.email}</td>
+                                                                <td>{data.mobile_number}</td>
+                                                                <td>{data.gender}</td>
+                                                                <td>{data.user_role}</td>
                                                             </tr>
                                                         )
                                                     }
@@ -476,35 +478,61 @@ export default class TableProject extends React.Component {
                             }
 
                         </div>
+
                     ) : (
-                            <Table hover className="mb-0" bordered>
-                                <thead>
-                                    <tr>
-                                        <th>Action</th>
-                                        <th>Name</th>
-                                        <th>Hours</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+
+                            <div>
+                                <Table hover className="mb-0" bordered>
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>First_Name</th>
+                                            <th>Last_Name</th>
+                                            <th>E-Mail</th>
+                                            <th>Phone-Number</th>
+                                            <th>Gender</th>
+                                            <th>User_Role</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            this.state.searchData.map((data, index) =>
+                                                <tr key={index}>
+                                                    <td>
+                                                        <span className="project_tabel">
+                                                            <i className="fas fa-pencil-alt" onClick={() => this.editUserData(data.id)}></i>
+                                                            <i className="fas fa-times" onClick={() => this.deleteUserData(data.id)}></i>
+                                                        </span>
+                                                    </td>
+                                                    <td>{data.first_name}</td>
+                                                    <td>{data.last_name}</td>
+                                                    <td>{data.email}</td>
+                                                    <td>{data.mobile_number}</td>
+                                                    <td>{data.gender}</td>
+                                                    <td>{data.user_role}</td>
+                                                </tr>
+                                            )
+                                        }
+                                    </tbody>
+                                </Table>
+                                <div>
                                     {
-                                        this.state.searchData.map((data, index) =>
-                                            <tr key={index}>
-                                                <td>
-                                                    <span className="project_tabel">
-                                                        <i className="fas fa-pencil-alt" onClick={() => this.editAssignProjectData(data.id)}></i>
-                                                        <i className="fas fa-times" onClick={() => this.deleteAssignProjectData(data.id)}></i>
-                                                    </span>
-                                                </td>
-                                                <td><p>{data.name}</p></td>
-                                                <td><p>{data.hours}</p></td>
-                                            </tr>
-                                        )
+                                        this.state.paginationdata ? (
+                                            <div>
+                                                <ul className="pagination" id="page-numbers">
+                                                    {pageDecrementBtn}
+                                                    {renderPageNumbers}
+                                                    {pageIncrementBtn}
+                                                </ul>
+                                            </div>
+                                        ) : (
+                                                null
+                                            )
                                     }
-                                </tbody>
-                            </Table>
+                                </div>
+                            </div>
                         )
                 }
-
             </div>
         );
     }

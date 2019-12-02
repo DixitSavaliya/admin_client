@@ -49,13 +49,15 @@ class UserRight extends React.Component {
                 this.setState({
                     userright: data.data.data.name,
                     module: data.data.data.module,
-                    statuscheck1: true
+                    statuscheck1: this.state.statuscheck1 = true,
+                    status: this.state.status = "active"
                 })
             } else if (data.data.data.status == "inactive") {
                 this.setState({
                     userright: data.data.data.name,
                     module: data.data.data.module,
-                    statuscheck2: true
+                    statuscheck2: this.state.statuscheck1 = true,
+                    status: this.state.status = "inactive"
                 })
             }
         });
@@ -88,6 +90,7 @@ class UserRight extends React.Component {
                         userdata: findresponse.data.data
                     })
                     console.log("user response===", this.state.userdata);
+                    EventEmitter.dispatch('userrightdataget', this.state.userdata);
                 } else {
                     // console.log("err", err);
                     Swal.fire("Something went wrong!", "", "warning");
@@ -175,30 +178,29 @@ class UserRight extends React.Component {
                 module: '',
                 moduleerror: ''
             })
-        };
 
-        if (this.state.userright && this.state.status && this.state.module) {
-            const obj = {
-                name: this.state.userright,
-                module: this.state.module,
-                status: this.state.status
-            }
-            API.addUserRight(obj)
-                .then((findresponse) => {
-                    if (findresponse) {
-                        Swal.fire("UserRight Added Successfully!", "", "success");
-                        // this.componentDidMount();
-                        window.location.href = "/userright";
-                    } else {
-                        // console.log("err", err);
+            if (this.state.userright && this.state.status && this.state.module) {
+                const obj = {
+                    name: this.state.userright,
+                    module: this.state.module,
+                    status: this.state.status
+                }
+                API.addUserRight(obj)
+                    .then((findresponse) => {
+                        if (findresponse) {
+                            Swal.fire("UserRight Added Successfully!", "", "success");
+                            this.componentDidMount();
+                        } else {
+                            // console.log("err", err);
+                            Swal.fire("Something went wrong!", "", "warning");
+                        }
+                    }).catch((err) => {
                         Swal.fire("Something went wrong!", "", "warning");
-                    }
-                }).catch((err) => {
-                    Swal.fire("Something went wrong!", "", "warning");
-                });
-        } else {
-            Swal.fire("Please enter filed first!", "", "warning");
-        }
+                    });
+            } else {
+                Swal.fire("Please enter filed first!", "", "warning");
+            }
+        };
     }
 
     editUserRightData() {
@@ -212,34 +214,34 @@ class UserRight extends React.Component {
                 module: '',
                 moduleerror: ''
             })
+            if (this.state.userright && this.state.status && this.state.module && this.state.roleId) {
+                this.setState({
+                    checked: false
+                })
+                const obj = {
+                    name: this.state.userright,
+                    status: this.state.status,
+                    module: this.state.module,
+                    id: this.state.roleId
+                }
+                API.editUserRight(obj)
+                    .then((findresponse) => {
+                        if (findresponse) {
+                            Swal.fire("UserRight Updated Successfully!", "", "success");
+                            this.componentDidMount();
+
+                        } else {
+                            // console.log("err", err);
+                            Swal.fire("Something went wrong!", "", "warning");
+                        }
+                    }).catch((err) => {
+                        Swal.fire("Something went wrong!", "", "warning");
+                    });
+            } else {
+                Swal.fire("Please enter filed first!", "", "warning");
+            }
         };
 
-        if (this.state.userright && this.state.status && this.state.module && this.state.roleId) {
-            this.setState({
-                checked: false
-            })
-            const obj = {
-                name: this.state.userright,
-                status: this.state.status,
-                module: this.state.module,
-                id: this.state.roleId
-            }
-            API.editUserRight(obj)
-                .then((findresponse) => {
-                    if (findresponse) {
-                        Swal.fire("UserRight Updated Successfully!", "", "success");
-                        //   this.componentDidMount();
-                        window.location.href = "/userright";
-                    } else {
-                        // console.log("err", err);
-                        Swal.fire("Something went wrong!", "", "warning");
-                    }
-                }).catch((err) => {
-                    Swal.fire("Something went wrong!", "", "warning");
-                });
-        } else {
-            Swal.fire("Please enter filed first!", "", "warning");
-        }
     }
 
     deleteAllUserRightData() {
@@ -323,16 +325,40 @@ class UserRight extends React.Component {
                                                                     {
                                                                         this.state.checked == false ? (
                                                                             <div>
-                                                                                <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" onChange={this.handleChangeStatus}
-                                                                                    label="Active" inline />
-                                                                                <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" onChange={this.handleChangeStatus}
-                                                                                    label="InActive" inline />
+                                                                                <CustomInput
+                                                                                    type="radio"
+                                                                                    id="exampleCustomRadio"
+                                                                                    value="active"
+                                                                                    name="status"
+                                                                                    onChange={this.handleChangeStatus}
+                                                                                    label="Active" inline
+                                                                                />
+                                                                                <CustomInput
+                                                                                    type="radio"
+                                                                                    id="exampleCustomRadio1"
+                                                                                    value="inactive"
+                                                                                    name="status"
+                                                                                    onChange={this.handleChangeStatus}
+                                                                                    label="InActive" inline
+                                                                                />
                                                                             </div>
                                                                         ) : (
                                                                                 <div>
-                                                                                    <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
-                                                                                        label="Active" inline />
-                                                                                    <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                                    <CustomInput
+                                                                                        type="radio"
+                                                                                        id="exampleCustomRadio"
+                                                                                        name="status"
+                                                                                        checked={this.state.statuscheck1}
+                                                                                        onChange={this.handleChangeStatus}
+                                                                                        label="Active"
+                                                                                        inline
+                                                                                    />
+                                                                                    <CustomInput
+                                                                                        type="radio"
+                                                                                        id="exampleCustomRadio1"
+                                                                                        name="status"
+                                                                                        checked={this.state.statuscheck2}
+                                                                                        onChange={this.handleChangeStatus}
                                                                                         label="InActive" inline />
                                                                                 </div>
                                                                             )
@@ -344,9 +370,23 @@ class UserRight extends React.Component {
                                                                 <div className="text-center mt-4">
                                                                     {
                                                                         this.state.emit == true ? (
-                                                                            <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.editUserRightData}>Update</Button>
+                                                                            <Button
+                                                                                className="mb-2 mr-2"
+                                                                                color="primary"
+                                                                                type="button"
+                                                                                onClick={this.editUserRightData}
+                                                                            >
+                                                                                Update
+                                                                            </Button>
                                                                         ) : (
-                                                                                <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.userRightData}>Save</Button>
+                                                                                <Button
+                                                                                    className="mb-2 mr-2"
+                                                                                    color="primary"
+                                                                                    type="button"
+                                                                                    onClick={this.userRightData}
+                                                                                >
+                                                                                    Save
+                                                                                </Button>
                                                                             )
                                                                     }
 
@@ -363,21 +403,35 @@ class UserRight extends React.Component {
                                                                 <Row>
                                                                     <Col md="2">
                                                                         <div className="right">
-                                                                            <Button className="mb-2 mr-2" color="warning" onClick={this.deleteAllUserRightData} disabled={!this.state.delete}>
+                                                                            <Button
+                                                                                className="mb-2 mr-2"
+                                                                                color="warning"
+                                                                                onClick={this.deleteAllUserRightData}
+                                                                                disabled={!this.state.delete}>
                                                                                 Delete
                                                                     </Button>
                                                                         </div>
                                                                     </Col>
                                                                     <Col md="4">
                                                                         <div>
-                                                                            <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRightDataKeyUp} />
+                                                                            <input
+                                                                                className="form-control"
+                                                                                type="text"
+                                                                                placeholder="Search"
+                                                                                aria-label="Search"
+                                                                                onKeyUp={this.searchUserRightDataKeyUp}
+                                                                            />
                                                                         </div>
                                                                     </Col>
                                                                     <Col md="6">
                                                                         <div className="left">
                                                                             <span>Records per page</span>
-                                                                            <CustomInput type="select" id="exampleCustomSelect"
-                                                                                name="customSelect" onChange={this.handleChangeEvent}>
+                                                                            <CustomInput
+                                                                                type="select"
+                                                                                id="exampleCustomSelect"
+                                                                                name="customSelect"
+                                                                                onChange={this.handleChangeEvent}
+                                                                            >
                                                                                 <option value="2">2</option>
                                                                                 <option value="4">4</option>
                                                                             </CustomInput>
@@ -448,17 +502,43 @@ class UserRight extends React.Component {
                                                                         {
                                                                             this.state.checked == false ? (
                                                                                 <div>
-                                                                                    <CustomInput type="radio" id="exampleCustomRadio" value="active" name="status" onChange={this.handleChangeStatus}
-                                                                                        label="Active" inline />
-                                                                                    <CustomInput type="radio" id="exampleCustomRadio1" value="inactive" name="status" onChange={this.handleChangeStatus}
-                                                                                        label="InActive" inline />
+                                                                                    <CustomInput
+                                                                                        type="radio"
+                                                                                        id="exampleCustomRadio" v
+                                                                                        alue="active"
+                                                                                        name="status"
+                                                                                        onChange={this.handleChangeStatus}
+                                                                                        label="Active"
+                                                                                        inline
+                                                                                    />
+                                                                                    <CustomInput
+                                                                                        type="radio"
+                                                                                        id="exampleCustomRadio1"
+                                                                                        value="inactive"
+                                                                                        name="status"
+                                                                                        onChange={this.handleChangeStatus}
+                                                                                        label="InActive"
+                                                                                        inline
+                                                                                    />
                                                                                 </div>
                                                                             ) : (
                                                                                     <div>
-                                                                                        <CustomInput type="radio" id="exampleCustomRadio" name="status" checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
-                                                                                            label="Active" inline />
-                                                                                        <CustomInput type="radio" id="exampleCustomRadio1" name="status" checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
-                                                                                            label="InActive" inline />
+                                                                                        <CustomInput
+                                                                                            type="radio"
+                                                                                            id="exampleCustomRadio"
+                                                                                            name="status"
+                                                                                            checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
+                                                                                            label="Active"
+                                                                                            inline
+                                                                                        />
+                                                                                        <CustomInput
+                                                                                            type="radio"
+                                                                                            id="exampleCustomRadio1"
+                                                                                            name="status"
+                                                                                            checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                                            label="InActive"
+                                                                                            inline
+                                                                                        />
                                                                                     </div>
                                                                                 )
                                                                         }
@@ -469,9 +549,23 @@ class UserRight extends React.Component {
                                                                     <div className="text-center mt-4">
                                                                         {
                                                                             this.state.emit == true ? (
-                                                                                <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.editUserRightData}>Update</Button>
+                                                                                <Button
+                                                                                    className="mb-2 mr-2"
+                                                                                    color="primary"
+                                                                                    type="button"
+                                                                                    onClick={this.editUserRightData}
+                                                                                >
+                                                                                    Update
+                                                                                </Button>
                                                                             ) : (
-                                                                                    <Button className="mb-2 mr-2" color="primary" type="button" onClick={this.userRightData}>Save</Button>
+                                                                                    <Button
+                                                                                        className="mb-2 mr-2"
+                                                                                        color="primary"
+                                                                                        type="button"
+                                                                                        onClick={this.userRightData}
+                                                                                    >
+                                                                                        Save
+                                                                                    </Button>
                                                                                 )
                                                                         }
 
@@ -488,21 +582,36 @@ class UserRight extends React.Component {
                                                                     <Row>
                                                                         <Col md="2">
                                                                             <div className="right">
-                                                                                <Button className="mb-2 mr-2" color="warning" onClick={this.deleteAllUserRoleData} disabled={!this.state.delete}>
+                                                                                <Button
+                                                                                    className="mb-2 mr-2"
+                                                                                    color="warning"
+                                                                                    onClick={this.deleteAllUserRoleData}
+                                                                                    disabled={!this.state.delete}
+                                                                                >
                                                                                     Delete
                                                                     </Button>
                                                                             </div>
                                                                         </Col>
                                                                         <Col md="4">
                                                                             <div>
-                                                                                <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
+                                                                                <input
+                                                                                    className="form-control"
+                                                                                    type="text"
+                                                                                    placeholder="Search"
+                                                                                    aria-label="Search"
+                                                                                    onKeyUp={this.searchUserRoleDataKeyUp}
+                                                                                />
                                                                             </div>
                                                                         </Col>
                                                                         <Col md="6">
                                                                             <div className="left">
                                                                                 <span>Records per page</span>
-                                                                                <CustomInput type="select" id="exampleCustomSelect"
-                                                                                    name="customSelect" onChange={this.handleChangeEvent}>
+                                                                                <CustomInput
+                                                                                    type="select"
+                                                                                    id="exampleCustomSelect"
+                                                                                    name="customSelect"
+                                                                                    onChange={this.handleChangeEvent}
+                                                                                >
                                                                                     <option value="2">2</option>
                                                                                     <option value="4">4</option>
                                                                                 </CustomInput>

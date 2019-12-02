@@ -386,9 +386,11 @@ class CreateProject extends React.Component {
         }
 
         var regexp = /^\d+(\.\d{1,2})?$/;
-        if (!regexp.test(this.state.hours)) {
+        if(!this.state.hours) {
+            hourserror = "please enter hours";
+        } else if (!regexp.test(this.state.hours)) {
             hourserror = "please enter valid hours";
-        }
+        } 
 
         if (!this.state.selecttechnology) {
             selecttechnologyerror = "please enter selecttechnology";
@@ -421,9 +423,12 @@ class CreateProject extends React.Component {
         }
 
         var regexp = /^\d+(\.\d{1,2})?$/;
-        if (!regexp.test(this.state.taskhours)) {
+        if(!this.state.taskhours) {
+            taskhourserror = "please enter hours";
+        } else  if (!regexp.test(this.state.taskhours)) {
             taskhourserror = "please enter valid hours";
-        }
+        } 
+       
 
         if (!this.state.taskstatus) {
             taskstatuserror = "please enter status";
@@ -445,13 +450,11 @@ class CreateProject extends React.Component {
         }
 
         var regexp = /^\d+(\.\d{1,2})?$/;
-        if (!regexp.test(this.state.projectassignhours)) {
+        if(!this.state.projectassignhours) {
+            projectassignhourserror = "please enter hours";
+        } else if (!regexp.test(this.state.projectassignhours)) {
             projectassignhourserror = "please enter valid hours";
         }
-
-        // if (!this.state.taskstatus) {
-        //     taskstatuserror = "please enter status";
-        // }
 
         if (pmNameerror || projectassignhourserror) {
             this.setState({ pmNameerror, projectassignhourserror });
@@ -982,7 +985,6 @@ class CreateProject extends React.Component {
                                                                             <FormGroup>
                                                                                 <Label>Description:</Label>
                                                                                 <Editor
-                                                                                    // initialValue={content}
                                                                                     init={{
                                                                                         plugins: 'link image code',
                                                                                         toolbar: 'undo redo | bold italic| alignleft aligncenter alignright | code'
@@ -998,7 +1000,6 @@ class CreateProject extends React.Component {
                                                                                 <FormGroup>
                                                                                     <Label>Description:</Label>
                                                                                     <Editor
-                                                                                        // initialValue={content}
                                                                                         init={{
                                                                                             plugins: 'link image code',
                                                                                             toolbar: 'undo redo | bold italic| alignleft aligncenter alignright | code'

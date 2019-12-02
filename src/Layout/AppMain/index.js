@@ -12,8 +12,13 @@ const UserRole = lazy(() => import('../../Layout/userrole/userrole'));
 const UserRight = lazy(() => import('../../Layout/userright/userright'));
 const UserRoletoRight = lazy(() => import('../../Layout/user_role_to_right/user_role_to_right'));
 const CreateProject = lazy(() => import('../../Layout/createproject/createproject'));
+const CreateUser = lazy(() => import('../../Layout/createuser/createuser'));
 const EditProject = lazy(() => import('../../Layout/createproject/createproject'));
+const EditUser = lazy(() => import('../../Layout/createuser/createuser'));
 const ListProject = lazy(() => import('../../Layout/listproject/listproject'));
+const ListUser = lazy(() => import('../../Layout/listuser/listuser'));
+const ViewUser = lazy(() => import('../../Layout/viewuser/viewuser'));
+const ViewProject = lazy(() => import('../../Layout/viewproject/viewproject'));
 const UserTable = lazy(() => import('../Tables'));
 const MyProfile = lazy(() => import('../../Layout/myprofile/myprofile'));
 const Widgets = lazy(() => import('../../DemoPages/Widgets'));
@@ -121,6 +126,36 @@ const AppMain = () => {
               <div className="loader"></div>
             }>
                 <Route path="/listproject" component={ListProject}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/createuser" component={CreateUser}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/editUser/:id" component={EditUser}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/listuser" component={ListUser}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/viewuser" component={ViewUser}/>
+            </Suspense>
+
+            <Suspense fallback={
+              <div className="loader"></div>
+            }>
+                <Route path="/viewproject" component={ViewProject}/>
             </Suspense>
 
             <Route exact path="/" render={() => (

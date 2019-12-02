@@ -36,8 +36,8 @@ class MyProfile extends React.Component {
                     email: findresponse.data.data.email,
                     selectedFile: findresponse.data.data.filename
                 });
-                localStorage.setItem('first_name',this.state.firstname);
-                localStorage.setItem('last_name',this.state.last_name);
+                localStorage.setItem('first_name', this.state.firstname);
+                localStorage.setItem('last_name', this.state.last_name);
             }).catch(
                 { status: 500, message: 'Internal Server Error' }
             );
@@ -112,34 +112,51 @@ class MyProfile extends React.Component {
                                 <h1 className="text-center">My Profile</h1>
                                 <form>
                                     <div className="img">
-                                    <div className="form-group">
-                                        {
-                                            this.state.selectedFile ? (
-                                                <div>
-                                                    <img className="picture" src={this.path + this.state.selectedFile} />
-                                                </div>
-                                            ) : (null)
-                                        }
-                                        <div>
-                                            <label htmlFor="cover"><i className="fas fa-camera"></i></label>
-                                            <input type="file" id="cover" style={{ display: "none" }} name="file" onChange={this.onChangeHandler} />
+                                        <div className="form-group">
+                                            {
+                                                this.state.selectedFile ? (
+                                                    <div>
+                                                        <img className="picture" src={this.path + this.state.selectedFile} />
+                                                    </div>
+                                                ) : (null)
+                                            }
+                                            <div>
+                                                <label htmlFor="cover"><i className="fas fa-camera"></i></label>
+                                                <input
+                                                    type="file"
+                                                    id="cover"
+                                                    style={{ display: "none" }}
+                                                    name="file"
+                                                    onChange={this.onChangeHandler} />
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
                                     <div className="form-group">
                                         <label>Firstname</label>
-                                        <input type="text" name="firstname"
-                                            className="form-control" value={this.state.firstname} onChange={this.handleChangeEvent} />
+                                        <input
+                                            type="text"
+                                            name="firstname"
+                                            className="form-control"
+                                            value={this.state.firstname}
+                                            onChange={this.handleChangeEvent} />
                                     </div>
                                     <div className="form-group">
                                         <label>Lastname</label>
-                                        <input type="text" name="lastname"
-                                            className="form-control" value={this.state.lastname} onChange={this.handleChangeEvent} />
+                                        <input
+                                            type="text"
+                                            name="lastname"
+                                            className="form-control"
+                                            value={this.state.lastname}
+                                            onChange={this.handleChangeEvent} />
                                     </div>
                                     <div className="form-group">
                                         <label>Email address</label>
-                                        <input type="email" name="email"
-                                            className="form-control" value={this.state.email} onChange={this.handleChangeEvent} />
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className="form-control"
+                                            value={this.state.email}
+                                            onChange={this.handleChangeEvent} />
                                     </div>
                                     <button type="button" className="btn btn-primary" onClick={this.onClickHandler}>Update profile</button>
                                 </form>

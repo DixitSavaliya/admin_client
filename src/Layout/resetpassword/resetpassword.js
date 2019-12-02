@@ -56,7 +56,12 @@ class ResetPassword extends React.Component {
                 <form>
                     <div className="form-group">
                         <label>New Password</label>
-                        <input type="password" className="form-control" name="newpassword" value={this.state.newpassword} onChange={this.handleChangeEvent} />
+                        <input 
+                        type="password" 
+                        className="form-control" 
+                        name="newpassword" 
+                        value={this.state.newpassword} 
+                        onChange={this.handleChangeEvent} />
                     </div>
                     <button type="button" className="btn btn-primary" onClick={this.resetpassword}>Submit</button>
                 </form>

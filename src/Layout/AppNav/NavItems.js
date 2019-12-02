@@ -54,6 +54,25 @@ export const CreateProjectNav = [
         ]
     }
 ];
+
+export const CreateUserNav = [
+    {
+        icon: 'pe-7s-diamond',
+        label: 'User',
+        content: [
+            {
+                label: 'Create',
+                to: '/createuser',
+            }, 
+            {
+                label: 'List',
+                to: '/listuser'
+            }
+        ]
+    }
+];
+
+
 // export const ComponentsNav = [
 //     {
 //         icon: 'pe-7s-diamond',
