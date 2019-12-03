@@ -33,7 +33,9 @@ class ForgotPassword extends React.Component {
         let emailError = "";
 
         const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        if (!reg.test(this.state.emailId)) {
+        if(!this.state.email) {
+            emailError = "please enter email";
+        } else if (!reg.test(this.state.emailId)) {
             emailError = "invalid email";
         }
 

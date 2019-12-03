@@ -8,7 +8,7 @@ export const MainNav = [
 
 export const UserRoleNav = [
     {
-        icon: 'pe-7s-rocket',
+        icon: 'pe-7s-portfolio',
         label: 'UserRole',
         to: '/userrole',
     }
@@ -16,7 +16,7 @@ export const UserRoleNav = [
 
 export const UserRightNav = [
     {
-        icon: 'pe-7s-rocket',
+        icon: 'pe-7s-note',
         label: 'UserRight',
         to: '/userright',
     }
@@ -32,7 +32,7 @@ export const UserTableNav = [
 
 export const UserRoletoRightNav = [
     {
-        icon: 'pe-7s-rocket',
+        icon: 'pe-7s-like2',
         label: 'UserRoletoRight',
         to: '/user_role_to_right',
     }
@@ -40,14 +40,16 @@ export const UserRoletoRightNav = [
 
 export const CreateProjectNav = [
     {
-        icon: 'pe-7s-diamond',
+        icon: 'pe-7s-display2',
         label: 'Project',
         content: [
             {
+                icon: 'pe-7s-note',
                 label: 'Create',
                 to: '/createproject',
             }, 
             {
+                icon: 'pe-7s-menu2',
                 label: 'List',
                 to: '/listproject'
             }
@@ -57,14 +59,16 @@ export const CreateProjectNav = [
 
 export const CreateUserNav = [
     {
-        icon: 'pe-7s-diamond',
+        icon: 'pe-7s-users',
         label: 'User',
         content: [
             {
+                icon: 'pe-7s-note',
                 label: 'Create',
                 to: '/createuser',
             }, 
             {
+                icon: 'pe-7s-menu2',
                 label: 'List',
                 to: '/listuser'
             }

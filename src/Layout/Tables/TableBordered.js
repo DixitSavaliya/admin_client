@@ -7,6 +7,7 @@ import renderHTML from 'react-render-html';
 import history from '../../history';
 import './table.css';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 export default class TableBordered extends React.Component {
   constructor(props) {
@@ -355,7 +356,7 @@ export default class TableBordered extends React.Component {
                                 </span>
                               </td>
                               <td onClick={() => this.getProjectData(data.id)}>{data.title}</td>
-                              <td onClick={() => this.getProjectData(data.id)}>{renderHTML(data.discription)}</td>
+                              <td className="mg-0" onClick={() => this.getProjectData(data.id)}>{renderHTML(data.discription)}</td>
                               <td onClick={() => this.getProjectData(data.id)}>{data.budget}  <i className="fas fa-dollar-sign"></i></td>
                               <td onClick={() => this.getProjectData(data.id)}>{data.hours}</td>
                               <td onClick={() => this.getProjectData(data.id)}>
@@ -369,7 +370,7 @@ export default class TableBordered extends React.Component {
                                   }
                                 </div>
                               </td>
-                              <td onClick={() => this.getProjectData(data.id)}><p>{data.created_date}</p></td>
+                              <td onClick={() => this.getProjectData(data.id)}>{moment(data.created_date).format('DD-MM-YYYY')}</td>
                             </tr>
                           )
                         }
@@ -417,7 +418,7 @@ export default class TableBordered extends React.Component {
                                 </span>
                               </td>
                               <td>{data.title}</td>
-                              <td>{renderHTML(data.discription)}</td>
+                              <td className="mg-0">{renderHTML(data.discription)}</td>
                               <td>{data.budget}</td>
                               <td>{data.project_type}</td>
                               <td>{data.hours}</td>
@@ -467,7 +468,7 @@ export default class TableBordered extends React.Component {
                             </span>
                           </td>
                           <td><p>{data.title}</p></td>
-                          <td>{renderHTML(data.discription)}</td>
+                          <td className="mg-0">{renderHTML(data.discription)}</td>
                           <td><p>{data.budget} <i className="fas fa-dollar-sign"></i></p></td>
                           <td><p>{data.hours}</p></td>
                           <td>
@@ -481,7 +482,7 @@ export default class TableBordered extends React.Component {
                                   }
                                 </div>
                           </td>
-                          <td><p>{data.created_date}</p></td>
+                          <td>{data.created_date}</td>
                         </tr>
                       )
                     }

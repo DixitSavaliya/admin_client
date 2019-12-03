@@ -54,7 +54,7 @@ class CreateUser extends React.Component {
 
     componentDidMount() {
 
-        if(this.props.location.pathname.split('/')[2]) {
+        if (this.props.location.pathname.split('/')[2]) {
 
             API.getUser({ id: this.props.location.pathname.split('/')[2] })
                 .then((findresponse) => {
@@ -157,7 +157,9 @@ class CreateUser extends React.Component {
         }
 
         const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        if (!reg.test(this.state.email)) {
+        if(!this.state.email) {
+            emailerror = "please enter email";
+        } else if (!reg.test(this.state.email)) {
             emailerror = "invalid email";
         }
 
@@ -180,6 +182,51 @@ class CreateUser extends React.Component {
 
         if (first_nameerror || last_nameerror || emailerror || passworderror || mobile_numbererror || user_roleerror || statuserror) {
             this.setState({ first_nameerror, last_nameerror, emailerror, passworderror, mobile_numbererror, user_roleerror, statuserror });
+            return false;
+        }
+        return true;
+    };
+
+      /** validation of createproject form */
+      validateUser = () => {
+        let first_nameerror = "";
+        let last_nameerror = "";
+        let emailerror = "";
+        let mobile_numbererror = "";
+        let user_roleerror = "";
+        let statuserror = "";
+
+        if (!this.state.first_name) {
+            first_nameerror = "please enter first_name";
+        }
+
+        if (!this.state.last_name) {
+            last_nameerror = "please enter last_name";
+        }
+
+        const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        if(!this.state.email) {
+            emailerror = "please enter email";
+        } else if (!reg.test(this.state.email)) {
+            emailerror = "invalid email";
+        }
+
+
+        const pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+        if (!pattern.test(this.state.mobile_number)) {
+            mobile_numbererror = "please enter mobile_number";
+        }
+
+        if (!this.state.user_role) {
+            user_roleerror = "please enter user_role";
+        }
+
+        if (!this.state.status) {
+            statuserror = "please enter status";
+        }
+
+        if (first_nameerror || last_nameerror || emailerror  || mobile_numbererror || user_roleerror || statuserror) {
+            this.setState({ first_nameerror, last_nameerror, emailerror, mobile_numbererror, user_roleerror, statuserror });
             return false;
         }
         return true;
@@ -240,7 +287,7 @@ class CreateUser extends React.Component {
 
     editUser() {
         console.log("status", this.state.status);
-        const isValid = this.validate();
+        const isValid = this.validateUser();
         if (isValid) {
             console.log(this.state);
             this.setState({
@@ -252,8 +299,6 @@ class CreateUser extends React.Component {
                 mobile_numbererror: '',
                 email: '',
                 emailerror: '',
-                password: '',
-                passworderror: '',
                 user_role: '',
                 user_roleerror: '',
                 status: '',
@@ -261,7 +306,7 @@ class CreateUser extends React.Component {
             })
             console.log("status", this.state.status, this.state.user_role);
 
-            if (this.state.first_name && this.state.last_name && this.state.mobile_number && this.state.email && this.state.password && this.state.user_role && this.state.status) {
+            if (this.state.first_name && this.state.last_name && this.state.mobile_number && this.state.email && this.state.user_role && this.state.status) {
                 const obj = {
                     first_name: this.state.first_name,
                     last_name: this.state.last_name,
@@ -279,7 +324,7 @@ class CreateUser extends React.Component {
                         if (findresponse) {
                             console.log("EditUser response===", findresponse);
                             Swal.fire("User Edited Successfully!", "", "success");
-                            history.push('/listuser');
+                            // history.push('/listuser');
                         } else {
                             console.log("err", err);
                             // Swal.fire("Something went wrong!", "", "warning");
@@ -305,117 +350,98 @@ class CreateUser extends React.Component {
                             <div>
                                 {
                                     this.state.userdata[0] ? (
-                                        <Row>
-                                            <Col md="12">
-                                                <Card className="main-card mb-3">
-                                                    {
-                                                        this.state.userdata ? (
-                                                            <CardHeader> <CardTitle className="font">Edit-User</CardTitle></CardHeader>
-                                                        ) : (
-                                                                <CardHeader> <CardTitle className="font">Create-User</CardTitle></CardHeader>
-                                                            )
-                                                    }
+                                        <div>
+                                            <Row>
+                                                <Col md="4">
+                                                    <Link to="/listuser"><Button className="mb-2 mr-2" color="primary">
+                                                        Go back
+                                </Button></Link>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col md="12">
+                                                    <Card className="main-card mb-3">
+                                                        {
+                                                            this.state.userdata ? (
+                                                                <CardHeader> <CardTitle className="font">Edit-User</CardTitle></CardHeader>
+                                                            ) : (
+                                                                    <CardHeader> <CardTitle className="font">Create-User</CardTitle></CardHeader>
+                                                                )
+                                                        }
 
-                                                    <CardBody>
-                                                        <Form>
-                                                            <Row>
-                                                                <Col md="6">
-                                                                    <FormGroup>
-                                                                        <Label>FirstName:</Label>
-                                                                        <Input
-                                                                            type="text"
-                                                                            name="first_name"
-                                                                            className="form-control"
-                                                                            value={this.state.first_name}
-                                                                            onChange={this.handleChange}
-                                                                        />
-                                                                        <div style={{ fontSize: 12, color: "red" }}>
-                                                                            {this.state.first_nameerror}
-                                                                        </div>
-                                                                    </FormGroup>
-                                                                </Col>
-                                                                <Col md="6">
-                                                                    <FormGroup>
-                                                                        <Label>LastName:</Label>
-                                                                        <Input
-                                                                            type="text"
-                                                                            name="last_name"
-                                                                            className="form-control"
-                                                                            value={this.state.last_name}
-                                                                            onChange={this.handleChange}
-                                                                        />
-                                                                        <div style={{ fontSize: 12, color: "red" }}>
-                                                                            {this.state.last_nameerror}
-                                                                        </div>
-                                                                    </FormGroup>
+                                                        <CardBody>
+                                                            <Form>
+                                                                <Row>
+                                                                    <Col md="6">
+                                                                        <FormGroup>
+                                                                            <Label>FirstName:</Label>
+                                                                            <Input
+                                                                                type="text"
+                                                                                name="first_name"
+                                                                                className="form-control"
+                                                                                value={this.state.first_name}
+                                                                                onChange={this.handleChange}
+                                                                            />
+                                                                            <div style={{ fontSize: 12, color: "red" }}>
+                                                                                {this.state.first_nameerror}
+                                                                            </div>
+                                                                        </FormGroup>
+                                                                    </Col>
+                                                                    <Col md="6">
+                                                                        <FormGroup>
+                                                                            <Label>LastName:</Label>
+                                                                            <Input
+                                                                                type="text"
+                                                                                name="last_name"
+                                                                                className="form-control"
+                                                                                value={this.state.last_name}
+                                                                                onChange={this.handleChange}
+                                                                            />
+                                                                            <div style={{ fontSize: 12, color: "red" }}>
+                                                                                {this.state.last_nameerror}
+                                                                            </div>
+                                                                        </FormGroup>
 
-                                                                </Col>
-                                                            </Row>
-                                                            <Row>
-                                                                <Col md="6">
-                                                                    <FormGroup>
-                                                                        <Label>E-Mail:</Label>
-                                                                        <Input
-                                                                            type="email"
-                                                                            name="email"
-                                                                            className="form-control"
-                                                                            value={this.state.email}
-                                                                            onChange={this.handleChange}
-                                                                        />
-                                                                        <div style={{ fontSize: 12, color: "red" }}>
-                                                                            {this.state.emailerror}
-                                                                        </div>
-                                                                    </FormGroup>
-                                                                </Col>
-                                                                <Col md="6">
-                                                                    <FormGroup>
-                                                                        <Label>Password:</Label>
-                                                                        <Input
-                                                                            type="password"
-                                                                            name="password"
-                                                                            className="form-control"
-                                                                            value={this.state.password}
-                                                                            onChange={this.handleChange}
-                                                                        />
-                                                                        <div style={{ fontSize: 12, color: "red" }}>
-                                                                            {this.state.passworderror}
-                                                                        </div>
-                                                                    </FormGroup>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row>
-                                                                <Col md="6">
-                                                                    {
-                                                                        this.state.userdata ? (
-                                                                            <FormGroup>
-                                                                                <Label for="exampleCustomSelect">Select User:</Label>
-                                                                                <CustomInput
-                                                                                    type="select"
-                                                                                    id="exampleCustomSelect"
-                                                                                    name="user_role"
-                                                                                    // value={this.state.Role}
-                                                                                    onChange={() => this.onUserSelect(event)}
-                                                                                >
-
-                                                                                    <option value="">{this.state.Role}</option>
-                                                                                    <option value="1">Admin</option>
-                                                                                    <option value="1">Admin-Staff</option>
-                                                                                    <option value="2">ProjectManager</option>
-                                                                                    <option value="3">Developer</option>
-                                                                                    <option value="3">Designer</option>
-                                                                                    <option value="3">BDE</option>
-                                                                                    <option value="3">Tester</option>
-                                                                                    <option value="3">Data Scientist</option>
-                                                                                    <option value="3">DBA</option>
-
-                                                                                </CustomInput>
-                                                                                <div style={{ fontSize: 12, color: "red" }}>
-                                                                                    {this.state.user_roleerror}
-                                                                                </div>
-                                                                            </FormGroup>
-                                                                        ) : (
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row>
+                                                                    <Col md="6">
+                                                                        <FormGroup>
+                                                                            <Label>E-Mail:</Label>
+                                                                            <Input
+                                                                                type="email"
+                                                                                name="email"
+                                                                                className="form-control"
+                                                                                value={this.state.email}
+                                                                                onChange={this.handleChange}
+                                                                            />
+                                                                            <div style={{ fontSize: 12, color: "red" }}>
+                                                                                {this.state.emailerror}
+                                                                            </div>
+                                                                        </FormGroup>
+                                                                    </Col>
+                                                                    <Col md="6">
+                                                                        <FormGroup>
+                                                                            <Label>Password:</Label>
+                                                                            <Input
+                                                                                type="password"
+                                                                                name="password"
+                                                                                className="form-control"
+                                                                                // value={this.state.password}
+                                                                                onChange={this.handleChange}
+                                                                            />
+                                                                            {/* <div style={{ fontSize: 12, color: "red" }}>
+                                                                                {this.state.passworderror}
+                                                                            </div> */}
+                                                                        </FormGroup>
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row>
+                                                                    <Col md="6">
+                                                                        {
+                                                                            this.state.userdata ? (
                                                                                 <FormGroup>
-                                                                                    <Label for="exampleCustomSelect">Select User:</Label>
+                                                                                    <Label for="exampleCustomSelect">Select UserRole:</Label>
                                                                                     <CustomInput
                                                                                         type="select"
                                                                                         id="exampleCustomSelect"
@@ -423,7 +449,8 @@ class CreateUser extends React.Component {
                                                                                         // value={this.state.Role}
                                                                                         onChange={() => this.onUserSelect(event)}
                                                                                     >
-                                                                                        <option value="">Select User:</option>
+
+                                                                                        <option value="">{this.state.Role}</option>
                                                                                         <option value="1">Admin</option>
                                                                                         <option value="1">Admin-Staff</option>
                                                                                         <option value="2">ProjectManager</option>
@@ -439,82 +466,109 @@ class CreateUser extends React.Component {
                                                                                         {this.state.user_roleerror}
                                                                                     </div>
                                                                                 </FormGroup>
-                                                                            )
-                                                                    }
+                                                                            ) : (
+                                                                                    <FormGroup>
+                                                                                        <Label for="exampleCustomSelect">Select User:</Label>
+                                                                                        <CustomInput
+                                                                                            type="select"
+                                                                                            id="exampleCustomSelect"
+                                                                                            name="user_role"
+                                                                                            // value={this.state.Role}
+                                                                                            onChange={() => this.onUserSelect(event)}
+                                                                                        >
+                                                                                            <option value="">Select UserRole:</option>
+                                                                                            <option value="1">Admin</option>
+                                                                                            <option value="1">Admin-Staff</option>
+                                                                                            <option value="2">ProjectManager</option>
+                                                                                            <option value="3">Developer</option>
+                                                                                            <option value="3">Designer</option>
+                                                                                            <option value="3">BDE</option>
+                                                                                            <option value="3">Tester</option>
+                                                                                            <option value="3">Data Scientist</option>
+                                                                                            <option value="3">DBA</option>
 
-                                                                </Col>
-                                                                <Col md="6">
-                                                                    <FormGroup>
-                                                                        <Label>PhoneNumber:</Label>
-                                                                        <Input
-                                                                            type="number"
-                                                                            name="mobile_number"
-                                                                            className="form-control"
-                                                                            value={this.state.mobile_number}
-                                                                            onChange={this.handleChange}
-                                                                        />
-                                                                        <div style={{ fontSize: 12, color: "red" }}>
-                                                                            {this.state.mobile_numbererror}
-                                                                        </div>
-                                                                    </FormGroup>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row>
-                                                                <Col md="4">
-                                                                    <FormGroup>
-                                                                        <Label>Gender:</Label>
-                                                                        <div>
-                                                                            <CustomInput
-                                                                                type="radio"
-                                                                                id="exampleCustomRadio"
-                                                                                name="gender"
-                                                                                value={this.state.status}
-                                                                                onChange={this.handleChangeStatus}
-                                                                                checked={this.state.statuscheck1}
-                                                                                label="Male" inline />
-                                                                            <CustomInput
-                                                                                type="radio"
-                                                                                id="exampleCustomRadio1"
-                                                                                value={this.state.status}
-                                                                                name="gender"
-                                                                                checked={this.state.statuscheck2}
-                                                                                onChange={this.handleChangeStatusName}
-                                                                                label="Female" inline />
-                                                                        </div>
-                                                                        <div style={{ fontSize: 12, color: "red" }}>
-                                                                            {this.state.statuserror}
-                                                                        </div>
-                                                                    </FormGroup>
+                                                                                        </CustomInput>
+                                                                                        <div style={{ fontSize: 12, color: "red" }}>
+                                                                                            {this.state.user_roleerror}
+                                                                                        </div>
+                                                                                    </FormGroup>
+                                                                                )
+                                                                        }
+
+                                                                    </Col>
+                                                                    <Col md="6">
+                                                                        <FormGroup>
+                                                                            <Label>PhoneNumber:</Label>
+                                                                            <Input
+                                                                                type="number"
+                                                                                name="mobile_number"
+                                                                                className="form-control"
+                                                                                value={this.state.mobile_number}
+                                                                                onChange={this.handleChange}
+                                                                            />
+                                                                            <div style={{ fontSize: 12, color: "red" }}>
+                                                                                {this.state.mobile_numbererror}
+                                                                            </div>
+                                                                        </FormGroup>
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row>
+                                                                    <Col md="4">
+                                                                        <FormGroup>
+                                                                            <Label>Gender:</Label>
+                                                                            <div>
+                                                                                <CustomInput
+                                                                                    type="radio"
+                                                                                    id="exampleCustomRadio"
+                                                                                    name="gender"
+                                                                                    value={this.state.status}
+                                                                                    onChange={this.handleChangeStatus}
+                                                                                    checked={this.state.statuscheck1}
+                                                                                    label="Male" inline />
+                                                                                <CustomInput
+                                                                                    type="radio"
+                                                                                    id="exampleCustomRadio1"
+                                                                                    value={this.state.status}
+                                                                                    name="gender"
+                                                                                    checked={this.state.statuscheck2}
+                                                                                    onChange={this.handleChangeStatusName}
+                                                                                    label="Female" inline />
+                                                                            </div>
+                                                                            <div style={{ fontSize: 12, color: "red" }}>
+                                                                                {this.state.statuserror}
+                                                                            </div>
+                                                                        </FormGroup>
 
 
-                                                                </Col>
-                                                            </Row>
-                                                            {
-                                                                this.state.userdata ? (
-                                                                    <Button
-                                                                        color="primary"
-                                                                        className="mt-1"
-                                                                        onClick={this.editUser}
-                                                                    >
-                                                                        Edit-User
-                                                                    </Button>
-                                                                ) : (
+                                                                    </Col>
+                                                                </Row>
+                                                                {
+                                                                    this.state.userdata ? (
                                                                         <Button
                                                                             color="primary"
                                                                             className="mt-1"
-                                                                            onClick={this.createUser}
+                                                                            onClick={this.editUser}
                                                                         >
-                                                                            Create-User
+                                                                            Edit-User
                                                                     </Button>
-                                                                    )
-                                                            }
+                                                                    ) : (
+                                                                            <Button
+                                                                                color="primary"
+                                                                                className="mt-1"
+                                                                                onClick={this.createUser}
+                                                                            >
+                                                                                Create-User
+                                                                    </Button>
+                                                                        )
+                                                                }
 
 
-                                                        </Form>
-                                                    </CardBody>
-                                                </Card>
-                                            </Col>
-                                        </Row>
+                                                            </Form>
+                                                        </CardBody>
+                                                    </Card>
+                                                </Col>
+                                            </Row>
+                                        </div>
 
                                     ) : (
                                             <Row>
@@ -597,7 +651,7 @@ class CreateUser extends React.Component {
                                                                         {
                                                                             this.state.userdata ? (
                                                                                 <FormGroup>
-                                                                                    <Label for="exampleCustomSelect">Select User:</Label>
+                                                                                    <Label for="exampleCustomSelect">Select UserRole:</Label>
                                                                                     <CustomInput
                                                                                         type="select"
                                                                                         id="exampleCustomSelect"
@@ -631,7 +685,7 @@ class CreateUser extends React.Component {
                                                                                             // value={this.state.Role}
                                                                                             onChange={() => this.onUserSelect(event)}
                                                                                         >
-                                                                                            <option value="">Select User:</option>
+                                                                                            <option value="">Select UserRole:</option>
                                                                                             <option value="1">Admin-Staff</option>
                                                                                             <option value="2">ProjectManager</option>
                                                                                             <option value="3">Developer</option>
@@ -705,9 +759,6 @@ class CreateUser extends React.Component {
                                                                     Create-User
                                                                     </Button>
 
-
-
-
                                                             </Form>
                                                         </CardBody>
                                                     </Card>
@@ -716,7 +767,6 @@ class CreateUser extends React.Component {
 
                                         )
                                 }
-
                             </div>
                         </div>
                         <AppFooter />

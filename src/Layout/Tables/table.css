@@ -25,17 +25,17 @@
     font-size: 15px;
 }
 .lt select#exampleCustomSelect {
-    width: 155px;
+    width: 70px;
     /* margin: -1px; */
 }
 .tox .tox-notification--in {
     opacity: 0 !important;
 }
-.rt span {
-    margin: 4px;
+.lt span {
+    margin: 8px;
 }
 .lt span {
-    margin: 5px;
+    margin: 8px;
 }
 
 /* .custom-checkbox.custom-control {

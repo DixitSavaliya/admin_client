@@ -14,6 +14,7 @@ const UserRoletoRight = lazy(() => import('../../Layout/user_role_to_right/user_
 const CreateProject = lazy(() => import('../../Layout/createproject/createproject'));
 const CreateUser = lazy(() => import('../../Layout/createuser/createuser'));
 const EditProject = lazy(() => import('../../Layout/createproject/createproject'));
+const TypeAhead = lazy(() => import('../../DemoPages/Components/Typeahead/Typeahead'));
 const EditUser = lazy(() => import('../../Layout/createuser/createuser'));
 const ListProject = lazy(() => import('../../Layout/listproject/listproject'));
 const ListUser = lazy(() => import('../../Layout/listuser/listuser'));

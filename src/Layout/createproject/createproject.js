@@ -5,8 +5,12 @@ import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar/';
 import AppFooter from '../../Layout/AppFooter/';
 import TableStriped from '../Tables/TableStriped';
+import TypeAhead from '../../DemoPages/Components/Typeahead/Typeahead';
 import history from '../../history';
 import API from '../../service';
+import Multiselect from 'multiselect-dropdown-react';
+
+import { Link } from "react-router-dom";
 import { EventEmitter } from '../../event';
 import './createproject.css';
 import {
@@ -34,6 +38,8 @@ class CreateProject extends React.Component {
             projecttypeerror: '',
             hours: '',
             hourserror: '',
+            multiple:true,
+            apiPath: 'User/getTechnology',
             selecttechnology: '',
             selecttechnologyerror: '',
             status: '',
@@ -70,7 +76,8 @@ class CreateProject extends React.Component {
             visiblity: false,
             project_assign_id: '',
             assignProjectCount: '',
-            pagination: ''
+            pagination: '',
+            tharray:[]
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -143,6 +150,7 @@ class CreateProject extends React.Component {
                         technology: findresponse.data.data
                     })
                     console.log("technology response===", this.state.technology);
+                    EventEmitter.dispatch('technologies', this.state.technology);
                 } else {
                     console.log("err", err);
                     // Swal.fire("Something went wrong!", "", "warning");
@@ -386,11 +394,11 @@ class CreateProject extends React.Component {
         }
 
         var regexp = /^\d+(\.\d{1,2})?$/;
-        if(!this.state.hours) {
+        if (!this.state.hours) {
             hourserror = "please enter hours";
         } else if (!regexp.test(this.state.hours)) {
             hourserror = "please enter valid hours";
-        } 
+        }
 
         if (!this.state.selecttechnology) {
             selecttechnologyerror = "please enter selecttechnology";
@@ -423,12 +431,12 @@ class CreateProject extends React.Component {
         }
 
         var regexp = /^\d+(\.\d{1,2})?$/;
-        if(!this.state.taskhours) {
+        if (!this.state.taskhours) {
             taskhourserror = "please enter hours";
-        } else  if (!regexp.test(this.state.taskhours)) {
+        } else if (!regexp.test(this.state.taskhours)) {
             taskhourserror = "please enter valid hours";
-        } 
-       
+        }
+
 
         if (!this.state.taskstatus) {
             taskstatuserror = "please enter status";
@@ -450,7 +458,7 @@ class CreateProject extends React.Component {
         }
 
         var regexp = /^\d+(\.\d{1,2})?$/;
-        if(!this.state.projectassignhours) {
+        if (!this.state.projectassignhours) {
             projectassignhourserror = "please enter hours";
         } else if (!regexp.test(this.state.projectassignhours)) {
             projectassignhourserror = "please enter valid hours";
@@ -804,6 +812,13 @@ class CreateProject extends React.Component {
                                 this.props.location.pathname.split('/')[2] ? (
                                     <div>
                                         <Row>
+                                            <Col md="4">
+                                                <Link to="/listproject"><Button className="mb-2 mr-2" color="primary">
+                                                    Go back
+                                </Button></Link>
+                                            </Col>
+                                        </Row>
+                                        <Row>
                                             <Col md="12">
                                                 <Card className="main-card mb-3">
                                                     {
@@ -835,7 +850,7 @@ class CreateProject extends React.Component {
                                                                     <FormGroup>
                                                                         <Label>Budget:</Label>
                                                                         <Input
-                                                                            type="text"
+                                                                            type="number"
                                                                             name="budget"
                                                                             className="form-control"
                                                                             value={this.state.budget}
@@ -894,7 +909,7 @@ class CreateProject extends React.Component {
                                                                     <FormGroup>
                                                                         <Label>Hours:</Label>
                                                                         <Input
-                                                                            type="text"
+                                                                            type="number"
                                                                             name="hours"
                                                                             className="form-control"
                                                                             value={this.state.hours}
@@ -936,7 +951,9 @@ class CreateProject extends React.Component {
                                                                         this.props.location.pathname.split('/')[2] ? (
                                                                             <FormGroup>
                                                                                 <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                <CustomInput
+                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
+                                                                                {/* <Multiselect options={this.state.tharray} onSelectOptions={this.result} /> */}
+                                                                                {/* <CustomInput
                                                                                     type="select"
                                                                                     id="exampleCustomSelect"
                                                                                     name="selecttechnology"
@@ -948,15 +965,17 @@ class CreateProject extends React.Component {
                                                                                             <option key={data.id} value={data.id}>{data.name}</option>
                                                                                         )
                                                                                     }
-                                                                                </CustomInput>
+                                                                                </CustomInput> */}
                                                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                                                     {this.state.selecttechnologyerror}
                                                                                 </div>
                                                                             </FormGroup>
                                                                         ) : (
                                                                                 <FormGroup>
-                                                                                    <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                    <CustomInput
+                                                                                  <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
+                                                                                    {/* <Label for="exampleCustomSelect">Select Technology:</Label>
+                                                                                    <Multiselect  options={this.state.tharray} onSelectOptions={this.result} /> */}
+                                                                                    {/* <CustomInput
                                                                                         type="select"
                                                                                         id="exampleCustomSelect"
                                                                                         name="selecttechnology"
@@ -968,10 +987,10 @@ class CreateProject extends React.Component {
                                                                                                 <option key={data.id} value={data.id}>{data.name}</option>
                                                                                             )
                                                                                         }
-                                                                                    </CustomInput>
-                                                                                    <div style={{ fontSize: 12, color: "red" }}>
+                                                                                    </CustomInput> */}
+                                                                                    {/* <div style={{ fontSize: 12, color: "red" }}>
                                                                                         {this.state.selecttechnologyerror}
-                                                                                    </div>
+                                                                                    </div> */}
                                                                                 </FormGroup>
                                                                             )
                                                                     }
@@ -1070,7 +1089,7 @@ class CreateProject extends React.Component {
                                                                     <FormGroup>
                                                                         <Label>Hours:</Label>
                                                                         <Input
-                                                                            type="text"
+                                                                            type="number"
                                                                             name="taskhours"
                                                                             className="form-control"
                                                                             value={this.state.taskhours}
@@ -1238,7 +1257,7 @@ class CreateProject extends React.Component {
                                                                     <FormGroup>
                                                                         <Label>Hours:</Label>
                                                                         <Input
-                                                                            type="text"
+                                                                            type="number"
                                                                             name="projectassignhours"
                                                                             className="form-control"
                                                                             value={this.state.projectassignhours}
@@ -1362,7 +1381,7 @@ class CreateProject extends React.Component {
                                                                     <FormGroup>
                                                                         <Label>Budget:</Label>
                                                                         <Input
-                                                                            type="text"
+                                                                            type="number"
                                                                             name="budget"
                                                                             className="form-control"
                                                                             value={this.state.budget}
@@ -1416,11 +1435,11 @@ class CreateProject extends React.Component {
                                                                 </Col>
                                                             </Row>
                                                             <Row>
-                                                                <Col md="4">
+                                                                <Col md="6">
                                                                     <FormGroup>
                                                                         <Label>Hours:</Label>
                                                                         <Input
-                                                                            type="text"
+                                                                            type="number"
                                                                             name="hours"
                                                                             className="form-control"
                                                                             value={this.state.hours}
@@ -1431,7 +1450,7 @@ class CreateProject extends React.Component {
                                                                         </div>
                                                                     </FormGroup>
                                                                 </Col>
-                                                                <Col md="4">
+                                                                <Col md="6">
                                                                     <FormGroup>
                                                                         <Label>Select Status:</Label>
                                                                         <div>
@@ -1457,12 +1476,15 @@ class CreateProject extends React.Component {
                                                                         </div>
                                                                     </FormGroup>
                                                                 </Col>
-                                                                <Col md="4">
+                                                            </Row>
+                                                            <Row>
+                                                                <Col md="12">
                                                                     {
                                                                         this.props.location.pathname.split('/')[2] ? (
                                                                             <FormGroup>
                                                                                 <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                <CustomInput
+                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
+                                                                                {/* <CustomInput
                                                                                     type="select"
                                                                                     id="exampleCustomSelect"
                                                                                     name="selecttechnology"
@@ -1471,13 +1493,13 @@ class CreateProject extends React.Component {
                                                                                     }
                                                                                     onChange={() => this.onTechnologySelect(event)}
                                                                                 >
-                                                                                    {/* <option value="">Select Technology:</option> */}
+                                                                                  
                                                                                     {
                                                                                         this.state.technology.map((data, index) =>
                                                                                             <option key={data.id} value={data.id}>{data.name}</option>
                                                                                         )
                                                                                     }
-                                                                                </CustomInput>
+                                                                                </CustomInput> */}
                                                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                                                     {this.state.selecttechnologyerror}
                                                                                 </div>
@@ -1485,7 +1507,8 @@ class CreateProject extends React.Component {
                                                                         ) : (
                                                                                 <FormGroup>
                                                                                     <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                    <CustomInput
+                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
+                                                                                    {/* <CustomInput
                                                                                         type="select"
                                                                                         id="exampleCustomSelect"
                                                                                         name="selecttechnology"
@@ -1497,7 +1520,7 @@ class CreateProject extends React.Component {
                                                                                                 <option key={data.id} value={data.id}>{data.name}</option>
                                                                                             )
                                                                                         }
-                                                                                    </CustomInput>
+                                                                                    </CustomInput> */}
                                                                                     <div style={{ fontSize: 12, color: "red" }}>
                                                                                         {this.state.selecttechnologyerror}
                                                                                     </div>
@@ -1506,7 +1529,7 @@ class CreateProject extends React.Component {
                                                                     }
 
                                                                 </Col>
-                                                            </Row>
+                                                                </Row>
                                                             <Row>
                                                                 <Col md="12">
                                                                     {

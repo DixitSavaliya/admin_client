@@ -12375,3 +12375,17 @@ table.table th, table.table td {
 .table tr, th, td {
   cursor: pointer !important;
 }
+td.mg-0 p {
+    margin: 0 !important;
+}
+.card .card-body h1, .card .card-body h2, .card .card-body h3, .card .card-body h4, .card .card-body h5, .card .card-body h6 {
+    font-weight: 400;
+    color: dodgerblue !important;
+
+}
+h5.card-title b {
+  color: black !important;
+}
+.col-md-5 .lt {
+    text-align: end;
+}

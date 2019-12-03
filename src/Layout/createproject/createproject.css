@@ -7,3 +7,13 @@ h5.font.card-title {
 span.project_tabel i {
     padding: 8px;
 }
+.rbt-input-wrapper {
+    display: flex;
+}
+.rbt-token.rbt-token-removeable {
+    margin-left: 15px;
+}
+button.close.rbt-close.rbt-token-remove-button {
+    margin-left: 8px;
+    color: red;
+}

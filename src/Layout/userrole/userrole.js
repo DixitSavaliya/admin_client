@@ -48,11 +48,12 @@ class UserRole extends React.Component {
         this.searchUserRoleDataKeyUp = this.searchUserRoleDataKeyUp.bind(this);
         this.deleteAllUserRoleData = this.deleteAllUserRoleData.bind(this);
         this.data = localStorage.getItem('isFetch');
+        this.handleChangeStatusName = this.handleChangeStatusName.bind(this);
 
         EventEmitter.subscribe('userroledata', (data) => {
             console.log("userroledata=", data.data.data);
             this.setState({
-                checked: true
+                checked: this.state.checked = true
             })
             if (data.data.data.status == "active") {
                 this.setState({
@@ -63,7 +64,7 @@ class UserRole extends React.Component {
             } else if (data.data.data.status == "inactive") {
                 this.setState({
                     userrole: data.data.data.name,
-                    statuscheck2: this.state.statuscheck1 = true,
+                    statuscheck2: this.state.statuscheck2 = true,
                     status: this.state.status = "inactive"
                 })
             }
@@ -179,9 +180,23 @@ class UserRole extends React.Component {
     }
 
     handleChangeStatus(event) {
+        console.log("event",event);
         this.setState({
-            status: event.target.value
+            statuscheck1: this.state.statuscheck1 = event.target.checked,
+            status: this.state.status = "active",
+            statuscheck2: this.state.statuscheck2 = false
         })
+        console.log("status",this.state.status);
+    }
+
+    handleChangeStatusName(event) {
+      console.log("event",event);
+        this.setState({
+            statuscheck2: this.state.statuscheck2 = event.target.checked,
+            status:  this.state.status =  "inactive",
+            statuscheck1: this.state.statuscheck1 = false
+        })
+        console.log("status",this.state.status);
     }
 
     userRoleData() {
@@ -202,8 +217,8 @@ class UserRole extends React.Component {
                     .then((findresponse) => {
                         if (findresponse) {
                             Swal.fire("UserRole Added Successfully!", "", "success");
+                          
                             this.componentDidMount();
-                            // window.location.href = "/userrole";
                         } else {
 
                             Swal.fire("Something went wrong!", "", "warning");
@@ -325,7 +340,7 @@ class UserRole extends React.Component {
                                                                             id="exampleCustomRadio1"
                                                                             value="inactive"
                                                                             name="status"
-                                                                            onChange={this.handleChangeStatus}
+                                                                            onChange={this.handleChangeStatusName}
                                                                             label="InActive"
                                                                             inline
                                                                         />
@@ -348,7 +363,7 @@ class UserRole extends React.Component {
                                                                                 value={this.state.status}
                                                                                 name="status"
                                                                                 checked={this.state.statuscheck2}
-                                                                                onChange={this.handleChangeStatus}
+                                                                                onChange={this.handleChangeStatusName}
                                                                                 label="InActive"
                                                                                 inline
                                                                             />
@@ -505,6 +520,7 @@ class UserRole extends React.Component {
                                                                                     type="radio"
                                                                                     id="exampleCustomRadio"
                                                                                     name="status"
+                                                                                    value={this.state.status}
                                                                                     checked={this.state.statuscheck1}
                                                                                     onChange={this.handleChangeStatus}
                                                                                     label="Active"
@@ -514,7 +530,8 @@ class UserRole extends React.Component {
                                                                                     type="radio"
                                                                                     id="exampleCustomRadio1"
                                                                                     name="status"
-                                                                                    checked={this.state.statuscheck1}
+                                                                                    value={this.state.status}
+                                                                                    checked={this.state.statuscheck2}
                                                                                     onChange={this.handleChangeStatus}
                                                                                     label="InActive"
                                                                                     inline

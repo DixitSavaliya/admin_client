@@ -123,103 +123,103 @@ class ViewProject extends React.Component {
                     <div className="app-main__outer">
                         <div className="app-main__inner">
                             <Row>
-                            <Col md="4">
-                                <Link to="/listproject"><Button className="mb-2 mr-2" color="primary">
-                                    Go back
+                                <Col md="4">
+                                    <Link to="/listproject"><Button className="mb-2 mr-2" color="primary">
+                                        Go back
                                 </Button></Link>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col md="6">
-                                    <Card className="main-card mb-3">
-                                        <CardBody>
-                                            <CardTitle><b>List-Project Table:</b></CardTitle>
-                                            <Table hover className="mb-0" bordered>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Discription</th>
-                                                        <th>Budget</th>
-                                                        <th>Hours</th>
-                                                        <th>status</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        this.state.pdata.map((data, index) =>
-                                                            <tr key={index}>
-                                                                <td>{data.title}</td>
-                                                                <td>{renderHTML(data.discription)}</td>
-                                                                <td>{data.budget}  <i className="fas fa-dollar-sign"></i></td>
-                                                                <td>{data.hours}</td>
-                                                                <td>
-                                                                    <div className="btn_size">
-                                                                        {
-                                                                            data.status == "active" ? (
-                                                                                <span className="badge badge-success">{data.status}</span>
-                                                                            ) : (
-                                                                                    <span className="badge badge-danger">{data.status}</span>
-                                                                                )
-                                                                        }
-                                                                    </div>
-                                                                </td>
-
-                                                            </tr>
-                                                        )
-                                                    }
-                                                </tbody>
-                                            </Table>
-                                        </CardBody>
-                                    </Card>
-                                </Col>
-                                <Col md="6">
-                                    <Card className="main-card mb-3">
-                                        <CardBody>
-                                            <CardTitle><b>List-Assign-Project-Users Table:</b></CardTitle>
-                                            <Table hover className="mb-0" bordered>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Hours</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        this.state.assignData.map((data, index) =>
-                                                            <tr key={index}>
-                                                                <td>{data.name}</td>
-                                                                <td>{data.hours}</td>
-                                                            </tr>
-                                                        )
-                                                    }
-                                                </tbody>
-                                            </Table>
-                                        </CardBody>
-                                    </Card>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
                                         <CardBody>
-                                            <CardTitle><b>List-Project-Task Table:</b></CardTitle>
-                                            <Table hover className="mb-0" bordered>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Discription</th>
-                                                        <th>Hours</th>
-                                                        <th>status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                            <CardTitle><b>List-Project:</b></CardTitle>
+                                            <hr />
+                                            <Row>
+                                                <Col md="3">
                                                     {
-                                                        this.state.tasks.map((data, index) =>
-                                                            <tr key={index}>
+                                                        this.state.pdata.map((data, index) =>
+                                                            <div key={index}>
+                                                                <h5>Title:</h5>
+                                                                <p>{data.title}</p>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </Col>
+                                                <Col md="3">
+                                                    {
+                                                        this.state.pdata.map((data, index) =>
+                                                            <div key={index}>
+                                                                <h5>Budget:</h5>
+                                                                <p>{data.budget} <i className="fas fa-dollar-sign"></i></p>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </Col>
+                                      
+                                                <Col md="3">
+                                                    {
+                                                        this.state.pdata.map((data, index) =>
+                                                            <div key={index}>
+                                                                <h5>Status:</h5>
+                                                                <div className="btn_size">
+                                                                    {
+                                                                        data.status == "active" ? (
+                                                                            <span className="badge badge-success">{data.status}</span>
+                                                                        ) : (
+                                                                                <span className="badge badge-danger">{data.status}</span>
+                                                                            )
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </Col>
+                                                <Col md="3">
+                                                    {
+                                                        this.state.pdata.map((data, index) =>
+                                                            <div key={index}>
+                                                                <h5>Hours:</h5>
+                                                                <p>{data.hours}</p>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </Col>
+                                                <br />
+                                                <Col md="12">
+                                                    {
+                                                        this.state.pdata.map((data, index) =>
+                                                            <div key={index}>
+                                                                <h5>Discription:</h5>
+                                                                <p>{renderHTML(data.discription)}</p>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </Col>
+                                            </Row>
+                                            {/* <Table hover className="mb-0" bordered>
+                                              
+                                                {
+                                                    this.state.pdata.map((data, index) =>
+                                                        <tbody key={index}>
+                                                            <tr>
+                                                                <td><b>Title:</b></td>
                                                                 <td>{data.title}</td>
-                                                                <td>{renderHTML(data.discription)}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Discription:</b></td>
+                                                                <td className="mg-0">{renderHTML(data.discription)}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Budget:</b></td>
+                                                                <td>{data.budget}  <i className="fas fa-dollar-sign"></i></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Hours:</b></td>
                                                                 <td>{data.hours}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Status:</b></td>
                                                                 <td>
                                                                     <div className="btn_size">
                                                                         {
@@ -232,14 +232,111 @@ class ViewProject extends React.Component {
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                                        )
-                                                    }
-                                                </tbody>
-                                            </Table>
+
+                                                        </tbody>
+                                                    )
+                                                }
+                                            </Table> */}
                                         </CardBody>
                                     </Card>
                                 </Col>
+                                {
+                                    this.state.assignData.length ? (
+                                        <Col md="6">
+                                            <Card className="main-card mb-3">
+                                                <CardBody>
+                                                    <CardTitle><b>List-Assign-Project-Users Table:</b></CardTitle>
+                                                
+                                                    {/* {
+                                                        this.state.assignData.map((data, index) =>
+                                                            <div>
+                                                                <Col md="6">
+                                                                    <h5>Name:</h5>
+                                                                    <p>{data.name}</p>
+                                                                </Col>
+                                                                <Col md="6">
+                                                                    <h5>Hours:</h5>
+                                                                    <p>{data.hours}</p>
+                                                                </Col>
+                                                            </div>
+                                                        )
+                                                    } */}
+
+                                                    <Table hover className="mb-0" bordered>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Hours</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {
+                                                                this.state.assignData.map((data, index) =>
+                                                                    <tr key={index}>
+                                                                        <td>{data.name}</td>
+                                                                        <td>{data.hours}</td>
+                                                                    </tr>
+                                                                )
+                                                            }
+                                                        </tbody>
+                                                    </Table>
+                                                </CardBody>
+                                            </Card>
+                                        </Col>
+                                    ) : (
+                                            null
+                                        )
+                                }
                             </Row>
+
+                            {
+                                this.state.tasks.length ? (
+                                    <Row>
+                                        <Col md="12">
+                                            <Card className="main-card mb-3">
+                                                <CardBody>
+                                                    <CardTitle><b>List-Project-Task Table:</b></CardTitle>
+                                                    <Table hover className="mb-0" bordered>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Discription</th>
+                                                                <th>Hours</th>
+                                                                <th>status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {
+                                                                this.state.tasks.map((data, index) =>
+                                                                    <tr key={index}>
+                                                                        <td>{data.title}</td>
+                                                                        <td className="mg-0">{renderHTML(data.discription)}</td>
+                                                                        <td>{data.hours}</td>
+                                                                        <td>
+                                                                            <div className="btn_size">
+                                                                                {
+                                                                                    data.status == "active" ? (
+                                                                                        <span className="badge badge-success">{data.status}</span>
+                                                                                    ) : (
+                                                                                            <span className="badge badge-danger">{data.status}</span>
+                                                                                        )
+                                                                                }
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            }
+                                                        </tbody>
+                                                    </Table>
+                                                </CardBody>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                ) : (
+                                        null
+                                    )
+                            }
+
                         </div>
                         <AppFooter />
                     </div>

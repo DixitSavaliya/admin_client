@@ -39,11 +39,12 @@ class UserRight extends React.Component {
         this.handleChangeStatus = this.handleChangeStatus.bind(this);
         this.editUserRightData = this.editUserRightData.bind(this);
         this.searchUserRightDataKeyUp = this.searchUserRightDataKeyUp.bind(this);
+        this.handleChangeStatusName = this.handleChangeStatusName.bind(this);
 
         EventEmitter.subscribe('userrightdata', (data) => {
             console.log("userrightdata=", data.data.data);
             this.setState({
-                checked: true
+                checked: this.state.checked = true  
             })
             if (data.data.data.status == "active") {
                 this.setState({
@@ -137,10 +138,21 @@ class UserRight extends React.Component {
 
     handleChangeStatus(event) {
         this.setState({
-            status: event.target.value
+            statuscheck1: this.state.statuscheck1 = event.target.checked,
+            status: this.state.status = "active",
+            statuscheck2: this.state.statuscheck2 = false
         })
+        console.log("status", this.state.status);
     }
 
+    handleChangeStatusName(event) {
+        this.setState({
+            statuscheck2: this.state.statuscheck2 = event.target.checked,
+            status: this.state.status = "inactive",
+            statuscheck1: this.state.statuscheck1 = false
+        })
+        console.log("status", this.state.status);
+    }
 
     /** validation of login form */
     validate = () => {
@@ -204,6 +216,7 @@ class UserRight extends React.Component {
     }
 
     editUserRightData() {
+        console.log("usersatus", this.state.status, this.state.userright);
         const isValid = this.validate();
         if (isValid) {
             this.setState({
@@ -331,15 +344,17 @@ class UserRight extends React.Component {
                                                                                     value="active"
                                                                                     name="status"
                                                                                     onChange={this.handleChangeStatus}
-                                                                                    label="Active" inline
+                                                                                    label="Active"
+                                                                                    inline
                                                                                 />
                                                                                 <CustomInput
                                                                                     type="radio"
                                                                                     id="exampleCustomRadio1"
                                                                                     value="inactive"
                                                                                     name="status"
-                                                                                    onChange={this.handleChangeStatus}
-                                                                                    label="InActive" inline
+                                                                                    onChange={this.handleChangeStatusName}
+                                                                                    label="InActive"
+                                                                                    inline
                                                                                 />
                                                                             </div>
                                                                         ) : (
@@ -348,6 +363,7 @@ class UserRight extends React.Component {
                                                                                         type="radio"
                                                                                         id="exampleCustomRadio"
                                                                                         name="status"
+                                                                                        value={this.state.status}
                                                                                         checked={this.state.statuscheck1}
                                                                                         onChange={this.handleChangeStatus}
                                                                                         label="Active"
@@ -357,9 +373,12 @@ class UserRight extends React.Component {
                                                                                         type="radio"
                                                                                         id="exampleCustomRadio1"
                                                                                         name="status"
+                                                                                        value={this.state.status}
                                                                                         checked={this.state.statuscheck2}
-                                                                                        onChange={this.handleChangeStatus}
-                                                                                        label="InActive" inline />
+                                                                                        onChange={this.handleChangeStatusName}
+                                                                                        label="InActive"
+                                                                                        inline
+                                                                                    />
                                                                                 </div>
                                                                             )
                                                                     }
@@ -504,8 +523,8 @@ class UserRight extends React.Component {
                                                                                 <div>
                                                                                     <CustomInput
                                                                                         type="radio"
-                                                                                        id="exampleCustomRadio" v
-                                                                                        alue="active"
+                                                                                        id="exampleCustomRadio"
+                                                                                        value="active"
                                                                                         name="status"
                                                                                         onChange={this.handleChangeStatus}
                                                                                         label="Active"
@@ -516,7 +535,7 @@ class UserRight extends React.Component {
                                                                                         id="exampleCustomRadio1"
                                                                                         value="inactive"
                                                                                         name="status"
-                                                                                        onChange={this.handleChangeStatus}
+                                                                                        onChange={this.handleChangeStatusName}
                                                                                         label="InActive"
                                                                                         inline
                                                                                     />
@@ -527,7 +546,9 @@ class UserRight extends React.Component {
                                                                                             type="radio"
                                                                                             id="exampleCustomRadio"
                                                                                             name="status"
-                                                                                            checked={this.state.statuscheck1} onChange={this.handleChangeStatus}
+                                                                                            value={this.state.status}
+                                                                                            checked={this.state.statuscheck1}
+                                                                                            onChange={this.handleChangeStatus}
                                                                                             label="Active"
                                                                                             inline
                                                                                         />
@@ -535,7 +556,9 @@ class UserRight extends React.Component {
                                                                                             type="radio"
                                                                                             id="exampleCustomRadio1"
                                                                                             name="status"
-                                                                                            checked={this.state.statuscheck2} onChange={this.handleChangeStatus}
+                                                                                            value={this.state.status}
+                                                                                            checked={this.state.statuscheck2}
+                                                                                            onChange={this.handleChangeStatusName}
                                                                                             label="InActive"
                                                                                             inline
                                                                                         />

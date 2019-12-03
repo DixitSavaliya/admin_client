@@ -42,7 +42,7 @@ class ViewUser extends React.Component {
                             userdata: findresponse.data.data
                         })
                         console.log("getUser response===", this.state.userdata);
-                       
+
                     } else {
                         console.log("err", err);
                         // Swal.fire("Something went wrong!", "", "warning");
@@ -73,7 +73,71 @@ class ViewUser extends React.Component {
                                     <Card className="main-card mb-3">
                                         <CardBody>
                                             <CardTitle><b>List-Users Table:</b></CardTitle>
-                                            <Table hover className="mb-0" bordered>
+                                            <hr/>
+                                            <Row>
+                                            <Col md="4">
+                                                {
+                                                    this.state.userdata.map((data,index) => 
+                                                    <div>
+                                                        <h5>First_Name:</h5>
+                                                        <p>{data.first_name}</p>
+                                                    </div>
+                                                    )
+                                                }
+                                            </Col>
+                                            <Col md="4">
+                                                {
+                                                    this.state.userdata.map((data,index) => 
+                                                    <div>
+                                                        <h5>Last_Name:</h5>
+                                                        <p>{data.last_name}</p>
+                                                    </div>
+                                                    )
+                                                }
+                                            </Col>
+                                            <Col md="4">
+                                                {
+                                                    this.state.userdata.map((data,index) => 
+                                                    <div>
+                                                        <h5>E-Mail:</h5>
+                                                        <p>{data.email}</p>
+                                                    </div>
+                                                    )
+                                                }
+                                            </Col>
+                                            <br/>
+                                            <Col md="4">
+                                                {
+                                                    this.state.userdata.map((data,index) => 
+                                                    <div>
+                                                        <h5>PhoneNumber:</h5>
+                                                        <p>{data.mobile_number}</p>
+                                                    </div>
+                                                    )
+                                                }
+                                            </Col>
+                                            <Col md="4">
+                                                {
+                                                    this.state.userdata.map((data,index) => 
+                                                    <div>
+                                                        <h5>Gender:</h5>
+                                                        <p>{data.gender}</p>
+                                                    </div>
+                                                    )
+                                                }
+                                            </Col>
+                                            <Col md="4">
+                                                {
+                                                    this.state.userdata.map((data,index) => 
+                                                    <div>
+                                                        <h5>User_Role:</h5>
+                                                        <p>{data.user_role}</p>
+                                                    </div>
+                                                    )
+                                                }
+                                            </Col>
+                                            </Row>
+                                            {/* <Table hover className="mb-0" bordered>
                                                 <thead>
                                                     <tr>
                                                         <th>First_Name</th>
@@ -98,7 +162,7 @@ class ViewUser extends React.Component {
                                                         )
                                                     }
                                                 </tbody>
-                                            </Table>
+                                            </Table> */}
                                         </CardBody>
                                     </Card>
                                 </Col>
