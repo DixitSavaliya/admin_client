@@ -1,8 +1,5 @@
 import React, { Fragment } from 'react';
 import { AsyncTypeahead, Typeahead } from 'react-bootstrap-typeahead';
-
-import SearchResultMenuItem from './SearchResultMenuItem';
-import Select from 'react-select';
 import axios from 'axios';
 import { EventEmitter } from '../../../event';
 
@@ -18,19 +15,12 @@ class TypeAhead extends React.Component {
             multiple: false,
             options: [],
             serachAPI: '',
-            selected: []
+            selected: [],
+            tId:[]
         }
         this.searchTaskDataKeyUp = this.searchTaskDataKeyUp.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
-        EventEmitter.subscribe('technologies', (data) => {
-            this.setState({
-                optionsUser: this.state.optionsUser = data
-            })
-        });
-
-
     }
-
 
     componentDidMount() {
         console.log("props", this.props);
@@ -42,19 +32,16 @@ class TypeAhead extends React.Component {
 
     handleChangeSelect(event) {
         console.log("event", event);
+        event.map((data,index) => 
+        this.setState({
+            tId:this.state.tId = data.id
+        })
+        )
+        console.log("tId===",this.state.tId);
     }
 
     searchTaskDataKeyUp(e) {
-        console.log("event", e);
-        console.log("msg")
-        this.setState({ isLoading: true });
-        // makeAndHandleRequest(query)
-        // .then(({options}) => {
-        //   this.setState({
-        //     isLoading: false,
-        //     options,
-        //   });
-        // }); 
+        this.setState({ isLoading: this.state.isLoading = true });
         if (this.state.serachAPI) {
             axios.post('http://localhost:3505/' + this.state.serachAPI, { searchkey: e })
                 .then(response => {
@@ -66,7 +53,7 @@ class TypeAhead extends React.Component {
                         console.log("response", this.state.options)
                     } else {
                         this.setState({
-                            isLoading: false,
+                            isLoading:  this.state.isLoading = false,
                             options,
                         });
                     }
@@ -74,14 +61,14 @@ class TypeAhead extends React.Component {
                     console.log("error", error)
                     let options = [];
                     this.setState({
-                        isLoading: false,
+                        isLoading: this.state.isLoading = false,
                         options,
                     });
                 });
         } else {
             let options = [];
             this.setState({
-                isLoading: false,
+                isLoading: this.state.isLoading = false,
                 options,
             });
         }
@@ -91,7 +78,6 @@ class TypeAhead extends React.Component {
     render() {
         return (
             <AsyncTypeahead
-               
                 id="my-typeahead-id"
                 labelKey="name"
                 minLength={1}
@@ -100,9 +86,6 @@ class TypeAhead extends React.Component {
                 onChange={this.handleChangeSelect}
                 options={this.state.options}
                 multiple={true}
-            // renderMenuItemChildren={(option, props) => (
-            //     <GithubMenuItem key={option.id} user={option} />
-            // )}
             />
         );
     }
