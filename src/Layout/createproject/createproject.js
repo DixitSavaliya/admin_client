@@ -25,6 +25,7 @@ class CreateProject extends React.Component {
 
     /** First Constructor Call */
     constructor(props) {
+        console.log("props", props);
         super(props);
         this.state = {
             technology: [],
@@ -38,7 +39,7 @@ class CreateProject extends React.Component {
             projecttypeerror: '',
             hours: '',
             hourserror: '',
-            multiple:true,
+            multiple: true,
             apiPath: 'User/getTechnology',
             selecttechnology: '',
             selecttechnologyerror: '',
@@ -77,7 +78,9 @@ class CreateProject extends React.Component {
             project_assign_id: '',
             assignProjectCount: '',
             pagination: '',
-            tharray:[]
+            tharray: '',
+            dataTg: '',
+            tname: ''
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -100,7 +103,7 @@ class CreateProject extends React.Component {
         this.editprojectAssign = this.editprojectAssign.bind(this);
         this.searchAssignProjectKeyUp = this.searchAssignProjectKeyUp.bind(this);
         this.handleChangeAssignProjectEvent = this.handleChangeAssignProjectEvent.bind(this);
-
+        this.array = [];
         EventEmitter.subscribe('taskdata', (data) => {
             if (data.data.data[0].status == "active") {
                 this.setState({
@@ -140,9 +143,22 @@ class CreateProject extends React.Component {
             })
         });
 
+        EventEmitter.subscribe('tgarray', (dataarray) => {
+            var array = [];
+            console.log("data", dataarray);
+            for (var i = 0; i < dataarray.length; i++) {
+                array.push(((dataarray[i].id).toString()))
+            }
+            this.setState({
+                tharray: this.state.tharray = array
+            })
+            this.componentDidMount();
+        });
+
     }
 
     componentDidMount() {
+        console.log("this.arry", this.state.tharray);
         API.getTechnology()
             .then((findresponse) => {
                 if (findresponse) {
@@ -217,48 +233,52 @@ class CreateProject extends React.Component {
                         this.setState({
                             newData: findresponse.data.data
                         })
-                        if (this.state.newData.technology_id == "1") {
-                            this.setState({
-                                technologyName: "JAVA"
-                            })
-                        } else if (this.state.newData.technology_id == "2") {
-                            this.setState({
-                                technologyName: "PHP"
-                            })
-                        } else if (this.state.newData.technology_id == "3") {
-                            this.setState({
-                                technologyName: "JAVASCRIPT"
-                            })
-                        } else if (this.state.newData.technology_id == "4") {
-                            this.setState({
-                                technologyName: "ANGULAR-JS"
-                            })
-                        } else if (this.state.newData.technology_id == "5") {
-                            this.setState({
-                                technologyName: "REACT-JS"
-                            })
-                        }
 
-                        if (this.state.newData.status == "active") {
+                        console.log("projectdata", this.state.newData.projectData[0])
+                        var arrayvalue = [];
+                        for (var i = 0; i < this.state.newData.technologyData.length; i++) {
+                            console.log("technologyName", this.state.newData.technologyData[i].technology_id);
+                            arrayvalue.push(this.state.newData.technologyData[i].technology_id);
+                        }
+                        console.log("arrayvalue", arrayvalue);
+                        API.getTechnologyById({ technology_id: arrayvalue })
+                            .then((findresponse) => {
+                                if (findresponse) {
+                                    console.log("technologyName response===", findresponse);
+                                    this.setState({
+                                        tname: findresponse.data.data
+                                    })
+                                    console.log("technologyName response===", this.state.tname);
+
+                                    EventEmitter.dispatch('tname', this.state.tname);
+                                } else {
+                                    console.log("err", err);
+                                    // Swal.fire("Something went wrong!", "", "warning");
+                                }
+                            }).catch((err) => {
+                                Swal.fire("Something went wrong!", "", "warning");
+                            });
+
+                        if (this.state.newData.projectData[0].status == "active") {
                             this.setState({
-                                title: this.state.newData.title,
-                                discription: this.state.newData.discription,
-                                hours: this.state.newData.hours,
-                                projecttype: this.state.newData.project_type,
-                                budget: this.state.newData.budget,
-                                selecttechnology: this.state.newData.technology_id,
-                                status: this.state.newData.status,
+                                title: this.state.newData.projectData[0].title,
+                                discription: this.state.newData.projectData[0].discription,
+                                hours: this.state.newData.projectData[0].hours,
+                                projecttype: this.state.newData.projectData[0].project_type,
+                                budget: this.state.newData.projectData[0].budget,
+                                // selecttechnology: this.state.newData.technology_id,
+                                status: this.state.newData.projectData[0].status,
                                 statuscheck1: this.state.statuscheck1 = true
                             })
-                        } else if (this.state.newData.status == "inactive") {
+                        } else if (this.state.newData.projectData[0].status == "inactive") {
                             this.setState({
-                                title: this.state.newData.title,
-                                discription: this.state.newData.discription,
-                                hours: this.state.newData.hours,
-                                projecttype: this.state.newData.project_type,
-                                budget: this.state.newData.budget,
-                                selecttechnology: this.state.newData.technology_id,
-                                status: this.state.newData.status,
+                                title: this.state.newData.projectData[0].title,
+                                discription: this.state.newData.projectData[0].discription,
+                                hours: this.state.newData.projectData[0].hours,
+                                projecttype: this.state.newData.projectData[0].project_type,
+                                budget: this.state.newData.projectData[0].budget,
+                                // selecttechnology: this.state.newData.technology_id,
+                                status: this.state.newData.projectData[0].status,
                                 statuscheck2: this.state.statuscheck2 = true
                             })
                         }
@@ -400,16 +420,16 @@ class CreateProject extends React.Component {
             hourserror = "please enter valid hours";
         }
 
-        if (!this.state.selecttechnology) {
-            selecttechnologyerror = "please enter selecttechnology";
-        }
+        // if (!this.state.selecttechnology) {
+        //     selecttechnologyerror = "please enter selecttechnology";
+        // }
 
         if (!this.state.status) {
             statuserror = "please enter status";
         }
 
-        if (titleerror || statuserror || discriptionerror || budgeterror || projecttypeerror || hourserror || selecttechnologyerror) {
-            this.setState({ titleerror, statuserror, discriptionerror, budgeterror, projecttypeerror, hourserror, selecttechnologyerror });
+        if (titleerror || statuserror || discriptionerror || budgeterror || projecttypeerror || hourserror) {
+            this.setState({ titleerror, statuserror, discriptionerror, budgeterror, projecttypeerror, hourserror });
             return false;
         }
         return true;
@@ -490,7 +510,7 @@ class CreateProject extends React.Component {
                 status: '',
                 statuserror: ''
             })
-            if (this.state.title && this.state.discription && this.state.hours && this.state.budget && this.state.projecttype && this.state.selecttechnology && this.state.status) {
+            if (this.state.title && this.state.discription && this.state.hours && this.state.budget && this.state.projecttype && this.state.tharray && this.state.status) {
                 const obj = {
                     owner_id: this.id,
                     title: this.state.title,
@@ -498,10 +518,11 @@ class CreateProject extends React.Component {
                     budget: this.state.budget,
                     project_type: this.state.projecttype,
                     hours: this.state.hours,
-                    technology_id: this.state.selecttechnology,
+                    technology_id: this.state.tharray,
                     status: this.state.status,
                     created_date: this.state.createdDate
                 }
+                console.log("obj", obj)
                 API.CreateProject(obj)
                     .then((findresponse) => {
                         if (findresponse) {
@@ -519,11 +540,10 @@ class CreateProject extends React.Component {
                 Swal.fire("Please enter field first!", "", "warning");
             }
         };
-
-
     }
 
     editProject() {
+        console.log("this.arry", this.state.tharray);
         const isValid = this.validate();
         if (isValid) {
             this.setState({
@@ -537,12 +557,12 @@ class CreateProject extends React.Component {
                 projecttypeerror: '',
                 hours: '',
                 hourserror: '',
-                selecttechnology: '',
-                selecttechnologyerror: '',
+                // selecttechnology: '',
+                // selecttechnologyerror: '',
                 status: '',
                 statuserror: ''
             })
-            if (this.state.title && this.state.discription && this.state.hours && this.state.budget && this.state.selecttechnology && this.state.status && this.state.projecttype) {
+            if (this.state.title && this.state.discription && this.state.hours && this.state.budget && this.state.status && this.state.projecttype) {
                 const obj = {
                     project_id: this.props.location.pathname.split('/')[2],
                     owner_id: this.id,
@@ -551,7 +571,7 @@ class CreateProject extends React.Component {
                     budget: this.state.budget,
                     project_type: this.state.newData.project_type,
                     hours: this.state.hours,
-                    technology_id: this.state.selecttechnology,
+                    technology_id: this.state.tharray,
                     status: this.state.status,
                     created_date: this.state.createdDate
                 }
@@ -561,7 +581,7 @@ class CreateProject extends React.Component {
                         if (findresponse) {
                             console.log("technology response===", findresponse);
                             Swal.fire("Project Edited Successfully!", "", "success");
-                            history.push('/listproject');
+                            // history.push('/listproject');
                         } else {
                             console.log("err", err);
                             // Swal.fire("Something went wrong!", "", "warning");
@@ -905,7 +925,7 @@ class CreateProject extends React.Component {
                                                                 </Col>
                                                             </Row>
                                                             <Row>
-                                                                <Col md="4">
+                                                                <Col md="6">
                                                                     <FormGroup>
                                                                         <Label>Hours:</Label>
                                                                         <Input
@@ -920,7 +940,7 @@ class CreateProject extends React.Component {
                                                                         </div>
                                                                     </FormGroup>
                                                                 </Col>
-                                                                <Col md="4">
+                                                                <Col md="6">
                                                                     <FormGroup>
                                                                         <Label>Select Status:</Label>
                                                                         <div>
@@ -946,51 +966,26 @@ class CreateProject extends React.Component {
                                                                         </div>
                                                                     </FormGroup>
                                                                 </Col>
-                                                                <Col md="4">
+                                                            </Row>
+                                                            <Row>
+                                                                <Col md="12">
                                                                     {
                                                                         this.props.location.pathname.split('/')[2] ? (
                                                                             <FormGroup>
                                                                                 <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
-                                                                                {/* <Multiselect options={this.state.tharray} onSelectOptions={this.result} /> */}
-                                                                                {/* <CustomInput
-                                                                                    type="select"
-                                                                                    id="exampleCustomSelect"
-                                                                                    name="selecttechnology"
-                                                                                    onChange={() => this.onTechnologySelect(event)}
-                                                                                >
-                                                                                    <option value="">{this.state.technologyName}</option>
-                                                                                    {
-                                                                                        this.state.technology.map((data, index) =>
-                                                                                            <option key={data.id} value={data.id}>{data.name}</option>
-                                                                                        )
-                                                                                    }
-                                                                                </CustomInput> */}
+                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+
                                                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                                                     {this.state.selecttechnologyerror}
                                                                                 </div>
                                                                             </FormGroup>
                                                                         ) : (
                                                                                 <FormGroup>
-                                                                                  <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
-                                                                                    {/* <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                    <Multiselect  options={this.state.tharray} onSelectOptions={this.result} /> */}
-                                                                                    {/* <CustomInput
-                                                                                        type="select"
-                                                                                        id="exampleCustomSelect"
-                                                                                        name="selecttechnology"
-                                                                                        onChange={() => this.onTechnologySelect(event)}
-                                                                                    >
-                                                                                        <option value="">Select Technology:</option>
-                                                                                        {
-                                                                                            this.state.technology.map((data, index) =>
-                                                                                                <option key={data.id} value={data.id}>{data.name}</option>
-                                                                                            )
-                                                                                        }
-                                                                                    </CustomInput> */}
-                                                                                    {/* <div style={{ fontSize: 12, color: "red" }}>
+                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+
+                                                                                    <div style={{ fontSize: 12, color: "red" }}>
                                                                                         {this.state.selecttechnologyerror}
-                                                                                    </div> */}
+                                                                                    </div>
                                                                                 </FormGroup>
                                                                             )
                                                                     }
@@ -1039,7 +1034,7 @@ class CreateProject extends React.Component {
                                                                         className="mt-1"
                                                                         onClick={this.editProject}
                                                                     >
-                                                                        EditProject
+                                                                        Update
                                                                     </Button>
                                                                 ) : (
                                                                         <Button
@@ -1047,7 +1042,7 @@ class CreateProject extends React.Component {
                                                                             className="mt-1"
                                                                             onClick={this.createProject}
                                                                         >
-                                                                            CreateProject
+                                                                            Create
                                                                         </Button>
                                                                     )
                                                             }
@@ -1061,7 +1056,7 @@ class CreateProject extends React.Component {
                                                 <Card className="main-card mb-3">
                                                     {
                                                         this.state.buttonVisiblity == true ? (
-                                                            <CardHeader> <CardTitle className="font">Edit-Task</CardTitle></CardHeader>
+                                                            <CardHeader> <CardTitle className="font">Update-Task</CardTitle></CardHeader>
                                                         ) : (
                                                                 <CardHeader> <CardTitle className="font">Create-Task</CardTitle></CardHeader>
                                                             )
@@ -1150,7 +1145,7 @@ class CreateProject extends React.Component {
                                                                         className="mt-1"
                                                                         onClick={this.editTask}
                                                                     >
-                                                                        Edit-Task
+                                                                        Update
                                                                     </Button>
                                                                 ) : (
                                                                         <Button
@@ -1158,7 +1153,7 @@ class CreateProject extends React.Component {
                                                                             className="mt-1"
                                                                             onClick={this.createTask}
                                                                         >
-                                                                            Create-Task
+                                                                            Create
                                                                         </Button>
                                                                     )
                                                             }
@@ -1276,7 +1271,7 @@ class CreateProject extends React.Component {
                                                                         className="mt-1"
                                                                         onClick={this.editprojectAssign}
                                                                     >
-                                                                        Edit-Project-Assign
+                                                                        Update
                                                                 </Button>
                                                                 ) : (
                                                                         <Button
@@ -1284,7 +1279,7 @@ class CreateProject extends React.Component {
                                                                             className="mt-1"
                                                                             onClick={this.projectAssign}
                                                                         >
-                                                                            Project-Assign
+                                                                            Create
                                                                 </Button>
                                                                     )
                                                             }
@@ -1483,23 +1478,8 @@ class CreateProject extends React.Component {
                                                                         this.props.location.pathname.split('/')[2] ? (
                                                                             <FormGroup>
                                                                                 <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
-                                                                                {/* <CustomInput
-                                                                                    type="select"
-                                                                                    id="exampleCustomSelect"
-                                                                                    name="selecttechnology"
-                                                                                    value={
-                                                                                        this.state.technologyName
-                                                                                    }
-                                                                                    onChange={() => this.onTechnologySelect(event)}
-                                                                                >
-                                                                                  
-                                                                                    {
-                                                                                        this.state.technology.map((data, index) =>
-                                                                                            <option key={data.id} value={data.id}>{data.name}</option>
-                                                                                        )
-                                                                                    }
-                                                                                </CustomInput> */}
+                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+
                                                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                                                     {this.state.selecttechnologyerror}
                                                                                 </div>
@@ -1507,20 +1487,8 @@ class CreateProject extends React.Component {
                                                                         ) : (
                                                                                 <FormGroup>
                                                                                     <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology}/>
-                                                                                    {/* <CustomInput
-                                                                                        type="select"
-                                                                                        id="exampleCustomSelect"
-                                                                                        name="selecttechnology"
-                                                                                        onChange={() => this.onTechnologySelect(event)}
-                                                                                    >
-                                                                                        <option value="">Select Technology:</option>
-                                                                                        {
-                                                                                            this.state.technology.map((data, index) =>
-                                                                                                <option key={data.id} value={data.id}>{data.name}</option>
-                                                                                            )
-                                                                                        }
-                                                                                    </CustomInput> */}
+                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+
                                                                                     <div style={{ fontSize: 12, color: "red" }}>
                                                                                         {this.state.selecttechnologyerror}
                                                                                     </div>
@@ -1529,7 +1497,7 @@ class CreateProject extends React.Component {
                                                                     }
 
                                                                 </Col>
-                                                                </Row>
+                                                            </Row>
                                                             <Row>
                                                                 <Col md="12">
                                                                     {
@@ -1574,7 +1542,7 @@ class CreateProject extends React.Component {
                                                                         className="mt-1"
                                                                         onClick={this.editProject}
                                                                     >
-                                                                        EditProject
+                                                                        Update
                                                                     </Button>
                                                                 ) : (
                                                                         <Button
@@ -1582,7 +1550,7 @@ class CreateProject extends React.Component {
                                                                             className="mt-1"
                                                                             onClick={this.createProject}
                                                                         >
-                                                                            CreateProject
+                                                                            Create
                                                                         </Button>
                                                                     )
                                                             }

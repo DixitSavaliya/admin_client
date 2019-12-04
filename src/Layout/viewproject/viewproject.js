@@ -43,30 +43,33 @@ class ViewProject extends React.Component {
                         this.setState({
                             newData: findresponse.data.data
                         })
-                        if (this.state.newData.technology_id == "1") {
-                            this.setState({
-                                technologyName: "JAVA"
-                            })
-                        } else if (this.state.newData.technology_id == "2") {
-                            this.setState({
-                                technologyName: "PHP"
-                            })
-                        } else if (this.state.newData.technology_id == "3") {
-                            this.setState({
-                                technologyName: "JAVASCRIPT"
-                            })
-                        } else if (this.state.newData.technology_id == "4") {
-                            this.setState({
-                                technologyName: "ANGULAR-JS"
-                            })
-                        } else if (this.state.newData.technology_id == "5") {
-                            this.setState({
-                                technologyName: "REACT-JS"
-                            })
-                        }
+                        console.log("projectdata", this.state.newData.projectData[0])
+                        // var arrayvalue = [];
+                        // for (var i = 0; i < this.state.newData.technologyData.length; i++) {
+                        //     console.log("technologyName", this.state.newData.technologyData[i].technology_id);
+                        //     arrayvalue.push(this.state.newData.technologyData[i].technology_id);
+                        // }
+                        // console.log("arrayvalue", arrayvalue);
+                        // API.getTechnologyById({ technology_id: arrayvalue })
+                        //     .then((findresponse) => {
+                        //         if (findresponse) {
+                        //             console.log("technologyName response===", findresponse);
+                        //             this.setState({
+                        //                 tname: findresponse.data.data
+                        //             })
+                        //             console.log("technologyName response===", this.state.tname);
+
+                        //             EventEmitter.dispatch('tname', this.state.tname);
+                        //         } else {
+                        //             console.log("err", err);
+                        //             // Swal.fire("Something went wrong!", "", "warning");
+                        //         }
+                        //     }).catch((err) => {
+                        //         Swal.fire("Something went wrong!", "", "warning");
+                        //     });
                         console.log("newData", this.state.newData);
                         var data = [];
-                        data.push(this.state.newData);
+                        data.push(this.state.newData.projectData[0]);
                         console.log("data", data);
                         this.setState({
                             pdata: this.state.pdata = data
@@ -191,7 +194,7 @@ class ViewProject extends React.Component {
                                                         this.state.pdata.map((data, index) =>
                                                             <div key={index}>
                                                                 <h5>Discription:</h5>
-                                                                <p>{renderHTML(data.discription)}</p>
+                                                                <span>{renderHTML(data.discription)}</span>
                                                             </div>
                                                         )
                                                     }

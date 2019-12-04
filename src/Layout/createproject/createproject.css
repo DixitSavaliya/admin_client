@@ -12,6 +12,7 @@ span.project_tabel i {
 }
 .rbt-token.rbt-token-removeable {
     margin-left: 15px;
+    background-color: #2fa4e740 !important;
 }
 button.close.rbt-close.rbt-token-remove-button {
     margin-left: 8px;

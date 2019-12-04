@@ -20,6 +20,13 @@ class TypeAhead extends React.Component {
         }
         this.searchTaskDataKeyUp = this.searchTaskDataKeyUp.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
+
+        EventEmitter.subscribe('tname', (data) => {
+            this.setState({
+                tId: this.state.tId = data
+            })
+            console.log("tid",this.state.tId);
+        });
     }
 
     componentDidMount() {
@@ -30,14 +37,11 @@ class TypeAhead extends React.Component {
         })
     }
 
+    
+    
     handleChangeSelect(event) {
         console.log("event", event);
-        event.map((data,index) => 
-        this.setState({
-            tId:this.state.tId = data.id
-        })
-        )
-        console.log("tId===",this.state.tId);
+       EventEmitter.dispatch('tgarray', event);
     }
 
     searchTaskDataKeyUp(e) {
@@ -76,17 +80,36 @@ class TypeAhead extends React.Component {
 
 
     render() {
+        console.log("tId",this.state.tId);
         return (
-            <AsyncTypeahead
-                id="my-typeahead-id"
-                labelKey="name"
-                minLength={1}
-                onSearch={this.searchTaskDataKeyUp}
-                placeholder="Search for a technologies..."
-                onChange={this.handleChangeSelect}
-                options={this.state.options}
-                multiple={true}
-            />
+            <div>
+                {
+                    this.state.tId.length ? (
+                        <AsyncTypeahead
+                            id="my-typeahead-id"
+                            selected={this.state.tId}
+                            labelKey="name"
+                            minLength={1}
+                            onSearch={this.searchTaskDataKeyUp}
+                            placeholder="Search for a technologies..."
+                            onChange={this.handleChangeSelect}
+                            options={this.state.options}
+                            multiple={true}
+                        />
+                    ) : (
+                        <AsyncTypeahead
+                        id="my-typeahead-id"
+                        labelKey="name"
+                        minLength={1}
+                        onSearch={this.searchTaskDataKeyUp}
+                        placeholder="Search for a technologies..."
+                        onChange={this.handleChangeSelect}
+                        options={this.state.options}
+                        multiple={true}
+                    />
+                    )
+                }
+            </div>
         );
     }
 }

@@ -468,6 +468,13 @@ export default {
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
+    getTechnologyById:(id) => {
+        return axios.post("http://localhost:3505/User/getTechnologyNameById",id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
     authenticate: () => {
         const Token = localStorage.getItem('token');
         const headers = {
