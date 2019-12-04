@@ -12389,3 +12389,32 @@ h5.card-title b {
 .col-md-5 .lt {
     text-align: end;
 }
+.tox .tox-notification {
+    background-color: #fffaea;
+    border-color: #ffe89d;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    color: #222f3e;
+    display: grid;
+    grid-template-columns: minmax(40px,1fr) auto minmax(40px,1fr);
+    margin-top: 5px;
+    opacity: 0;
+    padding: 5px;
+    transition: transform .1s ease-in,opacity 150ms ease-in;
+    visibility: collapse !important;
+}
+
+/* .tox :not(svg) {
+    background: 0 0;
+    border: 0;
+    float: none;
+    height: auto;
+    margin: 0;
+    max-width: none;
+    outline: 0;
+    padding: 0;
+    position: static;
+    width: auto;
+    visibility: collapse !important;
+} */

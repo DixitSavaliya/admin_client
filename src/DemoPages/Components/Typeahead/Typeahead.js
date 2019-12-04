@@ -16,7 +16,7 @@ class TypeAhead extends React.Component {
             options: [],
             serachAPI: '',
             selected: [],
-            tId:[]
+            tId: []
         }
         this.searchTaskDataKeyUp = this.searchTaskDataKeyUp.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
@@ -25,7 +25,7 @@ class TypeAhead extends React.Component {
             this.setState({
                 tId: this.state.tId = data
             })
-            console.log("tid",this.state.tId);
+            console.log("tid", this.state.tId);
         });
     }
 
@@ -37,11 +37,11 @@ class TypeAhead extends React.Component {
         })
     }
 
-    
-    
+
+
     handleChangeSelect(event) {
         console.log("event", event);
-       EventEmitter.dispatch('tgarray', event);
+        EventEmitter.dispatch('tgarray', event);
     }
 
     searchTaskDataKeyUp(e) {
@@ -57,7 +57,7 @@ class TypeAhead extends React.Component {
                         console.log("response", this.state.options)
                     } else {
                         this.setState({
-                            isLoading:  this.state.isLoading = false,
+                            isLoading: this.state.isLoading = false,
                             options,
                         });
                     }
@@ -80,16 +80,15 @@ class TypeAhead extends React.Component {
 
 
     render() {
-        console.log("tId",this.state.tId);
+        console.log("tId", this.state.tId);
         return (
             <div>
                 {
                     this.state.tId.length ? (
                         <AsyncTypeahead
                             id="my-typeahead-id"
-                            selected={this.state.tId}
                             labelKey="name"
-                            minLength={1}
+                            selected={this.state.tId}
                             onSearch={this.searchTaskDataKeyUp}
                             placeholder="Search for a technologies..."
                             onChange={this.handleChangeSelect}
@@ -97,17 +96,16 @@ class TypeAhead extends React.Component {
                             multiple={true}
                         />
                     ) : (
-                        <AsyncTypeahead
-                        id="my-typeahead-id"
-                        labelKey="name"
-                        minLength={1}
-                        onSearch={this.searchTaskDataKeyUp}
-                        placeholder="Search for a technologies..."
-                        onChange={this.handleChangeSelect}
-                        options={this.state.options}
-                        multiple={true}
-                    />
-                    )
+                            <AsyncTypeahead
+                                id="my-typeahead-id"
+                                labelKey="name"
+                                onSearch={this.searchTaskDataKeyUp}
+                                placeholder="Search for a technologies..."
+                                onChange={this.handleChangeSelect}
+                                options={this.state.options}
+                                multiple={true}
+                            />
+                        )
                 }
             </div>
         );

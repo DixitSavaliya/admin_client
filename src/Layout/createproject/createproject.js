@@ -581,7 +581,7 @@ class CreateProject extends React.Component {
                         if (findresponse) {
                             console.log("technology response===", findresponse);
                             Swal.fire("Project Edited Successfully!", "", "success");
-                            // history.push('/listproject');
+                            history.push('/listproject');
                         } else {
                             console.log("err", err);
                             // Swal.fire("Something went wrong!", "", "warning");
