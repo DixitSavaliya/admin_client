@@ -1,7 +1,13 @@
 import React from 'react';
 import './popup.css';
 import API from '../../../service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import {
+  Row, Col,
+  Card, CardBody,
+  CardTitle,
+  CustomInput, Form, FormGroup, Label, Table, Input, Button, CardHeader
+} from 'reactstrap';
 
 class Popup extends React.Component {
   constructor(props) {
@@ -50,13 +56,13 @@ class Popup extends React.Component {
   changePassword() {
     const isValid = this.validate();
     if (isValid) {
-        console.log(this.state);
-        this.setState({
-          newPasswordError: '',
-          oldPasswordError: '',
-          newPassword:'',
-          oldPassword:''
-        })
+      console.log(this.state);
+      this.setState({
+        newPasswordError: '',
+        oldPasswordError: '',
+        newPassword: '',
+        oldPassword: ''
+      })
     };
 
     if (this.state.newPassword && this.state.oldPassword) {
@@ -85,25 +91,56 @@ class Popup extends React.Component {
     return (
       <div className='popup'>
         <div className='popup_inner'>
-          <h1 className="text-center">ChangePassword</h1>
-          <form>
-            <div className="form-group">
-              <label>Old Password</label>
-              <input type="password" className="form-control" name="oldPassword" value={this.state.oldPassword} onChange={this.handleChangeEvent} />
-              <div style={{ fontSize: 12, color: "red" }}>
-                {this.state.oldPasswordError}
-              </div>
-            </div>
-            <div className="form-group">
-              <label>New Password</label>
-              <input type="password" className="form-control" name="newPassword" value={this.state.newPassword} onChange={this.handleChangeEvent} />
-              <div style={{ fontSize: 12, color: "red" }}>
-                {this.state.newPasswordError}
-              </div>
-            </div>
-            <button type="button" className="btn btn-primary" onClick={this.changePassword}>Change Password</button>
-            <button type="button" className="btn btn-primary" onClick={this.props.closePopup}>Close </button>
-          </form>
+          <Card className="main-card mb-3">
+            <CardHeader> <CardTitle className="font">Change-Password</CardTitle></CardHeader>
+            <CardBody>
+              <Form>
+                <FormGroup>
+                  <Label>Old Password:</Label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="oldPassword"
+                    value={this.state.oldPassword}
+                    onChange={this.handleChangeEvent}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.oldPasswordError}
+                  </div>
+                </FormGroup>
+                <FormGroup>
+                  <Label>New Password:</Label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="newPassword"
+                    value={this.state.newPassword}
+                    onChange={this.handleChangeEvent}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.newPasswordError}
+                  </div>
+                </FormGroup>
+                <Button
+                  type="button"
+                  color="primary"
+                  className="mt-1"
+                  onClick={this.changePassword}
+                >
+                  Change Password
+                       </Button>
+                <Button
+                  type="button"
+                  color="warning"
+                  className="mt-1"
+                  onClick={this.props.closePopup}
+                >
+                  Close
+                       </Button>
+
+              </Form>
+            </CardBody>
+          </Card>
         </div>
       </div>
     );

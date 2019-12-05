@@ -157,7 +157,7 @@ class CreateUser extends React.Component {
         }
 
         const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        if(!this.state.email) {
+        if (!this.state.email) {
             emailerror = "please enter email";
         } else if (!reg.test(this.state.email)) {
             emailerror = "invalid email";
@@ -187,8 +187,8 @@ class CreateUser extends React.Component {
         return true;
     };
 
-      /** validation of createproject form */
-      validateUser = () => {
+    /** validation of createproject form */
+    validateUser = () => {
         let first_nameerror = "";
         let last_nameerror = "";
         let emailerror = "";
@@ -205,7 +205,7 @@ class CreateUser extends React.Component {
         }
 
         const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        if(!this.state.email) {
+        if (!this.state.email) {
             emailerror = "please enter email";
         } else if (!reg.test(this.state.email)) {
             emailerror = "invalid email";
@@ -225,7 +225,7 @@ class CreateUser extends React.Component {
             statuserror = "please enter status";
         }
 
-        if (first_nameerror || last_nameerror || emailerror  || mobile_numbererror || user_roleerror || statuserror) {
+        if (first_nameerror || last_nameerror || emailerror || mobile_numbererror || user_roleerror || statuserror) {
             this.setState({ first_nameerror, last_nameerror, emailerror, mobile_numbererror, user_roleerror, statuserror });
             return false;
         }
@@ -451,15 +451,15 @@ class CreateUser extends React.Component {
                                                                                     >
 
                                                                                         <option value="">{this.state.Role}</option>
-                                                                                        <option value="1">Admin</option>
-                                                                                        <option value="1">Admin-Staff</option>
-                                                                                        <option value="2">ProjectManager</option>
-                                                                                        <option value="3">Developer</option>
-                                                                                        <option value="3">Designer</option>
-                                                                                        <option value="3">BDE</option>
-                                                                                        <option value="3">Tester</option>
-                                                                                        <option value="3">Data Scientist</option>
-                                                                                        <option value="3">DBA</option>
+                                                                                        <option value="1">admin</option>
+                                                                                        <option value="1">admin-Staff</option>
+                                                                                        <option value="2">projectManager</option>
+                                                                                        <option value="3">developer</option>
+                                                                                        <option value="3">designer</option>
+                                                                                        <option value="3">bDE</option>
+                                                                                        <option value="3">tester</option>
+                                                                                        <option value="3">data Scientist</option>
+                                                                                        <option value="3">dBA</option>
 
                                                                                     </CustomInput>
                                                                                     <div style={{ fontSize: 12, color: "red" }}>
@@ -477,15 +477,15 @@ class CreateUser extends React.Component {
                                                                                             onChange={() => this.onUserSelect(event)}
                                                                                         >
                                                                                             <option value="">Select UserRole:</option>
-                                                                                            <option value="1">Admin</option>
-                                                                                            <option value="1">Admin-Staff</option>
-                                                                                            <option value="2">ProjectManager</option>
-                                                                                            <option value="3">Developer</option>
-                                                                                            <option value="3">Designer</option>
-                                                                                            <option value="3">BDE</option>
-                                                                                            <option value="3">Tester</option>
-                                                                                            <option value="3">Data Scientist</option>
-                                                                                            <option value="3">DBA</option>
+                                                                                            <option value="1">admin</option>
+                                                                                            <option value="1">admin-Staff</option>
+                                                                                            <option value="2">projectManager</option>
+                                                                                            <option value="3">developer</option>
+                                                                                            <option value="3">designer</option>
+                                                                                            <option value="3">bDE</option>
+                                                                                            <option value="3">tester</option>
+                                                                                            <option value="3">data Scientist</option>
+                                                                                            <option value="3">dBA</option>
 
                                                                                         </CustomInput>
                                                                                         <div style={{ fontSize: 12, color: "red" }}>
@@ -568,7 +568,6 @@ class CreateUser extends React.Component {
                                                 </Col>
                                             </Row>
                                         </div>
-
                                     ) : (
                                             <Row>
                                                 <Col md="12">
@@ -656,14 +655,15 @@ class CreateUser extends React.Component {
                                                                                     >
 
                                                                                         <option value="">{this.state.Role}</option>
-                                                                                        <option value="1">Admin-Staff</option>
-                                                                                        <option value="2">ProjectManager</option>
-                                                                                        <option value="3">Developer</option>
-                                                                                        <option value="3">Designer</option>
-                                                                                        <option value="3">BDE</option>
-                                                                                        <option value="3">Tester</option>
-                                                                                        <option value="3">Data Scientist</option>
-                                                                                        <option value="3">DBA</option>
+                                                                                        <option value="1">admin</option>
+                                                                                        <option value="1">admin-Staff</option>
+                                                                                        <option value="2">projectManager</option>
+                                                                                        <option value="3">developer</option>
+                                                                                        <option value="3">designer</option>
+                                                                                        <option value="3">bDE</option>
+                                                                                        <option value="3">tester</option>
+                                                                                        <option value="3">data Scientist</option>
+                                                                                        <option value="3">dBA</option>
 
                                                                                     </CustomInput>
                                                                                     <div style={{ fontSize: 12, color: "red" }}>
@@ -681,14 +681,15 @@ class CreateUser extends React.Component {
                                                                                             onChange={() => this.onUserSelect(event)}
                                                                                         >
                                                                                             <option value="">Select UserRole:</option>
-                                                                                            <option value="1">Admin-Staff</option>
-                                                                                            <option value="2">ProjectManager</option>
-                                                                                            <option value="3">Developer</option>
-                                                                                            <option value="3">Designer</option>
-                                                                                            <option value="3">BDE</option>
-                                                                                            <option value="3">Tester</option>
-                                                                                            <option value="3">Data Scientist</option>
-                                                                                            <option value="3">DBA</option>
+                                                                                            <option value="1">admin</option>
+                                                                                            <option value="1">admin-Staff</option>
+                                                                                            <option value="2">projectManager</option>
+                                                                                            <option value="3">developer</option>
+                                                                                            <option value="3">designer</option>
+                                                                                            <option value="3">bDE</option>
+                                                                                            <option value="3">tester</option>
+                                                                                            <option value="3">data Scientist</option>
+                                                                                            <option value="3">dBA</option>
 
                                                                                         </CustomInput>
                                                                                         <div style={{ fontSize: 12, color: "red" }}>

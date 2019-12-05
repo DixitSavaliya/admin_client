@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { config } from './config';
 
 export default {
 
     login: (obj) => {
-        return axios.post("http://localhost:3505/User/loginUser", obj)
+        return axios.post(config.baseApiUrl + "/User/loginUser", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -11,7 +12,7 @@ export default {
     },
 
     changePassword: (obj) => {
-        return axios.post("http://localhost:3505/User/changepassword", obj)
+        return axios.post(config.baseApiUrl + "/User/changepassword", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -19,7 +20,7 @@ export default {
     },
 
     ForgotPassword: (obj) => {
-        return axios.post("http://localhost:3505/User/forgotpassword", obj)
+        return axios.post(config.baseApiUrl + "/User/forgotpassword", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -27,14 +28,14 @@ export default {
     },
 
     ResetPassword: (obj) => {
-        return axios.post("http://localhost:3505/User/resetpassword", obj)
+        return axios.post(config.baseApiUrl + "/User/resetpassword", obj)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getProfile: (id) => {
-        return axios.post("http://localhost:3505/User/getprofile", id)
+        return axios.post(config.baseApiUrl + "/User/getprofile", id)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -43,7 +44,7 @@ export default {
 
     updateProfile: (data) => {
         console.log("data", data.get('filename'));
-        return axios.post("http://localhost:3505/User/updateProfile", data)
+        return axios.post(config.baseApiUrl + "/User/updateProfile", data)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -52,7 +53,7 @@ export default {
 
     uploadImage: (data) => {
         console.log("data", data.get('filename'));
-        return axios.post("http://localhost:3505/User/uploadImage", data)
+        return axios.post(config.baseApiUrl + "/User/uploadImage", data)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -60,7 +61,7 @@ export default {
     },
 
     addUserRole: (data) => {
-        return axios.post("http://localhost:3505/User/addUserRole", data)
+        return axios.post(config.baseApiUrl + "/User/addUserRole", data)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -69,7 +70,7 @@ export default {
 
     getUserRoleByIdData: (id) => {
         console.log("id", id);
-        return axios.post("http://localhost:3505/User/getUserRoleById", id)
+        return axios.post(config.baseApiUrl + "/User/getUserRoleById", id)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -77,7 +78,7 @@ export default {
     },
 
     getUserRoleData: () => {
-        return axios.get("http://localhost:3505/User/getUserRole")
+        return axios.post(config.baseApiUrl + "/User/getUserRole")
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -85,7 +86,7 @@ export default {
     },
 
     editUserRole: (obj) => {
-        return axios.post("http://localhost:3505/User/editUserRole", obj)
+        return axios.post(config.baseApiUrl + "/User/editUserRole", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -93,7 +94,7 @@ export default {
     },
 
     deleteUserRoleDataById: (id) => {
-        return axios.post("http://localhost:3505/User/deleteUserRole", id)
+        return axios.post(config.baseApiUrl + "/User/deleteUserRole", id)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -101,7 +102,7 @@ export default {
     },
 
     searchUserData: (data) => {
-        return axios.post("http://localhost:3505/User/searchUserRoleData", data)
+        return axios.post(config.baseApiUrl + "/User/searchUserRoleData", data)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -109,7 +110,7 @@ export default {
     },
 
     getUserRoleDataCount: () => {
-        return axios.get("http://localhost:3505/User/userRoleTableCount")
+        return axios.post(config.baseApiUrl + "/User/userRoleTableCount")
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -117,7 +118,7 @@ export default {
     },
 
     userRoleDataTablePagination: (obj) => {
-        return axios.post("http://localhost:3505/User/userRoleTablePagination", obj)
+        return axios.post(config.baseApiUrl + "/User/userRoleTablePagination", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -125,7 +126,7 @@ export default {
     },
 
     deleteUserRoleAllData: (value) => {
-        return axios.post("http://localhost:3505/User/deleteUserRoleAllData", value)
+        return axios.post(config.baseApiUrl + "/User/deleteUserRoleAllData", value)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -134,7 +135,7 @@ export default {
 
     addUserRight: (obj) => {
         console.log("obj", obj);
-        return axios.post("http://localhost:3505/User/addUserRight", obj)
+        return axios.post(config.baseApiUrl + "/User/addUserRight", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -142,7 +143,7 @@ export default {
     },
 
     getUserRightData: () => {
-        return axios.get("http://localhost:3505/User/getUserRight")
+        return axios.post(config.baseApiUrl + "/User/getUserRight")
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -151,7 +152,7 @@ export default {
 
     getUserRightByIdData: (id) => {
         console.log("id", id);
-        return axios.post("http://localhost:3505/User/getUserRightById", id)
+        return axios.post(config.baseApiUrl + "/User/getUserRightById", id)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -159,7 +160,7 @@ export default {
     },
 
     editUserRight: (obj) => {
-        return axios.post("http://localhost:3505/User/editUserRight", obj)
+        return axios.post(config.baseApiUrl + "/User/editUserRight", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -167,7 +168,7 @@ export default {
     },
 
     deleteUserRightDataById: (id) => {
-        return axios.post("http://localhost:3505/User/deleteUserRight", id)
+        return axios.post(config.baseApiUrl + "/User/deleteUserRight", id)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -175,7 +176,7 @@ export default {
     },
 
     searchUserRightData: (data) => {
-        return axios.post("http://localhost:3505/User/searchUserRightData", data)
+        return axios.post(config.baseApiUrl + "/User/searchUserRightData", data)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -183,7 +184,7 @@ export default {
     },
 
     getUserRightDataCount: () => {
-        return axios.get("http://localhost:3505/User/userRightTableCount")
+        return axios.post(config.baseApiUrl + "/User/userRightTableCount")
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -191,7 +192,7 @@ export default {
     },
 
     userRightDataTablePagination: (obj) => {
-        return axios.post("http://localhost:3505/User/userRightTablePagination", obj)
+        return axios.post(config.baseApiUrl + "/User/userRightTablePagination", obj)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -199,7 +200,7 @@ export default {
     },
 
     deleteUserRightAllData: (value) => {
-        return axios.post("http://localhost:3505/User/deleteUserRightAllData", value)
+        return axios.post(config.baseApiUrl + "/User/deleteUserRightAllData", value)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -207,77 +208,77 @@ export default {
     },
 
     getUserRoleToRightData: (id) => {
-        return axios.post("http://localhost:3505/User/getUserRoleToRight", id)
+        return axios.post(config.baseApiUrl + "/User/getUserRoleToRight", id)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     updateUserRightToRoleData: (obj) => {
-        return axios.post("http://localhost:3505/User/User_Role_to_Right", obj)
+        return axios.post(config.baseApiUrl + "/User/User_Role_to_Right", obj)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getTechnology: () => {
-        return axios.post("http://localhost:3505/User/getTechnology")
+        return axios.post(config.baseApiUrl + "/User/getTechnology")
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     CreateProject: (obj) => {
-        return axios.post("http://localhost:3505/User/createProject", obj)
+        return axios.post(config.baseApiUrl + "/User/createProject", obj)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAllProjects: () => {
-        return axios.post("http://localhost:3505/User/getAllProject")
+        return axios.post(config.baseApiUrl + "/User/getAllProject")
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAllProjectsCounts: () => {
-        return axios.post("http://localhost:3505/User/getAllProjectCount")
+        return axios.post(config.baseApiUrl + "/User/getAllProjectCount")
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAllProjectDataTablePagination: (obj) => {
-        return axios.post("http://localhost:3505/User/getProjectTablePagination", obj)
+        return axios.post(config.baseApiUrl + "/User/getProjectTablePagination", obj)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     deleteProjectById: (id) => {
-        return axios.post("http://localhost:3505/User/deleteProjectById", id)
+        return axios.post(config.baseApiUrl + "/User/deleteProjectById", id)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getProjectByIdData: (id) => {
-        return axios.post("http://localhost:3505/User/getProjectById", id)
+        return axios.post(config.baseApiUrl + "/User/getProjectById", id)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     EditProject: (obj) => {
-        return axios.post("http://localhost:3505/User/editProject", obj)
+        return axios.post(config.baseApiUrl + "/User/editProject", obj)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     searchProjectData: (data) => {
-        return axios.post("http://localhost:3505/User/searchProjectData", data)
+        return axios.post(config.baseApiUrl + "/User/searchProjectData", data)
             .then(response => {
                 console.log("response===", response);
                 return response;
@@ -285,49 +286,49 @@ export default {
     },
 
     CreateTask: (obj) => {
-        return axios.post("http://localhost:3505/User/createTask", obj)
+        return axios.post(config.baseApiUrl + "/User/createTask", obj)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAllTasks: () => {
-        return axios.post("http://localhost:3505/User/getAllTask")
+        return axios.post(config.baseApiUrl + "/User/getAllTask")
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     deleteTaskById: (id) => {
-        return axios.post("http://localhost:3505/User/deleteTaskById", id)
+        return axios.post(config.baseApiUrl + "/User/deleteTaskById", id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getTaskById: (id) => {
-        return axios.post("http://localhost:3505/User/getTaskById", id)
+        return axios.post(config.baseApiUrl + "/User/getTaskById", id)
             .then(response => {
                 return response;
             }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     EditTask:(obj) => {
-        return axios.post("http://localhost:3505/User/editTask", obj)
+        return axios.post(config.baseApiUrl + "/User/editTask", obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getTasksByProjectId: (id) => {
-        return axios.post("http://localhost:3505/User/getTaskByProjectId", id)
+        return axios.post(config.baseApiUrl + "/User/getTaskByProjectId", id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     searchTaskData:(data) => {
-        return axios.post("http://localhost:3505/User/searchTaskData", data)
+        return axios.post(config.baseApiUrl + "/User/searchTaskData", data)
         .then(response => {
             console.log("response===", response);
             return response;
@@ -335,7 +336,7 @@ export default {
     },
 
     getAllTasksCounts:(id) => {
-        return axios.post("http://localhost:3505/User/getAllTaskCount", id)
+        return axios.post(config.baseApiUrl + "/User/getAllTaskCount", id)
         .then(response => {
             console.log("response===", response);
             return response;
@@ -343,140 +344,140 @@ export default {
     },
 
     getAllTaskDataTablePagination:(obj) => {
-        return axios.post("http://localhost:3505/User/getTaskTablePagination", obj)
+        return axios.post(config.baseApiUrl + "/User/getTaskTablePagination", obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAllProjectManager:(obj) => {
-        return axios.post("http://localhost:3505/User/getALlProjectManager", obj)
+        return axios.post(config.baseApiUrl + "/User/getALlProjectManager", obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     projectAssignData:(obj) => {
-        return axios.post("http://localhost:3505/User/assignProject", obj)
+        return axios.post(config.baseApiUrl + "/User/assignProject", obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getProjectsAssignData:(id) => {
-        return axios.post("http://localhost:3505/User/getProjectManagerByProjectId", id)
+        return axios.post(config.baseApiUrl + "/User/getProjectManagerByProjectId", id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
  
     deleteAssignProject:(id) => {
-        return axios.post("http://localhost:3505/User/deleteAssignProjectById", id)
+        return axios.post(config.baseApiUrl + "/User/deleteAssignProjectById", id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAssignProjectId:(id) => {
-        return axios.post("http://localhost:3505/User/getAssignProjectById", id)
+        return axios.post(config.baseApiUrl + "/User/getAssignProjectById", id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     EditProjectAssignData:(obj) => {
-        return axios.post("http://localhost:3505/User/editAssignProject", obj)
+        return axios.post(config.baseApiUrl + "/User/editAssignProject", obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAllAssignProjectCounts:(id) => {
-        return axios.post("http://localhost:3505/User/getassignProjectCount", id)
+        return axios.post(config.baseApiUrl + "/User/getassignProjectCount", id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     searchAssignProjectData:(data) => {
-        return axios.post("http://localhost:3505/User/searchAssignProjectData", data)
+        return axios.post(config.baseApiUrl + "/User/searchAssignProjectData", data)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAssignProjectTablePagination:(data) => {
-        return axios.post("http://localhost:3505/User/getAssignProjectTablePagination", data)
+        return axios.post(config.baseApiUrl + "/User/getAssignProjectTablePagination", data)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     CreateUser:(obj) => {
-        return axios.post("http://localhost:3505/User/createUser", obj)
+        return axios.post(config.baseApiUrl + "/User/createUser", obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     GetUser:() => {
-        return axios.post("http://localhost:3505/User/getAllUser")
+        return axios.post(config.baseApiUrl + "/User/getAllUser")
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getUser:(id) => {
-        return axios.post("http://localhost:3505/User/getUserById",id)
+        return axios.post(config.baseApiUrl + "/User/getUserById",id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     EditUser:(obj) => {
-        return axios.post("http://localhost:3505/User/editUser",obj)
+        return axios.post(config.baseApiUrl + "/User/editUser",obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     deleteUser:(id) => {
-        return axios.post("http://localhost:3505/User/deleteUser",id)
+        return axios.post(config.baseApiUrl + "/User/deleteUser",id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     searchUserData:(data) => {
-        return axios.post("http://localhost:3505/User/searchUser",data)
+        return axios.post(config.baseApiUrl + "/User/searchUser",data)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getAllUserCounts:(data) => {
-        return axios.post("http://localhost:3505/User/getUserTableCount",data)
+        return axios.post(config.baseApiUrl + "/User/getUserTableCount",data)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getUserTablePagination:(obj) => {
-        return axios.post("http://localhost:3505/User/userTablePagination",obj)
+        return axios.post(config.baseApiUrl + "/User/userTablePagination",obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     getTechnologyById:(id) => {
-        return axios.post("http://localhost:3505/User/getTechnologyNameById",id)
+        return axios.post(config.baseApiUrl + "/User/getTechnologyNameById",id)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
     deleteTechnologyById:(obj) => {
-        return axios.post("http://localhost:3505/User/deleteTechnologies",obj)
+        return axios.post(config.baseApiUrl + "/User/deleteTechnologies",obj)
         .then(response => {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
@@ -489,7 +490,7 @@ export default {
             'Authorization': 'JWT fefege...',
             'token': Token
         }
-        return axios.post('http://localhost:3505/User/checkToken', { headers: headers }).then((response) => {
+        return axios.post(config.baseApiUrl + '/User/checkToken', { headers: headers }).then((response) => {
             return response;
         })
             .catch({ status: 500, message: 'Internal Serevr Error' });

@@ -5,6 +5,12 @@ import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar/';
 import AppFooter from '../../Layout/AppFooter/';
 import Swal from 'sweetalert2';
+import {
+    Row, Col,
+    Card, CardBody,
+    CardTitle,
+    CustomInput, Form, FormGroup, Label, Table, Input, Button, CardHeader
+} from 'reactstrap';
 
 class MyProfile extends React.Component {
 
@@ -13,8 +19,13 @@ class MyProfile extends React.Component {
         super(props);
         this.state = {
             firstname: '',
+            firstnameerror: '',
             lastname: '',
+            lastnameerror: '',
             email: '',
+            emailerror: '',
+            mobile_number: '',
+            mobile_numbererror: '',
             selectedFile: null
         }
         this.id = localStorage.getItem('userid');
@@ -34,7 +45,8 @@ class MyProfile extends React.Component {
                     firstname: findresponse.data.data.first_name,
                     lastname: findresponse.data.data.last_name,
                     email: findresponse.data.data.email,
-                    selectedFile: findresponse.data.data.filename
+                    selectedFile: findresponse.data.data.filename,
+                    mobile_number: findresponse.data.data.mobile_number
                 });
                 localStorage.setItem('first_name', this.state.firstname);
                 localStorage.setItem('last_name', this.state.last_name);
@@ -67,7 +79,6 @@ class MyProfile extends React.Component {
                     this.setState({
                         selectedFile: findresponse.data.data
                     })
-                    // window.location.reload();
                 } else {
                     console.log("err", err);
                 }
@@ -76,28 +87,79 @@ class MyProfile extends React.Component {
             });
     }
 
-    onClickHandler() {
-        console.log("filedatatata", this.state.selectedFile);
-        let data = new FormData();
-        data.append('first_name', this.state.firstname);
-        data.append('last_name', this.state.lastname);
-        data.append('email', this.state.email);
-        data.append('filename', this.state.selectedFile);
-        data.append('id', this.id);
+    validate = () => {
+        let firstnameerror = "";
+        let lastnameerror = "";
+        let emailerror = "";
+        let mobile_numbererror = "";
 
-        API.updateProfile(data)
-            .then((findresponse) => {
-                if (findresponse) {
-                    console.log("editprofile response===", findresponse);
-                    Swal.fire("Profile Updated Successfully!", "", "success");
-                    // window.location.reload();
-                } else {
-                    console.log("err", err);
-                }
-            }).catch((err) => {
-                console.log("err", err);
-                Swal.fire("Something went wrong!", "", "warning");
-            });
+        if (!this.state.firstname) {
+            firstnameerror = "please enter firstname";
+        }
+
+        if (!this.state.lastname) {
+            lastnameerror = "please enter lastname";
+        }
+        const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        if (!this.state.email) {
+            emailerror = "please enter email";
+        } else if (!reg.test(this.state.email)) {
+            emailerror = "invalid email";
+        }
+
+        const pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+        if (!pattern.test(this.state.mobile_number)) {
+            mobile_numbererror = "please enter mobile_number";
+        }
+
+
+        if (firstnameerror || lastnameerror || emailerror || mobile_numbererror) {
+            this.setState({ firstnameerror, lastnameerror, emailerror, mobile_numbererror });
+            return false;
+        }
+        return true;
+    };
+
+    onClickHandler() {
+        const isValid = this.validate();
+        if (isValid) {
+            console.log(this.state);
+            this.setState({
+                firstname: '',
+                firstnameerror: '',
+                lastname: '',
+                lastnameerror: '',
+                mobilenumber: '',
+                mobilenumbererror: '',
+                email: '',
+                emailerror: ''
+            })
+
+            if (this.state.firstname && this.state.lastname && this.state.email && this.state.mobile_number) {
+                console.log("filedatatata", this.state.selectedFile);
+                let data = new FormData();
+                data.append('first_name', this.state.firstname);
+                data.append('last_name', this.state.lastname);
+                data.append('email', this.state.email);
+                data.append('filename', this.state.selectedFile);
+                data.append('mobile_number', this.state.mobile_number);
+                data.append('id', this.id);
+
+                API.updateProfile(data)
+                    .then((findresponse) => {
+                        if (findresponse) {
+                            console.log("editprofile response===", findresponse);
+                            Swal.fire("Profile Updated Successfully!", "", "success");
+
+                        } else {
+                            console.log("err", err);
+                        }
+                    }).catch((err) => {
+                        console.log("err", err);
+                        Swal.fire("Something went wrong!", "", "warning");
+                    });
+            }
+        }
     }
 
     render() {
@@ -109,57 +171,93 @@ class MyProfile extends React.Component {
                     <div className="app-main__outer">
                         <div className="app-main__inner">
                             <div>
-                                <h1 className="text-center">My Profile</h1>
-                                <form>
-                                    <div className="img">
-                                        <div className="form-group">
-                                            {
-                                                this.state.selectedFile ? (
-                                                    <div>
-                                                        <img className="picture" src={this.path + this.state.selectedFile} />
-                                                    </div>
-                                                ) : (null)
-                                            }
-                                            <div>
-                                                <label htmlFor="cover"><i className="fas fa-camera"></i></label>
-                                                <input
-                                                    type="file"
-                                                    id="cover"
-                                                    style={{ display: "none" }}
-                                                    name="file"
-                                                    onChange={this.onChangeHandler} />
+                                <Card className="main-card mb-3">
+                                    <CardHeader> <CardTitle className="font">My Profile</CardTitle></CardHeader>
+                                    <CardBody>
+                                        <Form>
+                                            <div className="img">
+                                                <FormGroup>
+                                                    {
+                                                        this.state.selectedFile ? (
+                                                            <div>
+                                                                <img className="picture" src={this.path + this.state.selectedFile} />
+                                                            </div>
+                                                        ) : (null)
+                                                    }
+                                                    <Label><i className="fas fa-camera"></i></Label>
+                                                    <Input
+                                                        type="file"
+                                                        id="cover"
+                                                        style={{ display: "none" }}
+                                                        name="file"
+                                                        onChange={this.onChangeHandler}
+                                                    />
+                                                </FormGroup>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Firstname</label>
-                                        <input
-                                            type="text"
-                                            name="firstname"
-                                            className="form-control"
-                                            value={this.state.firstname}
-                                            onChange={this.handleChangeEvent} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Lastname</label>
-                                        <input
-                                            type="text"
-                                            name="lastname"
-                                            className="form-control"
-                                            value={this.state.lastname}
-                                            onChange={this.handleChangeEvent} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Email address</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            className="form-control"
-                                            value={this.state.email}
-                                            onChange={this.handleChangeEvent} />
-                                    </div>
-                                    <button type="button" className="btn btn-primary" onClick={this.onClickHandler}>Update profile</button>
-                                </form>
+                                            <FormGroup>
+                                                <Label>Firstname:</Label>
+                                                <Input
+                                                    type="text"
+                                                    name="firstname"
+                                                    className="form-control"
+                                                    value={this.state.firstname}
+                                                    onChange={this.handleChangeEvent}
+                                                />
+                                                <div style={{ fontSize: 12, color: "red" }}>
+                                                    {this.state.firstnameerror}
+                                                </div>
+                                            </FormGroup>
+
+                                            <FormGroup>
+                                                <Label>Lastname:</Label>
+                                                <Input
+                                                    type="text"
+                                                    name="lastname"
+                                                    className="form-control"
+                                                    value={this.state.lastname}
+                                                    onChange={this.handleChangeEvent}
+                                                />
+                                                <div style={{ fontSize: 12, color: "red" }}>
+                                                    {this.state.lastnameerror}
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label>E-mail:</Label>
+                                                <Input
+                                                    type="email"
+                                                    name="email"
+                                                    className="form-control"
+                                                    value={this.state.email}
+                                                    onChange={this.handleChangeEvent}
+                                                />
+                                                <div style={{ fontSize: 12, color: "red" }}>
+                                                    {this.state.emailerror}
+                                                </div>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label>Mobile_Number:</Label>
+                                                <Input
+                                                    type="number"
+                                                    className="form-control"
+                                                    name="mobile_number"
+                                                    value={this.state.mobile_number}
+                                                    onChange={this.handleChangeEvent}
+                                                />
+                                                <div style={{ fontSize: 12, color: "red" }}>
+                                                    {this.state.mobile_numbererror}
+                                                </div>
+                                            </FormGroup>
+                                            <Button
+                                                type="button"
+                                                color="primary"
+                                                className="mt-1"
+                                                onClick={this.onClickHandler}
+                                            >
+                                                Update profile
+                                            </Button>
+                                        </Form>
+                                    </CardBody>
+                                </Card>
                             </div>
                         </div>
                         <AppFooter />

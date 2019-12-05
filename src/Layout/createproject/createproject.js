@@ -310,6 +310,7 @@ class CreateProject extends React.Component {
 
     onItemSelect(event) {
         let _id = event.target.options[event.target.selectedIndex].value;
+        console.log("id", _id);
         this.setState({
             projecttype: this.state.projecttype = _id
         })
@@ -571,7 +572,7 @@ class CreateProject extends React.Component {
                     title: this.state.title,
                     discription: this.state.discription,
                     budget: this.state.budget,
-                    project_type: this.state.newData.project_type,
+                    project_type: this.state.projecttype,
                     hours: this.state.hours,
                     technology_id: this.state.tharray,
                     status: this.state.status,
@@ -913,9 +914,10 @@ class CreateProject extends React.Component {
                                                                                     type="select"
                                                                                     id="exampleCustomSelect"
                                                                                     name="projecttype"
-                                                                                    defaultValue={this.state.newData.project_type == "1" ? "Fixed" : "hourly"}
+                                                                                    value={this.state.projecttype == "1" ? "Fixed" : "hourly"}
                                                                                     onChange={() => this.onItemSelect(event)}
                                                                                 >
+                                                                                    <option>{this.state.projecttype == "1" ? "Fixed" : "hourly"}</option>
                                                                                     <option value="0">hourly</option>
                                                                                     <option value="1">Fixed</option>
 
