@@ -244,11 +244,13 @@ export default class TableBordered extends React.Component {
   }
 
   editProjectData(id) {
+    localStorage.setItem('projectid',id);
     console.log("history", history)
     history.push('/editProject/' + id, { params: id }, { query: { id: id } })
   }
 
   getProjectData(id) {
+    localStorage.setItem('projectid',id);
     console.log("id",id);
     history.push('/viewproject',{ params: id });
   }

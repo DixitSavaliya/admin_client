@@ -64,7 +64,8 @@ class LogIn extends React.Component {
             const obj = {
                 email: this.state.email,
                 password: this.state.password,
-                user_type:1
+                user_type:1,
+                user_role:"admin"
             }
             /** UserLogin */
             API.login(obj)

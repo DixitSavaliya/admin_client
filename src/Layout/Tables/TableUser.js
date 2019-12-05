@@ -53,7 +53,6 @@ export default class TableUser extends React.Component {
 
         EventEmitter.subscribe('userid', (id) => {
             console.log("userid", id);
-            localStorage.setItem('u_id', id);
             this.componentDidMount();
         });
     }

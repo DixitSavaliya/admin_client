@@ -28,14 +28,12 @@
     width: 70px;
     /* margin: -1px; */
 }
-.tox .tox-notification--in {
-    opacity: 0 !important;
-}
+
 .lt span {
     margin: 8px;
 }
-.lt span {
-    margin: 8px;
+.rt span {
+    padding: 4px;
 }
 
 /* .custom-checkbox.custom-control {

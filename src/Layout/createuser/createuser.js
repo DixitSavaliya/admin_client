@@ -323,8 +323,8 @@ class CreateUser extends React.Component {
                     .then((findresponse) => {
                         if (findresponse) {
                             console.log("EditUser response===", findresponse);
-                            Swal.fire("User Edited Successfully!", "", "success");
-                            // history.push('/listuser');
+                            Swal.fire("User Updated Successfully!", "", "success");
+                            history.push('/listuser');
                         } else {
                             console.log("err", err);
                             // Swal.fire("Something went wrong!", "", "warning");
@@ -549,7 +549,7 @@ class CreateUser extends React.Component {
                                                                             className="mt-1"
                                                                             onClick={this.editUser}
                                                                         >
-                                                                            Edit-User
+                                                                            Update
                                                                     </Button>
                                                                     ) : (
                                                                             <Button
@@ -557,11 +557,10 @@ class CreateUser extends React.Component {
                                                                                 className="mt-1"
                                                                                 onClick={this.createUser}
                                                                             >
-                                                                                Create-User
+                                                                                Create
                                                                     </Button>
                                                                         )
                                                                 }
-
 
                                                             </Form>
                                                         </CardBody>
@@ -574,11 +573,7 @@ class CreateUser extends React.Component {
                                             <Row>
                                                 <Col md="12">
                                                     <Card className="main-card mb-3">
-
                                                         <CardHeader> <CardTitle className="font">Create-User</CardTitle></CardHeader>
-
-
-
                                                         <CardBody>
                                                             <Form>
                                                                 <Row>
@@ -756,7 +751,7 @@ class CreateUser extends React.Component {
                                                                     className="mt-1"
                                                                     onClick={this.createUser}
                                                                 >
-                                                                    Create-User
+                                                                    Create
                                                                     </Button>
 
                                                             </Form>

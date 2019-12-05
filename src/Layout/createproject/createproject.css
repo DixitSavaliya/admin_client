@@ -2,7 +2,7 @@ h5.font.card-title {
     font-size: x-large;
 }
 .rt select#exampleCustomSelect {
-    width: 100px;
+    width: 73px;
 }
 span.project_tabel i {
     padding: 8px;
@@ -17,4 +17,7 @@ span.project_tabel i {
 button.close.rbt-close.rbt-token-remove-button {
     margin-left: 8px;
     color: red;
+}
+.t_right{
+    text-align: right;
 }

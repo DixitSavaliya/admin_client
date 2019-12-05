@@ -26,6 +26,14 @@ span i {
     margin-right: 1px;
 }
 
+table.table .center {
+    text-align: center !important;
+}
+
+table.table th,td {
+    text-align: left !important;
+}
+
 table.table th, table.table td {
     /* padding-top: 5px; */
     /* padding-bottom: 5px; */
@@ -35,7 +43,7 @@ table.table th, table.table td {
     text-align: center;
 }
 select#exampleCustomSelect {
-    width: 110px;
+    width: 70px;
     /* margin: 5px; */
     margin-left: 8px;
 }

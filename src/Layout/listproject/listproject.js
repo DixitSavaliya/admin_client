@@ -14,6 +14,7 @@ import {
     Input, FormText,
     Row, Col,
     Card, CardBody,
+    CardHeader,
     CustomInput,
     CardTitle,
 } from 'reactstrap';
@@ -81,8 +82,8 @@ class ListProject extends React.Component {
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
+                                        <CardHeader><CardTitle  className="font">Projects:</CardTitle></CardHeader>
                                         <CardBody>
-                                            <CardTitle><b>List-Projects Table:</b></CardTitle>
                                             <div>
                                                 <Row>
                                                     <Col md="2">

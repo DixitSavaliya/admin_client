@@ -13,6 +13,7 @@ import {
     Input, FormText,
     Row, Col,
     Card, CardBody,
+    CardHeader,
     CardTitle, CustomInput
 } from 'reactstrap';
 import '../userrole/userrole.css';
@@ -44,7 +45,7 @@ class UserRight extends React.Component {
         EventEmitter.subscribe('userrightdata', (data) => {
             console.log("userrightdata=", data.data.data);
             this.setState({
-                checked: this.state.checked = true  
+                checked: this.state.checked = true
             })
             if (data.data.data.status == "active") {
                 this.setState({
@@ -299,8 +300,8 @@ class UserRight extends React.Component {
                                             <Row>
                                                 <Col md="4">
                                                     <Card className="main-card mb-3">
+                                                        <CardHeader><CardTitle className="font">User-Right:</CardTitle></CardHeader>
                                                         <CardBody>
-                                                            <CardTitle><b>User-Right:</b></CardTitle>
                                                             <form>
                                                                 <label className="grey-text">
                                                                     Right Name:
@@ -416,8 +417,8 @@ class UserRight extends React.Component {
                                                 </Col>
                                                 <Col md="8">
                                                     <Card className="main-card mb-3">
+                                                        <CardHeader><CardTitle className="font">User-Rights:</CardTitle></CardHeader>
                                                         <CardBody>
-                                                            <CardTitle><b>User-Right Table:</b></CardTitle>
                                                             <div>
                                                                 <Row>
                                                                     <Col md="2">
@@ -482,8 +483,8 @@ class UserRight extends React.Component {
                                                 <Row>
                                                     <Col md="4">
                                                         <Card className="main-card mb-3">
+                                                            <CardHeader><CardTitle className="font">User-Right:</CardTitle></CardHeader>
                                                             <CardBody>
-                                                                <CardTitle>User-Right:</CardTitle>
                                                                 <form>
                                                                     <label className="grey-text">
                                                                         Right Name:
@@ -599,8 +600,8 @@ class UserRight extends React.Component {
                                                     </Col>
                                                     <Col md="8">
                                                         <Card className="main-card mb-3">
+                                                            <CardHeader><CardTitle className="font">User-Rights:</CardTitle></CardHeader>
                                                             <CardBody>
-                                                                <CardTitle>User-Right Table:</CardTitle>
                                                                 <div>
                                                                     <Row>
                                                                         <Col md="2">

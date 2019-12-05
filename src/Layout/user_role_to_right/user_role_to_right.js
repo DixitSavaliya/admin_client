@@ -8,6 +8,7 @@ import {
     Row, Col,
     Card, CardBody,
     CardTitle,
+    CardHeader,
     CustomInput, Form, FormGroup, Label, Table
 } from 'reactstrap';
 import Swal from 'sweetalert2';
@@ -251,12 +252,12 @@ class UserRoleToRight extends React.Component {
                                     this.state.selectroledata && !this.state.noData ? (
                                         <Col md="8">
                                             <Card className="main-card mb-3">
+                                                <CardHeader><CardTitle><b>User-Role-To-Right:</b></CardTitle></CardHeader>
                                                 <CardBody>
-                                                    <CardTitle><b>User-Role-To-Right Table:</b></CardTitle>
                                                     <Table hover className="mb-0" bordered>
                                                         <thead>
                                                             <tr>
-                                                                <th>
+                                                                <th className="centers">
                                                                     <CustomInput
                                                                         name="name"
                                                                         value="value"
@@ -278,8 +279,8 @@ class UserRoleToRight extends React.Component {
                                                             {
                                                                 this.state.selectroledata ? (
                                                                     this.state.selectroledata.map((data, index) =>
-                                                                        <tr key={index}>
-                                                                            <td>
+                                                                        <tr key={index} >
+                                                                            <td className="centers">
                                                                                 <CustomInput
                                                                                     name={data.module}
                                                                                     value={this.state.selectroledata[index]['_rowChecked'] == true ? 1 : 0}
@@ -290,7 +291,7 @@ class UserRoleToRight extends React.Component {
                                                                                 />
                                                                             </td>
                                                                             <td><span>{data.name}</span></td>
-                                                                            <td>
+                                                                            <td className="centers">
                                                                                 <CustomInput
                                                                                     name="_read"
                                                                                     value={this.state.selectroledata[index]['_read'] == true ? 1 : 0}
@@ -301,7 +302,7 @@ class UserRoleToRight extends React.Component {
                                                                                     checked={this.state.selectroledata[index]['_read'] == true}
                                                                                 />
                                                                             </td>
-                                                                            <td>
+                                                                            <td className="centers">
                                                                                 <CustomInput
                                                                                     name="_write"
                                                                                     value={this.state.selectroledata[index]['_write'] == true ? 1 : 0}
@@ -312,7 +313,7 @@ class UserRoleToRight extends React.Component {
                                                                                     checked={this.state.selectroledata[index]['_write'] == true}
                                                                                 />
                                                                             </td>
-                                                                            <td>
+                                                                            <td className="centers">
                                                                                 <CustomInput
                                                                                     name="_delete"
                                                                                     value={this.state.selectroledata[index]['_delete'] == true ? 1 : 0}
@@ -323,7 +324,7 @@ class UserRoleToRight extends React.Component {
                                                                                     checked={this.state.selectroledata[index]['_delete'] == true}
                                                                                 />
                                                                             </td>
-                                                                            <td>
+                                                                            <td className="centers">
                                                                                 <CustomInput
                                                                                     name="_import"
                                                                                     value={this.state.selectroledata[index]['_import'] == true ? 1 : 0}
@@ -334,7 +335,7 @@ class UserRoleToRight extends React.Component {
                                                                                     checked={this.state.selectroledata[index]['_import'] == true}
                                                                                 />
                                                                             </td>
-                                                                            <td>
+                                                                            <td className="centers">
                                                                                 <CustomInput
                                                                                     name="_export"
                                                                                     value={this.state.selectroledata[index]['_export'] == true ? 1 : 0}

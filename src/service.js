@@ -475,6 +475,13 @@ export default {
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
 
+    deleteTechnologyById:(obj) => {
+        return axios.post("http://localhost:3505/User/deleteTechnologies",obj)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
     authenticate: () => {
         const Token = localStorage.getItem('token');
         const headers = {

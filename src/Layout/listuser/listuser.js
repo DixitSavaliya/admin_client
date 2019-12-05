@@ -15,6 +15,7 @@ import {
     Card, CardBody,
     CustomInput,
     CardTitle,
+    CardHeader,
 } from 'reactstrap';
 
 class ListUser extends React.Component {
@@ -37,7 +38,7 @@ class ListUser extends React.Component {
             if (findresponse) {
                 console.log("GetUser response===", findresponse);
                 this.setState({
-                    user:findresponse.data.data
+                    user:this.state.user = findresponse.data.data
                 })
                 console.log("GetUser response===", this.state.user);
             } else {
@@ -84,8 +85,8 @@ class ListUser extends React.Component {
                         <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
+                                        <CardHeader><CardTitle className="font">Users:</CardTitle></CardHeader> 
                                         <CardBody>
-                                            <CardTitle><b>List-Users Table:</b></CardTitle>
                                             <div>
                                                 <Row>
                                                     <Col md="2">

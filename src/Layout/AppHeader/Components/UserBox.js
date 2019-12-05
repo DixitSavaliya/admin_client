@@ -3,6 +3,7 @@ import Popup from './model';
 import './popup.css';
 import API from '../../../service';
 import { EventEmitter } from '../../../event';
+import history from '../../../history';
 import {
     DropdownToggle, DropdownMenu,
     Nav, Button, NavItem, NavLink,

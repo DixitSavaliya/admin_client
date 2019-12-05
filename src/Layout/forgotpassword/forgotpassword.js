@@ -33,7 +33,7 @@ class ForgotPassword extends React.Component {
         let emailError = "";
 
         const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        if(!this.state.email) {
+        if(!this.state.emailId) {
             emailError = "please enter email";
         } else if (!reg.test(this.state.emailId)) {
             emailError = "invalid email";
@@ -55,21 +55,21 @@ class ForgotPassword extends React.Component {
                 emailId: '',
                 emailError: ''
             })
-        };
-        if (!this.state.emailError) {
-            const obj = {
-                email: this.state.emailId
+            if (this.state.emailId) {
+                const obj = {
+                    email: this.state.emailId
+                }
+                /** Forgot password */
+                API.ForgotPassword(obj)
+                    .then((findresponse) => {
+                        Swal.fire("Email sent Successfully!", "", "success");
+                        setTimeout(
+                            window.location.href = "/login",
+                            6000
+                        );
+                    }).catch({ status: 500, message: 'Internal Server Error' });
             }
-            /** Forgot password */
-            API.ForgotPassword(obj)
-                .then((findresponse) => {
-                    Swal.fire("Email sent Successfully!", "", "success");
-                    setTimeout(
-                        window.location.href = "/login",
-                        6000
-                    );
-                }).catch({ status: 500, message: 'Internal Server Error' });
-        }
+        };
     }
 
     render() {
@@ -93,7 +93,7 @@ class ForgotPassword extends React.Component {
                                     <div className="form-row">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <label for="exampleEmail" className="">Email</label> 
+                                                <label className="">Email</label> 
                                                 <input type="email" aria-describedby="emailHelp" name="emailId"
                             className="form-control" value={this.state.emailId} onChange={this.handleChangeEvent} />
                              <div style={{ fontSize: 12, color: "red" }}>
@@ -111,34 +111,7 @@ class ForgotPassword extends React.Component {
                     </div>
                 </div>
             </div>
-            // <div>
-            //     <MDBContainer>
-            //         <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-            //             <MDBModalHeader toggle={this.toggle}>ForgotPassword</MDBModalHeader>
-            //             <MDBModalBody>
-            //                 <form>
-            //                     <label className="grey-text">
-            //                         Enter Your email
-            //               </label>
-            //                     <input
-            //                         type="email"
-            //                         name="emailId"
-            //                         className="form-control"
-            //                         value={this.state.emailId}
-            //                         onChange={this.handleChangeEvent}
-            //                     />
-            //                     <div style={{ fontSize: 12, color: "red" }}>
-            //                         {this.state.emailError}
-            //                     </div>
-            //                     <br />
-            //                 </form>
-            //             </MDBModalBody>
-            //             <MDBModalFooter>
-            //                 <MDBBtn color="primary" onClick={this.forgotpassword} disabled={!this.state.emailId}>Send</MDBBtn>
-            //             </MDBModalFooter>
-            //         </MDBModal>
-            //     </MDBContainer>
-            // </div>
+           
         );
     }
 }

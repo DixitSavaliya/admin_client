@@ -104,6 +104,7 @@ class CreateProject extends React.Component {
         this.searchAssignProjectKeyUp = this.searchAssignProjectKeyUp.bind(this);
         this.handleChangeAssignProjectEvent = this.handleChangeAssignProjectEvent.bind(this);
         this.array = [];
+
         EventEmitter.subscribe('taskdata', (data) => {
             if (data.data.data[0].status == "active") {
                 this.setState({
@@ -147,11 +148,12 @@ class CreateProject extends React.Component {
             var array = [];
             console.log("data", dataarray);
             for (var i = 0; i < dataarray.length; i++) {
-                array.push(((dataarray[i].id).toString()))
+                array.push(dataarray[i].id)
             }
             this.setState({
                 tharray: this.state.tharray = array
             })
+            EventEmitter.dispatch('vtechnologies', this.state.tharray);
             this.componentDidMount();
         });
 
@@ -580,7 +582,7 @@ class CreateProject extends React.Component {
                     .then((findresponse) => {
                         if (findresponse) {
                             console.log("technology response===", findresponse);
-                            Swal.fire("Project Edited Successfully!", "", "success");
+                            Swal.fire("Project Updated Successfully!", "", "success");
                             history.push('/listproject');
                         } else {
                             console.log("err", err);
@@ -677,7 +679,7 @@ class CreateProject extends React.Component {
                                 taskstatuscheck2: this.state.taskstatuscheck2 = false,
                                 buttonVisiblity: this.state.buttonVisiblity = false
                             })
-                            Swal.fire("Task Edited Successfully!", "", "success");
+                            Swal.fire("Task Updated Successfully!", "", "success");
                             this.componentDidMount();
                         } else {
                             console.log("err", err);
@@ -786,7 +788,7 @@ class CreateProject extends React.Component {
                             this.setState({
                                 visiblity: this.state.visiblity = false
                             })
-                            Swal.fire("Assign Project To ProjectManager Edited Successfully!", "", "success");
+                            Swal.fire("Assign Project To ProjectManager Updated Successfully!", "", "success");
                             this.componentDidMount();
                         } else {
                             console.log("err", err);
@@ -835,8 +837,28 @@ class CreateProject extends React.Component {
                                             <Col md="4">
                                                 <Link to="/listproject"><Button className="mb-2 mr-2" color="primary">
                                                     Go back
-                                </Button></Link>
+                                                 </Button></Link>
+                                                {
+                                                    this.props.location.pathname.split('/')[2] ? (
+                                                        <Button
+                                                            color="primary"
+                                                            className="mt-1"
+                                                            onClick={this.editProject}
+                                                        >
+                                                            Update
+                                                        </Button>
+                                                    ) : (
+                                                            <Button
+                                                                color="primary"
+                                                                className="mt-1"
+                                                                onClick={this.createProject}
+                                                            >
+                                                                Create
+                                                          </Button>
+                                                        )
+                                                }
                                             </Col>
+
                                         </Row>
                                         <Row>
                                             <Col md="12">
@@ -973,7 +995,7 @@ class CreateProject extends React.Component {
                                                                         this.props.location.pathname.split('/')[2] ? (
                                                                             <FormGroup>
                                                                                 <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} />
 
                                                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                                                     {this.state.selecttechnologyerror}
@@ -981,7 +1003,7 @@ class CreateProject extends React.Component {
                                                                             </FormGroup>
                                                                         ) : (
                                                                                 <FormGroup>
-                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} />
 
                                                                                     <div style={{ fontSize: 12, color: "red" }}>
                                                                                         {this.state.selecttechnologyerror}
@@ -1027,25 +1049,7 @@ class CreateProject extends React.Component {
                                                                     }
                                                                 </Col>
                                                             </Row>
-                                                            {
-                                                                this.props.location.pathname.split('/')[2] ? (
-                                                                    <Button
-                                                                        color="primary"
-                                                                        className="mt-1"
-                                                                        onClick={this.editProject}
-                                                                    >
-                                                                        Update
-                                                                    </Button>
-                                                                ) : (
-                                                                        <Button
-                                                                            color="primary"
-                                                                            className="mt-1"
-                                                                            onClick={this.createProject}
-                                                                        >
-                                                                            Create
-                                                                        </Button>
-                                                                    )
-                                                            }
+
                                                         </Form>
                                                     </CardBody>
                                                 </Card>
@@ -1165,7 +1169,7 @@ class CreateProject extends React.Component {
                                                 {
                                                     this.state.tasks.length ? (
                                                         <Card className="main-card mb-3">
-                                                            <CardHeader> <CardTitle className="font">Task-List-Table</CardTitle></CardHeader>
+                                                            <CardHeader> <CardTitle className="font">Project-Tasks</CardTitle></CardHeader>
                                                             <CardBody>
                                                                 <div>
                                                                     <Row>
@@ -1186,7 +1190,7 @@ class CreateProject extends React.Component {
                                                                                     onKeyUp={this.searchTaskDataKeyUp} />
                                                                             </div>
                                                                         </Col>
-                                                                        <Col md="6">
+                                                                        <Col md="6" className="t_right">
                                                                             <div className="rt">
                                                                                 <span>Records per page</span>
                                                                                 <CustomInput
@@ -1217,9 +1221,9 @@ class CreateProject extends React.Component {
                                                     {
                                                         this.state.visiblity == true ? (
 
-                                                            <CardHeader> <CardTitle className="font">Edit-Project-Assign</CardTitle></CardHeader>
+                                                            <CardHeader> <CardTitle className="font">Edit-Assign-Project</CardTitle></CardHeader>
                                                         ) : (
-                                                                <CardHeader> <CardTitle className="font">Project-Assign</CardTitle></CardHeader>
+                                                                <CardHeader> <CardTitle className="font">Assign-Project</CardTitle></CardHeader>
                                                             )
                                                     }
                                                     <CardBody>
@@ -1293,7 +1297,7 @@ class CreateProject extends React.Component {
                                                 {
                                                     this.state.assignData.length ? (
                                                         <Card className="main-card mb-3">
-                                                            <CardHeader> <CardTitle className="font">Project-Assign-Table-List</CardTitle></CardHeader>
+                                                            <CardHeader> <CardTitle className="font">Project-Users</CardTitle></CardHeader>
                                                             <CardBody>
                                                                 <div>
                                                                     <Row>
@@ -1315,7 +1319,7 @@ class CreateProject extends React.Component {
                                                                                 />
                                                                             </div>
                                                                         </Col>
-                                                                        <Col md="8">
+                                                                        <Col md="8" className="t_right">
                                                                             <div className="rt">
                                                                                 <span>Records per page</span>
                                                                                 <CustomInput
@@ -1478,7 +1482,7 @@ class CreateProject extends React.Component {
                                                                         this.props.location.pathname.split('/')[2] ? (
                                                                             <FormGroup>
                                                                                 <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+                                                                                <TypeAhead data={this.state.multiple} api={this.state.apiPath} />
 
                                                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                                                     {this.state.selecttechnologyerror}
@@ -1487,7 +1491,7 @@ class CreateProject extends React.Component {
                                                                         ) : (
                                                                                 <FormGroup>
                                                                                     <Label for="exampleCustomSelect">Select Technology:</Label>
-                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} th={this.state.technology} name={this.state.tname} />
+                                                                                    <TypeAhead data={this.state.multiple} api={this.state.apiPath} />
 
                                                                                     <div style={{ fontSize: 12, color: "red" }}>
                                                                                         {this.state.selecttechnologyerror}

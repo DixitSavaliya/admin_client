@@ -13,7 +13,9 @@ import {
     Input, FormText,
     Row, Col,
     Card, CardBody,
+    CardHeader,
     CardTitle,
+
 } from 'reactstrap';
 import './userrole.css';
 import Swal from 'sweetalert2';
@@ -180,23 +182,23 @@ class UserRole extends React.Component {
     }
 
     handleChangeStatus(event) {
-        console.log("event",event);
+        console.log("event", event);
         this.setState({
             statuscheck1: this.state.statuscheck1 = event.target.checked,
             status: this.state.status = "active",
             statuscheck2: this.state.statuscheck2 = false
         })
-        console.log("status",this.state.status);
+        console.log("status", this.state.status);
     }
 
     handleChangeStatusName(event) {
-      console.log("event",event);
+        console.log("event", event);
         this.setState({
             statuscheck2: this.state.statuscheck2 = event.target.checked,
-            status:  this.state.status =  "inactive",
+            status: this.state.status = "inactive",
             statuscheck1: this.state.statuscheck1 = false
         })
-        console.log("status",this.state.status);
+        console.log("status", this.state.status);
     }
 
     userRoleData() {
@@ -217,7 +219,7 @@ class UserRole extends React.Component {
                     .then((findresponse) => {
                         if (findresponse) {
                             Swal.fire("UserRole Added Successfully!", "", "success");
-                          
+
                             this.componentDidMount();
                         } else {
 
@@ -256,7 +258,7 @@ class UserRole extends React.Component {
                 API.editUserRole(obj)
                     .then((findresponse) => {
                         if (findresponse) {
-                            Swal.fire("UserRole Edited Successfully!", "", "success");
+                            Swal.fire("UserRole Updated Successfully!", "", "success");
                             this.componentDidMount();
                         } else {
                             // console.log("err", err);
@@ -301,8 +303,10 @@ class UserRole extends React.Component {
                                     <Row>
                                         <Col md="4">
                                             <Card className="main-card mb-3">
+                                                <CardHeader>
+                                                    <CardTitle className="font">User-Role:</CardTitle>
+                                                </CardHeader>
                                                 <CardBody>
-                                                    <CardTitle><b>User-Role:</b></CardTitle>
                                                     <form>
                                                         <label className="grey-text">
                                                             Role Name:
@@ -403,8 +407,10 @@ class UserRole extends React.Component {
                                         </Col>
                                         <Col md="8">
                                             <Card className="main-card mb-3">
+                                                <CardHeader>
+                                                    <CardTitle className="font">User-Roles:</CardTitle>
+                                                </CardHeader>
                                                 <CardBody>
-                                                    <CardTitle><b>User-Role Table:</b></CardTitle>
                                                     <div>
                                                         <Row>
                                                             <Col md="2">
@@ -470,8 +476,8 @@ class UserRole extends React.Component {
                                         <Row>
                                             <Col md="4">
                                                 <Card className="main-card mb-3">
+                                                    <CardHeader><CardTitle className="font">User-Role:</CardTitle></CardHeader>
                                                     <CardBody>
-                                                        <CardTitle><b>User-Role:</b></CardTitle>
                                                         <form>
                                                             <label className="grey-text">
                                                                 Role Name:
@@ -573,8 +579,8 @@ class UserRole extends React.Component {
                                             </Col>
                                             <Col md="8">
                                                 <Card className="main-card mb-3">
+                                                    <CardHeader><CardTitle className="font">User-Roles:</CardTitle></CardHeader>
                                                     <CardBody>
-                                                        <CardTitle><b>User-Role Table:</b></CardTitle>
                                                         <div>
                                                             <Row>
                                                                 <Col md="2">

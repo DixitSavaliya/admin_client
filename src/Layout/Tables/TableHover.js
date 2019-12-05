@@ -417,7 +417,7 @@ export default class TableHover extends React.Component {
                     <Table hover className="mb-0" bordered>
                       <thead>
                         <tr>
-                          <th>
+                          <th className="center">
                             <CustomInput
                               name="name"
                               value="value"
@@ -435,7 +435,7 @@ export default class TableHover extends React.Component {
                         {
                           this.state.paginationdata.map((data, index) =>
                             <tr key={index}>
-                              <th scope="row">
+                              <th scope="row" className="center">
                                 {
                                   this.state.check == true ? (
                                     <span className="margin-t">
@@ -483,7 +483,7 @@ export default class TableHover extends React.Component {
                       <Table hover className="mb-0" bordered>
                         <thead>
                           <tr>
-                            <th>
+                            <th className="center">
                               <CustomInput
                                 name="name"
                                 value="value"
@@ -505,7 +505,7 @@ export default class TableHover extends React.Component {
                     <Table hover className="mb-0" bordered>
                       <thead>
                         <tr>
-                          <th>
+                          <th className="center">
                             <CustomInput
                               name="name"
                               value="value"
@@ -523,7 +523,7 @@ export default class TableHover extends React.Component {
                         {
                           this.props.data.map((data, index) =>
                             <tr key={index}>
-                              <th scope="row">
+                              <th scope="row" className="center">
                                 {
                                   this.state.check == true ? (
                                     <span className="margin-t">
@@ -590,7 +590,7 @@ export default class TableHover extends React.Component {
                 <Table hover className="mb-0" bordered>
                   <thead>
                     <tr>
-                      <th>
+                      <th className="center">
                         <CustomInput
                           type="checkbox"
                           id="exampleCustomCheckbox"
@@ -606,7 +606,7 @@ export default class TableHover extends React.Component {
                     {
                       this.state.searchData.map((data, index) =>
                         <tr key={index}>
-                          <th scope="row">
+                          <th scope="row" className="center">
                             {
                               this.state.check == true ? (
                                 <span className="margin-t">

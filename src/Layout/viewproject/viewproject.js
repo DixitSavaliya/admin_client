@@ -16,6 +16,7 @@ import {
     Row, Col,
     Card, CardBody,
     CustomInput, Table,
+    CardHeader,
     CardTitle,
 } from 'reactstrap';
 
@@ -28,7 +29,8 @@ class ViewProject extends React.Component {
             newData: [],
             pdata: [],
             assignData: [],
-            tasks: []
+            tasks: [],
+            tId:[]
         }
         this.projectid = history.state.state.params;
         console.log("projectid", this.projectid);
@@ -44,29 +46,7 @@ class ViewProject extends React.Component {
                             newData: findresponse.data.data
                         })
                         console.log("projectdata", this.state.newData.projectData[0])
-                        // var arrayvalue = [];
-                        // for (var i = 0; i < this.state.newData.technologyData.length; i++) {
-                        //     console.log("technologyName", this.state.newData.technologyData[i].technology_id);
-                        //     arrayvalue.push(this.state.newData.technologyData[i].technology_id);
-                        // }
-                        // console.log("arrayvalue", arrayvalue);
-                        // API.getTechnologyById({ technology_id: arrayvalue })
-                        //     .then((findresponse) => {
-                        //         if (findresponse) {
-                        //             console.log("technologyName response===", findresponse);
-                        //             this.setState({
-                        //                 tname: findresponse.data.data
-                        //             })
-                        //             console.log("technologyName response===", this.state.tname);
-
-                        //             EventEmitter.dispatch('tname', this.state.tname);
-                        //         } else {
-                        //             console.log("err", err);
-                        //             // Swal.fire("Something went wrong!", "", "warning");
-                        //         }
-                        //     }).catch((err) => {
-                        //         Swal.fire("Something went wrong!", "", "warning");
-                        //     });
+                        
                         console.log("newData", this.state.newData);
                         var data = [];
                         data.push(this.state.newData.projectData[0]);
@@ -75,7 +55,29 @@ class ViewProject extends React.Component {
                             pdata: this.state.pdata = data
                         })
                         console.log("data", this.state.pdata);
-
+         
+                        var arrayvalue = [];
+                        for (var i = 0; i < this.state.newData.technologyData.length; i++) {
+                            console.log("technologyName", this.state.newData.technologyData[i].technology_id);
+                            arrayvalue.push(this.state.newData.technologyData[i].technology_id);
+                        }
+                        API.getTechnologyById({ technology_id: arrayvalue })
+                        .then((findresponse) => {
+                            if (findresponse) {
+                                console.log("technologyName response===", findresponse);
+                                this.setState({
+                                    tId: findresponse.data.data
+                                })
+                                console.log("technologyName response===", this.state.tId);
+                             
+                            } else {
+                                console.log("err", err);
+                                // Swal.fire("Something went wrong!", "", "warning");
+                            }
+                        }).catch((err) => {
+                            Swal.fire("Something went wrong!", "", "warning");
+                        });
+                        console.log("techdata",this.state.techdata);
                     } else {
                         Swal.fire("Something went wrong!", "", "warning");
                     }
@@ -135,9 +137,9 @@ class ViewProject extends React.Component {
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
+                                    <CardHeader><CardTitle><b>Project:</b></CardTitle></CardHeader>
                                         <CardBody>
-                                            <CardTitle><b>List-Project:</b></CardTitle>
-                                            <hr />
+                                           
                                             <Row>
                                                 <Col md="3">
                                                     {
@@ -189,6 +191,17 @@ class ViewProject extends React.Component {
                                                     }
                                                 </Col>
                                                 <br />
+                                                    <h5 className="tech">Technologies:</h5>
+                                                <Col md = "12" className="flex">
+                                                    {
+                                                        this.state.tId.map((data,index) =>
+                                                        <span className="left-flex" key={index}>
+                                                        <p>{data.name}</p>
+                                                    </span>
+                                                        )
+                                                    }
+                                                </Col>
+                                                <br/>
                                                 <Col md="12">
                                                     {
                                                         this.state.pdata.map((data, index) =>
@@ -200,46 +213,7 @@ class ViewProject extends React.Component {
                                                     }
                                                 </Col>
                                             </Row>
-                                            {/* <Table hover className="mb-0" bordered>
-                                              
-                                                {
-                                                    this.state.pdata.map((data, index) =>
-                                                        <tbody key={index}>
-                                                            <tr>
-                                                                <td><b>Title:</b></td>
-                                                                <td>{data.title}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><b>Discription:</b></td>
-                                                                <td className="mg-0">{renderHTML(data.discription)}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><b>Budget:</b></td>
-                                                                <td>{data.budget}  <i className="fas fa-dollar-sign"></i></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><b>Hours:</b></td>
-                                                                <td>{data.hours}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><b>Status:</b></td>
-                                                                <td>
-                                                                    <div className="btn_size">
-                                                                        {
-                                                                            data.status == "active" ? (
-                                                                                <span className="badge badge-success">{data.status}</span>
-                                                                            ) : (
-                                                                                    <span className="badge badge-danger">{data.status}</span>
-                                                                                )
-                                                                        }
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-
-                                                        </tbody>
-                                                    )
-                                                }
-                                            </Table> */}
+                                           
                                         </CardBody>
                                     </Card>
                                 </Col>
@@ -247,23 +221,9 @@ class ViewProject extends React.Component {
                                     this.state.assignData.length ? (
                                         <Col md="6">
                                             <Card className="main-card mb-3">
+                                            <CardHeader><CardTitle><b>Project-Users:</b></CardTitle></CardHeader>
                                                 <CardBody>
-                                                    <CardTitle><b>List-Assign-Project-Users Table:</b></CardTitle>
-                                                
-                                                    {/* {
-                                                        this.state.assignData.map((data, index) =>
-                                                            <div>
-                                                                <Col md="6">
-                                                                    <h5>Name:</h5>
-                                                                    <p>{data.name}</p>
-                                                                </Col>
-                                                                <Col md="6">
-                                                                    <h5>Hours:</h5>
-                                                                    <p>{data.hours}</p>
-                                                                </Col>
-                                                            </div>
-                                                        )
-                                                    } */}
+                                            
 
                                                     <Table hover className="mb-0" bordered>
                                                         <thead>
@@ -297,8 +257,8 @@ class ViewProject extends React.Component {
                                     <Row>
                                         <Col md="12">
                                             <Card className="main-card mb-3">
+                                            <CardHeader><CardTitle><b>Project-Tasks:</b></CardTitle></CardHeader>
                                                 <CardBody>
-                                                    <CardTitle><b>List-Project-Task Table:</b></CardTitle>
                                                     <Table hover className="mb-0" bordered>
                                                         <thead>
                                                             <tr>

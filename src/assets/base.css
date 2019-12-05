@@ -12402,9 +12402,40 @@ h5.card-title b {
     opacity: 0;
     padding: 5px;
     transition: transform .1s ease-in,opacity 150ms ease-in;
-    visibility: collapse !important;
+    opacity: 1 !important;
+    /* visibility: collapse !important; */
+}
+.flex {
+  display: flex !important;
+}
+.left-flex{
+  margin-left: 5px !important;
+}
+.tech{
+  margin-left: 15px !important;
+}
+.left-flex p {
+  background-color: #3cb3a870 !important;
+  padding: 5px !important;
+}
+.tox .tox-notification--in {
+
+  opacity: 1 !important;
 }
 
+.text-center.mt-4 {
+  text-align: left !important;
+}
+
+table.table .centers {
+  text-align: center;
+}
+.m_top{
+  margin-top: 150px;
+}
+h5.font.card-title {
+    font-size: x-large;
+}
 /* .tox :not(svg) {
     background: 0 0;
     border: 0;

@@ -15,7 +15,7 @@ import {
     Input, FormText,
     Row, Col,
     Card, CardBody,
-    CustomInput, Table,
+    CustomInput, Table,CardHeader,
     CardTitle,
 } from 'reactstrap';
 
@@ -71,14 +71,14 @@ class ViewUser extends React.Component {
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
+                                    <CardHeader><CardTitle><b>Users:</b></CardTitle></CardHeader>
                                         <CardBody>
-                                            <CardTitle><b>List-Users Table:</b></CardTitle>
-                                            <hr/>
+                                           
                                             <Row>
                                             <Col md="4">
                                                 {
                                                     this.state.userdata.map((data,index) => 
-                                                    <div>
+                                                    <div key={index}>
                                                         <h5>First_Name:</h5>
                                                         <p>{data.first_name}</p>
                                                     </div>
@@ -88,7 +88,7 @@ class ViewUser extends React.Component {
                                             <Col md="4">
                                                 {
                                                     this.state.userdata.map((data,index) => 
-                                                    <div>
+                                                    <div key={index}>
                                                         <h5>Last_Name:</h5>
                                                         <p>{data.last_name}</p>
                                                     </div>
@@ -98,7 +98,7 @@ class ViewUser extends React.Component {
                                             <Col md="4">
                                                 {
                                                     this.state.userdata.map((data,index) => 
-                                                    <div>
+                                                    <div key={index}>
                                                         <h5>E-Mail:</h5>
                                                         <p>{data.email}</p>
                                                     </div>
@@ -109,7 +109,7 @@ class ViewUser extends React.Component {
                                             <Col md="4">
                                                 {
                                                     this.state.userdata.map((data,index) => 
-                                                    <div>
+                                                    <div key={index}>
                                                         <h5>PhoneNumber:</h5>
                                                         <p>{data.mobile_number}</p>
                                                     </div>
@@ -119,7 +119,7 @@ class ViewUser extends React.Component {
                                             <Col md="4">
                                                 {
                                                     this.state.userdata.map((data,index) => 
-                                                    <div>
+                                                    <div key={index}>
                                                         <h5>Gender:</h5>
                                                         <p>{data.gender}</p>
                                                     </div>
@@ -129,7 +129,7 @@ class ViewUser extends React.Component {
                                             <Col md="4">
                                                 {
                                                     this.state.userdata.map((data,index) => 
-                                                    <div>
+                                                    <div key={index}>
                                                         <h5>User_Role:</h5>
                                                         <p>{data.user_role}</p>
                                                     </div>
