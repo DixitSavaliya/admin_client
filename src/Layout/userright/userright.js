@@ -300,7 +300,7 @@ class UserRight extends React.Component {
                                             <Row>
                                                 <Col md="4">
                                                     <Card className="main-card mb-3">
-                                                        <CardHeader><CardTitle className="font">User-Right:</CardTitle></CardHeader>
+                                                        <CardHeader><CardTitle className="font">User Right</CardTitle></CardHeader>
                                                         <CardBody>
                                                             <form>
                                                                 <label className="grey-text">
@@ -417,7 +417,7 @@ class UserRight extends React.Component {
                                                 </Col>
                                                 <Col md="8">
                                                     <Card className="main-card mb-3">
-                                                        <CardHeader><CardTitle className="font">User-Rights:</CardTitle></CardHeader>
+                                                        <CardHeader><CardTitle className="font">User Rights</CardTitle></CardHeader>
                                                         <CardBody>
                                                             <div>
                                                                 <Row>
@@ -483,7 +483,7 @@ class UserRight extends React.Component {
                                                 <Row>
                                                     <Col md="4">
                                                         <Card className="main-card mb-3">
-                                                            <CardHeader><CardTitle className="font">User-Right:</CardTitle></CardHeader>
+                                                            <CardHeader><CardTitle className="font">User Right</CardTitle></CardHeader>
                                                             <CardBody>
                                                                 <form>
                                                                     <label className="grey-text">
@@ -600,7 +600,7 @@ class UserRight extends React.Component {
                                                     </Col>
                                                     <Col md="8">
                                                         <Card className="main-card mb-3">
-                                                            <CardHeader><CardTitle className="font">User-Rights:</CardTitle></CardHeader>
+                                                            <CardHeader><CardTitle className="font">User Rights</CardTitle></CardHeader>
                                                             <CardBody>
                                                                 <div>
                                                                     <Row>

@@ -370,6 +370,20 @@ export default {
             return response;
         }).catch({ status: 500, message: 'Internal Server Error' });
     },
+
+    getUserCounts:(id) => {
+        return axios.post(config.baseApiUrl + "/User/getCounts", id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
+
+    getTaskCounts:(id) => {
+        return axios.post(config.baseApiUrl + "/User/getTaskByProjectIdCounts", id)
+        .then(response => {
+            return response;
+        }).catch({ status: 500, message: 'Internal Server Error' });
+    },
  
     deleteAssignProject:(id) => {
         return axios.post(config.baseApiUrl + "/User/deleteAssignProjectById", id)

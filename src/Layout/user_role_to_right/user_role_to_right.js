@@ -252,7 +252,9 @@ class UserRoleToRight extends React.Component {
                                     this.state.selectroledata && !this.state.noData ? (
                                         <Col md="8">
                                             <Card className="main-card mb-3">
-                                                <CardHeader><CardTitle><b>User-Role-To-Right:</b></CardTitle></CardHeader>
+                                                <CardHeader>
+                                                    <CardTitle className="font">User Role To Right</CardTitle>
+                                                </CardHeader>
                                                 <CardBody>
                                                     <Table hover className="mb-0" bordered>
                                                         <thead>

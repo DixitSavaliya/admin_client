@@ -82,27 +82,42 @@ class ListProject extends React.Component {
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
-                                        <CardHeader><CardTitle  className="font">Projects:</CardTitle></CardHeader>
+                                        <CardHeader><CardTitle className="font">Projects</CardTitle></CardHeader>
                                         <CardBody>
                                             <div>
                                                 <Row>
                                                     <Col md="2">
                                                         <div className="right">
-                                                            <Link to="/createproject"><Button className="mb-2 mr-2" color="primary">
-                                                                Add
-                                                            </Button></Link>
+                                                            <Link to="/createproject">
+                                                                <Button
+                                                                    className="mb-2 mr-2"
+                                                                    color="primary"
+                                                                >
+                                                                    Add
+                                                            </Button>
+                                                            </Link>
                                                         </div>
                                                     </Col>
                                                     <Col md="5">
                                                         <div>
-                                                            <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserRoleDataKeyUp} />
+                                                            <input
+                                                                className="form-control"
+                                                                type="text"
+                                                                placeholder="Search"
+                                                                aria-label="Search"
+                                                                onKeyUp={this.searchUserRoleDataKeyUp}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col md="5">
                                                         <div className="lt">
                                                             <span>Records per page</span>
-                                                            <CustomInput type="select" id="exampleCustomSelect"
-                                                                name="customSelect" onChange={this.handleChangeEvent}>
+                                                            <CustomInput
+                                                                type="select"
+                                                                id="exampleCustomSelect"
+                                                                name="customSelect"
+                                                                onChange={this.handleChangeEvent}
+                                                            >
                                                                 <option value="2">2</option>
                                                                 <option value="4">4</option>
                                                             </CustomInput>

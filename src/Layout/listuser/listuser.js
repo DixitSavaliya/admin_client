@@ -24,8 +24,8 @@ class ListUser extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user:[],
-            searchData:''
+            user: [],
+            searchData: ''
         }
         this.searchUserDataKeyUp = this.searchUserDataKeyUp.bind(this);
         this.handleChangeEvent = this.handleChangeEvent.bind(this);
@@ -34,24 +34,24 @@ class ListUser extends React.Component {
 
     componentDidMount() {
         API.GetUser()
-        .then((findresponse) => {
-            if (findresponse) {
-                console.log("GetUser response===", findresponse);
-                this.setState({
-                    user:this.state.user = findresponse.data.data
-                })
-                console.log("GetUser response===", this.state.user);
-            } else {
-                console.log("err", err);
-                // Swal.fire("Something went wrong!", "", "warning");
-            }
-        }).catch((err) => {
-            Swal.fire("Something went wrong!", "", "warning");
-        });
+            .then((findresponse) => {
+                if (findresponse) {
+                    console.log("GetUser response===", findresponse);
+                    this.setState({
+                        user: this.state.user = findresponse.data.data
+                    })
+                    console.log("GetUser response===", this.state.user);
+                } else {
+                    console.log("err", err);
+                    // Swal.fire("Something went wrong!", "", "warning");
+                }
+            }).catch((err) => {
+                Swal.fire("Something went wrong!", "", "warning");
+            });
     }
 
     searchUserDataKeyUp(e) {
-        API.searchUserData({ searchkey: e.target.value})
+        API.searchUserData({ searchkey: e.target.value })
             .then((findresponse) => {
                 if (findresponse) {
                     this.setState({
@@ -70,9 +70,6 @@ class ListUser extends React.Component {
     handleChangeEvent(e) {
         EventEmitter.dispatch('selectvalue', e.target.value);
     }
-    
-
-
 
     render() {
         return (
@@ -82,30 +79,51 @@ class ListUser extends React.Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
-                        <Row>
+                            <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
-                                        <CardHeader><CardTitle className="font">Users:</CardTitle></CardHeader> 
+                                        <CardHeader>
+                                            <CardTitle
+                                                className="font"
+                                            >
+                                            Users
+                                            </CardTitle>
+                                        </CardHeader>
                                         <CardBody>
                                             <div>
                                                 <Row>
                                                     <Col md="2">
                                                         <div className="right">
-                                                            <Link to="/createuser"><Button className="mb-2 mr-2" color="primary">
-                                                                Add
-                                                            </Button></Link>
+                                                            <Link to="/createuser">
+                                                                <Button
+                                                                    className="mb-2 mr-2"
+                                                                    color="primary"
+                                                                >
+                                                                    Add
+                                                            </Button>
+                                                            </Link>
                                                         </div>
                                                     </Col>
                                                     <Col md="5">
                                                         <div>
-                                                            <input className="form-control" type="text" placeholder="Search" aria-label="Search" onKeyUp={this.searchUserDataKeyUp} />
+                                                            <input
+                                                                className="form-control"
+                                                                type="text"
+                                                                placeholder="Search"
+                                                                aria-label="Search"
+                                                                onKeyUp={this.searchUserDataKeyUp}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col md="5">
                                                         <div className="lt">
                                                             <span>Records per page</span>
-                                                            <CustomInput type="select" id="exampleCustomSelect"
-                                                                name="customSelect" onChange={this.handleChangeEvent}>
+                                                            <CustomInput
+                                                                type="select"
+                                                                id="exampleCustomSelect"
+                                                                name="customSelect"
+                                                                onChange={this.handleChangeEvent}
+                                                            >
                                                                 <option value="2">2</option>
                                                                 <option value="4">4</option>
                                                             </CustomInput>

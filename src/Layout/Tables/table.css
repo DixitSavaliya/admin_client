@@ -35,6 +35,9 @@
 .rt span {
     padding: 4px;
 }
+.col-md-8 .lt {
+    text-align: right;
+}
 
 /* .custom-checkbox.custom-control {
     margin: 9px auto;

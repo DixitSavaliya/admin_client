@@ -355,7 +355,7 @@ class CreateUser extends React.Component {
                                                 <Col md="4">
                                                     <Link to="/listuser"><Button className="mb-2 mr-2" color="primary">
                                                         Go back
-                                </Button></Link>
+                                                </Button></Link>
                                                 </Col>
                                             </Row>
                                             <Row>
@@ -368,7 +368,6 @@ class CreateUser extends React.Component {
                                                                     <CardHeader> <CardTitle className="font">Create-User</CardTitle></CardHeader>
                                                                 )
                                                         }
-
                                                         <CardBody>
                                                             <Form>
                                                                 <Row>
@@ -559,7 +558,6 @@ class CreateUser extends React.Component {
                                                                     </Button>
                                                                         )
                                                                 }
-
                                                             </Form>
                                                         </CardBody>
                                                     </Card>
@@ -570,7 +568,11 @@ class CreateUser extends React.Component {
                                             <Row>
                                                 <Col md="12">
                                                     <Card className="main-card mb-3">
-                                                        <CardHeader> <CardTitle className="font">Create-User</CardTitle></CardHeader>
+                                                        <CardHeader> 
+                                                            <CardTitle className="font">
+                                                                Create-User
+                                                            </CardTitle>
+                                                            </CardHeader>
                                                         <CardBody>
                                                             <Form>
                                                                 <Row>
@@ -603,7 +605,6 @@ class CreateUser extends React.Component {
                                                                                 {this.state.last_nameerror}
                                                                             </div>
                                                                         </FormGroup>
-
                                                                     </Col>
                                                                 </Row>
                                                                 <Row>

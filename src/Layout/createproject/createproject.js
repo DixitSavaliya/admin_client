@@ -866,9 +866,13 @@ class CreateProject extends React.Component {
                                                 <Card className="main-card mb-3">
                                                     {
                                                         this.props.location.pathname.split('/')[2] ? (
-                                                            <CardHeader> <CardTitle className="font">Edit-Project</CardTitle></CardHeader>
+                                                            <CardHeader> 
+                                                                <CardTitle className="font">Edit-Project</CardTitle>
+                                                            </CardHeader>
                                                         ) : (
-                                                                <CardHeader> <CardTitle className="font">Create-Project</CardTitle></CardHeader>
+                                                                <CardHeader>
+                                                                    <CardTitle className="font">Create-Project</CardTitle>
+                                                                </CardHeader>
                                                             )
                                                     }
                                                     <CardBody>
@@ -1062,9 +1066,13 @@ class CreateProject extends React.Component {
                                                 <Card className="main-card mb-3">
                                                     {
                                                         this.state.buttonVisiblity == true ? (
-                                                            <CardHeader> <CardTitle className="font">Update-Task</CardTitle></CardHeader>
+                                                            <CardHeader>
+                                                                <CardTitle className="font">Update-Task</CardTitle>
+                                                            </CardHeader>
                                                         ) : (
-                                                                <CardHeader> <CardTitle className="font">Create-Task</CardTitle></CardHeader>
+                                                                <CardHeader>
+                                                                    <CardTitle className="font">Create-Task</CardTitle>
+                                                                </CardHeader>
                                                             )
                                                     }
                                                     <CardBody>
@@ -1171,17 +1179,12 @@ class CreateProject extends React.Component {
                                                 {
                                                     this.state.tasks.length ? (
                                                         <Card className="main-card mb-3">
-                                                            <CardHeader> <CardTitle className="font">Project-Tasks</CardTitle></CardHeader>
+                                                            <CardHeader> 
+                                                                <CardTitle className="font">Project-Tasks</CardTitle>
+                                                            </CardHeader>
                                                             <CardBody>
                                                                 <div>
                                                                     <Row>
-                                                                        {/* <Col md="2">
-                                                                        <div className="right">
-                                                                            <Link to="/editproject/"><Button className="mb-2 mr-2" color="primary">
-                                                                                Add
-                                                                </Button></Link>
-                                                                        </div>
-                                                                    </Col> */}
                                                                         <Col md="6">
                                                                             <div>
                                                                                 <input
@@ -1223,9 +1226,13 @@ class CreateProject extends React.Component {
                                                     {
                                                         this.state.visiblity == true ? (
 
-                                                            <CardHeader> <CardTitle className="font">Edit-Assign-Project</CardTitle></CardHeader>
+                                                            <CardHeader>
+                                                                <CardTitle className="font">Edit-Assign-Project</CardTitle>
+                                                            </CardHeader>
                                                         ) : (
-                                                                <CardHeader> <CardTitle className="font">Assign-Project</CardTitle></CardHeader>
+                                                                <CardHeader>
+                                                                    <CardTitle className="font">Assign-Project</CardTitle>
+                                                                </CardHeader>
                                                             )
                                                     }
                                                     <CardBody>
@@ -1299,17 +1306,12 @@ class CreateProject extends React.Component {
                                                 {
                                                     this.state.assignData.length ? (
                                                         <Card className="main-card mb-3">
-                                                            <CardHeader> <CardTitle className="font">Project-Users</CardTitle></CardHeader>
+                                                            <CardHeader>
+                                                                <CardTitle className="font">Project-Users</CardTitle>
+                                                            </CardHeader>
                                                             <CardBody>
                                                                 <div>
                                                                     <Row>
-                                                                        {/* <Col md="2">
-                                                                        <div className="right">
-                                                                            <Link to="/editproject/"><Button className="mb-2 mr-2" color="primary">
-                                                                                Add
-                                                                </Button></Link>
-                                                                        </div>
-                                                                    </Col> */}
                                                                         <Col md="4">
                                                                             <div>
                                                                                 <input
@@ -1355,9 +1357,13 @@ class CreateProject extends React.Component {
                                                 <Card className="main-card mb-3">
                                                     {
                                                         this.props.location.pathname.split('/')[2] ? (
-                                                            <CardHeader> <CardTitle className="font">Edit-Project</CardTitle></CardHeader>
+                                                            <CardHeader>
+                                                                <CardTitle className="font">Edit-Project</CardTitle>
+                                                            </CardHeader>
                                                         ) : (
-                                                                <CardHeader> <CardTitle className="font">Create-Project</CardTitle></CardHeader>
+                                                                <CardHeader>
+                                                                    <CardTitle className="font">Create-Project</CardTitle>
+                                                                </CardHeader>
                                                             )
                                                     }
                                                     <CardBody>

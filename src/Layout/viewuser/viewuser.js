@@ -71,7 +71,9 @@ class ViewUser extends React.Component {
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
-                                    <CardHeader><CardTitle>User:</CardTitle></CardHeader>
+                                    <CardHeader>
+                                        <CardTitle className="font">User Detail:</CardTitle>
+                                    </CardHeader>
                                         <CardBody>
                                            
                                             <Row>
@@ -137,32 +139,7 @@ class ViewUser extends React.Component {
                                                 }
                                             </Col>
                                             </Row>
-                                            {/* <Table hover className="mb-0" bordered>
-                                                <thead>
-                                                    <tr>
-                                                        <th>First_Name</th>
-                                                        <th>Last_Name</th>
-                                                        <th>E-Mail</th>
-                                                        <th>Phone-Number</th>
-                                                        <th>Gender</th>
-                                                        <th>User_Role</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        this.state.userdata.map((data, index) =>
-                                                            <tr key={index}>
-                                                                <td>{data.first_name}</td>
-                                                                <td>{data.last_name}</td>
-                                                                <td>{data.email}</td>
-                                                                <td>{data.mobile_number}</td>
-                                                                <td>{data.gender}</td>
-                                                                <td>{data.user_role}</td>
-                                                            </tr>
-                                                        )
-                                                    }
-                                                </tbody>
-                                            </Table> */}
+                                          
                                         </CardBody>
                                     </Card>
                                 </Col>

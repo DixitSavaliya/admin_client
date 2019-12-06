@@ -304,7 +304,7 @@ class UserRole extends React.Component {
                                         <Col md="4">
                                             <Card className="main-card mb-3">
                                                 <CardHeader>
-                                                    <CardTitle className="font">User-Role:</CardTitle>
+                                                    <CardTitle className="font">User Role</CardTitle>
                                                 </CardHeader>
                                                 <CardBody>
                                                     <form>
@@ -408,7 +408,7 @@ class UserRole extends React.Component {
                                         <Col md="8">
                                             <Card className="main-card mb-3">
                                                 <CardHeader>
-                                                    <CardTitle className="font">User-Roles:</CardTitle>
+                                                    <CardTitle className="font">User Roles</CardTitle>
                                                 </CardHeader>
                                                 <CardBody>
                                                     <div>
@@ -476,7 +476,7 @@ class UserRole extends React.Component {
                                         <Row>
                                             <Col md="4">
                                                 <Card className="main-card mb-3">
-                                                    <CardHeader><CardTitle className="font">User-Role:</CardTitle></CardHeader>
+                                                    <CardHeader><CardTitle className="font">User Role</CardTitle></CardHeader>
                                                     <CardBody>
                                                         <form>
                                                             <label className="grey-text">
@@ -579,7 +579,7 @@ class UserRole extends React.Component {
                                             </Col>
                                             <Col md="8">
                                                 <Card className="main-card mb-3">
-                                                    <CardHeader><CardTitle className="font">User-Roles:</CardTitle></CardHeader>
+                                                    <CardHeader><CardTitle className="font">User Roles</CardTitle></CardHeader>
                                                     <CardBody>
                                                         <div>
                                                             <Row>
