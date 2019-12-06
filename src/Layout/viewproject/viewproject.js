@@ -30,7 +30,7 @@ class ViewProject extends React.Component {
             pdata: [],
             assignData: [],
             tasks: [],
-            tId:[]
+            tId: []
         }
         this.projectid = history.state.state.params;
         console.log("projectid", this.projectid);
@@ -46,7 +46,7 @@ class ViewProject extends React.Component {
                             newData: findresponse.data.data
                         })
                         console.log("projectdata", this.state.newData.projectData[0])
-                        
+
                         console.log("newData", this.state.newData);
                         var data = [];
                         data.push(this.state.newData.projectData[0]);
@@ -55,29 +55,29 @@ class ViewProject extends React.Component {
                             pdata: this.state.pdata = data
                         })
                         console.log("data", this.state.pdata);
-         
+
                         var arrayvalue = [];
                         for (var i = 0; i < this.state.newData.technologyData.length; i++) {
                             console.log("technologyName", this.state.newData.technologyData[i].technology_id);
                             arrayvalue.push(this.state.newData.technologyData[i].technology_id);
                         }
                         API.getTechnologyById({ technology_id: arrayvalue })
-                        .then((findresponse) => {
-                            if (findresponse) {
-                                console.log("technologyName response===", findresponse);
-                                this.setState({
-                                    tId: findresponse.data.data
-                                })
-                                console.log("technologyName response===", this.state.tId);
-                             
-                            } else {
-                                console.log("err", err);
-                                // Swal.fire("Something went wrong!", "", "warning");
-                            }
-                        }).catch((err) => {
-                            Swal.fire("Something went wrong!", "", "warning");
-                        });
-                        console.log("techdata",this.state.techdata);
+                            .then((findresponse) => {
+                                if (findresponse) {
+                                    console.log("technologyName response===", findresponse);
+                                    this.setState({
+                                        tId: findresponse.data.data
+                                    })
+                                    console.log("technologyName response===", this.state.tId);
+
+                                } else {
+                                    console.log("err", err);
+                                    // Swal.fire("Something went wrong!", "", "warning");
+                                }
+                            }).catch((err) => {
+                                Swal.fire("Something went wrong!", "", "warning");
+                            });
+                        console.log("techdata", this.state.techdata);
                     } else {
                         Swal.fire("Something went wrong!", "", "warning");
                     }
@@ -137,9 +137,9 @@ class ViewProject extends React.Component {
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
-                                    <CardHeader><CardTitle><b>Project:</b></CardTitle></CardHeader>
+                                        <CardHeader><CardTitle>Project:</CardTitle></CardHeader>
                                         <CardBody>
-                                           
+
                                             <Row>
                                                 <Col md="3">
                                                     {
@@ -161,7 +161,7 @@ class ViewProject extends React.Component {
                                                         )
                                                     }
                                                 </Col>
-                                      
+
                                                 <Col md="3">
                                                     {
                                                         this.state.pdata.map((data, index) =>
@@ -191,17 +191,17 @@ class ViewProject extends React.Component {
                                                     }
                                                 </Col>
                                                 <br />
-                                                    <h5 className="tech">Technologies:</h5>
-                                                <Col md = "12" className="flex">
+                                                <h5 className="tech">Technologies:</h5>
+                                                <Col md="12" className="flex">
                                                     {
-                                                        this.state.tId.map((data,index) =>
-                                                        <span className="left-flex" key={index}>
-                                                        <p>{data.name}</p>
-                                                    </span>
+                                                        this.state.tId.map((data, index) =>
+                                                            <span className="left-flex" key={index}>
+                                                                <p>{data.name}</p>
+                                                            </span>
                                                         )
                                                     }
                                                 </Col>
-                                                <br/>
+                                                <br />
                                                 <Col md="12">
                                                     {
                                                         this.state.pdata.map((data, index) =>
@@ -213,7 +213,7 @@ class ViewProject extends React.Component {
                                                     }
                                                 </Col>
                                             </Row>
-                                           
+
                                         </CardBody>
                                     </Card>
                                 </Col>
@@ -221,9 +221,9 @@ class ViewProject extends React.Component {
                                     this.state.assignData.length ? (
                                         <Col md="6">
                                             <Card className="main-card mb-3">
-                                            <CardHeader><CardTitle><b>Project-Users:</b></CardTitle></CardHeader>
+                                                <CardHeader><CardTitle>Project-Users:</CardTitle></CardHeader>
                                                 <CardBody>
-                                            
+
 
                                                     <Table hover className="mb-0" bordered>
                                                         <thead>
@@ -257,7 +257,7 @@ class ViewProject extends React.Component {
                                     <Row>
                                         <Col md="12">
                                             <Card className="main-card mb-3">
-                                            <CardHeader><CardTitle><b>Project-Tasks:</b></CardTitle></CardHeader>
+                                                <CardHeader><CardTitle>Project-Tasks:</CardTitle></CardHeader>
                                                 <CardBody>
                                                     <Table hover className="mb-0" bordered>
                                                         <thead>

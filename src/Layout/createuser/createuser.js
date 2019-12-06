@@ -538,8 +538,6 @@ class CreateUser extends React.Component {
                                                                                 {this.state.statuserror}
                                                                             </div>
                                                                         </FormGroup>
-
-
                                                                     </Col>
                                                                 </Row>
                                                                 {
@@ -742,11 +740,8 @@ class CreateUser extends React.Component {
                                                                                 {this.state.statuserror}
                                                                             </div>
                                                                         </FormGroup>
-
-
                                                                     </Col>
                                                                 </Row>
-
                                                                 <Button
                                                                     color="primary"
                                                                     className="mt-1"
@@ -754,13 +749,11 @@ class CreateUser extends React.Component {
                                                                 >
                                                                     Create
                                                                     </Button>
-
                                                             </Form>
                                                         </CardBody>
                                                     </Card>
                                                 </Col>
                                             </Row>
-
                                         )
                                 }
                             </div>

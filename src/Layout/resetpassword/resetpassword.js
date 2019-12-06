@@ -87,7 +87,6 @@ class ResetPassword extends React.Component {
                                 >
                                     Submit
                        </Button>
-
                             </Form>
                         </CardBody>
                     </Card>

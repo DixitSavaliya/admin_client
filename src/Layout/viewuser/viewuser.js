@@ -71,7 +71,7 @@ class ViewUser extends React.Component {
                             <Row>
                                 <Col md="12">
                                     <Card className="main-card mb-3">
-                                    <CardHeader><CardTitle><b>Users:</b></CardTitle></CardHeader>
+                                    <CardHeader><CardTitle>User:</CardTitle></CardHeader>
                                         <CardBody>
                                            
                                             <Row>
